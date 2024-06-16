@@ -1,14 +1,14 @@
 import {
-  BrowserRouter,
   Route,
   RouterProvider,
-  Routes,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import RootLayout from "./layout/RootLayout";
 import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
+import Faq from "./pages/Faq";
+import Help from "./pages/Help";
 import Home from "./pages/Home";
 
 function App() {
@@ -17,6 +17,10 @@ function App() {
       <Route path="/" element={<RootLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="help" element={<Help />}>
+          <Route path="faq" element={<Faq />} />
+          <Route path="contact-us" element={<ContactUs />} />
+        </Route>
       </Route>
     )
   );

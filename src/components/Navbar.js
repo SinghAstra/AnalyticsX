@@ -14,6 +14,9 @@ const Navbar = () => {
         <NavLink to="/about" className="text-xl">
           About
         </NavLink>
+        <NavLink to="/help" className="text-xl">
+          Help
+        </NavLink>
       </div>
     </div>
   );
