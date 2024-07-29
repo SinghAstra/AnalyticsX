@@ -1,0 +1,41 @@
+.register-form {
+  border: 2px solid white;
+  padding: 10px 20px;
+}
+
+.register-form h2 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px white;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.register-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.register-form form input {
+  padding: 5px 10px;
+  border: 1px solid white;
+  background: transparent;
+  border-radius: 4px;
+}
+
+.register-form button {
+  padding: 4px 8px;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-weight: 600;
+  background: white;
+  border: none;
+  cursor: pointer;
+  color: black;
+  border-radius: 6px;
+}
