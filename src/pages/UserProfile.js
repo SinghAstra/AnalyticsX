@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/UserProfile.css";
 
 const UserProfile = () => {
@@ -8,6 +9,8 @@ const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user: currentUser } = useContext(AuthContext);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,7 +19,7 @@ const UserProfile = () => {
           withCredentials: true,
         });
         setUser(response.data.user);
-        console.log("response.data is ", response.data);
+        setIsFollowing(response.data.user.followers.includes(currentUser._id));
       } catch (error) {
         console.log("Error fetching user:", error);
         setError("Could not fetch user data.");
@@ -26,7 +29,22 @@ const UserProfile = () => {
     };
 
     fetchUser();
-  }, [id]);
+  }, [id, currentUser._id]);
+
+  const handleFollowToggle = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/users/follow/${id}`,
+        {},
+        { withCredentials: true }
+      );
+      const updatedUser = response.data.userToFollow;
+      setUser(updatedUser);
+      setIsFollowing(updatedUser.followers.includes(currentUser._id));
+    } catch (error) {
+      console.log("Error toggling follow status:", error.response.data.message);
+    }
+  };
 
   if (loading)
     return <div className="user-profile-loading">Loading profile...</div>;
@@ -65,6 +83,14 @@ const UserProfile = () => {
           Impressions: {user.impressions || 0}
         </p>
       </div>
+      <button
+        className={`user-profile-follow-button ${
+          isFollowing ? "following" : "not-following"
+        }`}
+        onClick={handleFollowToggle}
+      >
+        {isFollowing ? "Unfollow" : "Follow"}
+      </button>
     </div>
   );
 };

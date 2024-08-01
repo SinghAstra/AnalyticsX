@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
         {},
         { withCredentials: true }
       );
-      console.log("response is ", response);
       setUser(response.data.user);
     } catch (error) {
       console.log("error is ", error);
@@ -29,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  console.log("user is ", user);
   return (
     <AuthContext.Provider value={{ user, isAuthenticating, fetchUser }}>
       {children}

@@ -1,6 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserCard from "../components/UserCard";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Users.css";
 
 const Users = () => {
@@ -13,7 +15,6 @@ const Users = () => {
         const response = await axios.get("http://localhost:5000/users/", {
           withCredentials: true,
         });
-        console.log("response is ", response);
         setUsers(response.data.users);
       } catch (error) {
         console.error("Error fetching users:", error.response.data.message);
@@ -25,6 +26,24 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  const handleFollowToggle = async (userId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/users/follow/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      const updatedUser = response.data.userToFollow;
+
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => (user._id === userId ? updatedUser : user))
+      );
+    } catch (error) {
+      console.log("Error toggling follow status:", error.response.data.message);
+    }
+  };
+
   if (loading) return <div className="users-loading">Loading...</div>;
 
   return (
@@ -32,21 +51,7 @@ const Users = () => {
       <h2 className="users-title">Users</h2>
       <div className="users-list">
         {users.map((user) => (
-          <Link to={`/users/${user._id}`} key={user._id}>
-            <div className="user-card">
-              <img
-                src={user.picturePath || "/default-avatar.png"}
-                alt={`${user.firstName} ${user.lastName}`}
-                className="user-card-picture"
-              />
-              <div className="user-card-info">
-                <h3 className="user-card-name">
-                  {user.firstName} {user.lastName}
-                </h3>
-                <button className="user-card-follow-button">Follow</button>
-              </div>
-            </div>
-          </Link>
+          <UserCard userInfo={user} handleFollowToggle={handleFollowToggle} />
         ))}
       </div>
     </div>

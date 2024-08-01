@@ -39,30 +39,40 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
+  margin: 0 auto;
   margin-bottom: 8px;
 }
 
-.user-card-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .user-card-name {
+  border-top: 2px solid #333;
+  padding-top: 6px;
   font-size: 1.2rem;
   margin: 10px 0;
 }
 
-.user-card-follow-button {
-  background-color: #007bff;
-  color: #fff;
+.user-card-follow-button,
+.user-profile-follow-button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
   border: none;
   border-radius: 4px;
-  padding: 8px 16px;
   cursor: pointer;
-  font-size: 0.9rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.user-profile-follow-button:hover {
+.user-card-follow-button.following,
+.user-profile-follow-button.following {
+  background-color: rgb(77, 75, 75);
+  color: white;
+}
+
+.user-card-follow-button.not-following,
+.user-profile-follow-button.not-following {
   background-color: #0056b3;
+  color: white;
+}
+
+.user-card-follow-button:hover,
+.user-profile-follow-button:hover {
+  opacity: 0.8;
 }
