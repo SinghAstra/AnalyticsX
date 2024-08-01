@@ -1,4 +1,3 @@
-/* Container for the entire Users page */
 .users-container {
   padding: 20px;
   max-width: 1200px;
@@ -6,30 +5,25 @@
   border: 2px solid white;
 }
 
-/* Title of the Users page */
 .users-title {
   font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Loading state */
 .users-loading {
   text-align: center;
   font-size: 1.5rem;
   color: #666;
 }
 
-/* Container for the list of users */
 .users-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-/* Profile card for each user */
-.user-profile-card {
-  background-color: #fff;
+.user-card {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
@@ -40,31 +34,26 @@
   align-items: center;
 }
 
-/* User profile picture */
-.user-profile-picture {
+.user-card-picture {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  /* margin-bottom: 10px; */
+  margin-bottom: 8px;
 }
 
-/* User profile info container */
-.user-profile-info {
+.user-card-info {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* User profile name */
-.user-profile-name {
+.user-card-name {
   font-size: 1.2rem;
   margin: 10px 0;
-  color: black;
 }
 
-/* Follow button */
-.user-profile-follow-button {
+.user-card-follow-button {
   background-color: #007bff;
   color: #fff;
   border: none;

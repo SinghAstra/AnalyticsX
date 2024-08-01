@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Users.css";
 
 const Users = () => {
@@ -31,19 +32,21 @@ const Users = () => {
       <h2 className="users-title">Users</h2>
       <div className="users-list">
         {users.map((user) => (
-          <div key={user._id} className="user-profile-card">
-            <img
-              src={user.picturePath || "/default-avatar.png"}
-              alt={`${user.firstName} ${user.lastName}`}
-              className="user-profile-picture"
-            />
-            <div className="user-profile-info">
-              <h3 className="user-profile-name">
-                {user.firstName} {user.lastName}
-              </h3>
-              <button className="user-profile-follow-button">Follow</button>
+          <Link to={`/users/${user._id}`} key={user._id}>
+            <div className="user-card">
+              <img
+                src={user.picturePath || "/default-avatar.png"}
+                alt={`${user.firstName} ${user.lastName}`}
+                className="user-card-picture"
+              />
+              <div className="user-card-info">
+                <h3 className="user-card-name">
+                  {user.firstName} {user.lastName}
+                </h3>
+                <button className="user-card-follow-button">Follow</button>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

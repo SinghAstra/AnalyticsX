@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import UserProfile from "./pages/UserProfile";
 import Users from "./pages/Users";
 import "./styles/App.css";
 
@@ -56,6 +57,14 @@ function App() {
           element={
             <PrivateRoute>
               <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users/:id"
+          element={
+            <PrivateRoute>
+              <UserProfile />
             </PrivateRoute>
           }
         />
