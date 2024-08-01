@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/Register.css";
+import "../styles/Login.css";
 
 const Login = () => {
   const { fetchUser } = useContext(AuthContext);
@@ -37,24 +37,42 @@ const Login = () => {
   };
 
   return (
-    <div className="register-form">
-      <h2>Login</h2>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <button type="submit">Login</button>
+    <div className="login-container">
+      <h2 className="login-title">Login</h2>
+      <form className="login-form" onSubmit={handleFormSubmit}>
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="form-input"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="form-input"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="login-button">
+          Login
+        </button>
       </form>
     </div>
   );

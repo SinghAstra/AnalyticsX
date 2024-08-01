@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import Users from "./pages/Users";
 
 function App() {
   return (
@@ -43,6 +44,15 @@ function App() {
         element={
           <PrivateRoute>
             <CreatePost />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/users"
+        element={
+          <PrivateRoute>
+            <Users />
           </PrivateRoute>
         }
       />

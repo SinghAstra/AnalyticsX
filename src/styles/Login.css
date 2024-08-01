@@ -1,5 +1,5 @@
-/* Container for the entire register component */
-.register-container {
+/* Container for the entire login component */
+.login-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -8,35 +8,35 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Title of the register form */
-.register-title {
+/* Title of the login form */
+.login-title {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
 }
 
-/* The register form element itself */
-.register-form {
+/* The login form element itself */
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Wrapper for each form field in the register form */
+/* Wrapper for each form field in the login form */
 .form-group {
   display: flex;
   flex-direction: column;
 }
 
-/* Labels for the input fields in the register form */
+/* Labels for the input fields in the login form */
 .form-label {
   margin-bottom: 5px;
   font-weight: bold;
   color: #555;
 }
 
-/* Input fields for the register form */
+/* Input fields for the login form */
 .form-input {
   padding: 10px;
   border: 1px solid #ccc;
@@ -51,8 +51,8 @@
   border-color: #007bff;
 }
 
-/* The submit button for registering */
-.register-button {
+/* The submit button for logging in */
+.login-button {
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
@@ -63,6 +63,6 @@
   transition: background-color 0.3s;
 }
 
-.register-button:hover {
+.login-button:hover {
   background-color: #0056b3;
 }

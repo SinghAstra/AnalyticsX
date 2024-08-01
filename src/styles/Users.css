@@ -1,0 +1,79 @@
+/* Container for the entire Users page */
+.users-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 2px solid white;
+}
+
+/* Title of the Users page */
+.users-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Loading state */
+.users-loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #666;
+}
+
+/* Container for the list of users */
+.users-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Profile card for each user */
+.user-profile-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* User profile picture */
+.user-profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* margin-bottom: 10px; */
+}
+
+/* User profile info container */
+.user-profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* User profile name */
+.user-profile-name {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: black;
+}
+
+/* Follow button */
+.user-profile-follow-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.user-profile-follow-button:hover {
+  background-color: #0056b3;
+}

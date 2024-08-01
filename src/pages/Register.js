@@ -48,53 +48,114 @@ const Register = () => {
   };
 
   return (
-    <div className="register-form">
-      <h2>Register</h2>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={formData.lastName}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={formData.location}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="occupation"
-          placeholder="Occupation"
-          value={formData.occupation}
-          onChange={handleChange}
-        />
-        <input type="file" name="picture" onChange={handleChange} />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <button type="submit">Register</button>
+    <div className="register-container">
+      <h2 className="register-title">Register</h2>
+      <form className="register-form" onSubmit={handleFormSubmit}>
+        <div className="form-group">
+          <label htmlFor="firstName" className="form-label">
+            First Name
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            className="form-input"
+            placeholder="Enter your first name"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName" className="form-label">
+            Last Name
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            className="form-input"
+            placeholder="Enter your last name"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="location" className="form-label">
+            Location
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            className="form-input"
+            placeholder="Enter your location"
+            value={formData.location}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="occupation" className="form-label">
+            Occupation
+          </label>
+          <input
+            type="text"
+            id="occupation"
+            name="occupation"
+            className="form-input"
+            placeholder="Enter your occupation"
+            value={formData.occupation}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="picture" className="form-label">
+            Profile Picture
+          </label>
+          <input
+            type="file"
+            id="picture"
+            name="picture"
+            className="form-input"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="form-input"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="form-input"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="register-button">
+          Register
+        </button>
       </form>
     </div>
   );
