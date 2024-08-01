@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import CreatePost from "./pages/CreatePost";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -34,6 +35,15 @@ function App() {
           <PublicRoute>
             <Register />
           </PublicRoute>
+        }
+      />
+      <Route
+        exact
+        path="/create-post"
+        element={
+          <PrivateRoute>
+            <CreatePost />
+          </PrivateRoute>
         }
       />
       <Route

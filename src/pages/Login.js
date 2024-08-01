@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Register.css";
 
 const Login = () => {
+  const { fetchUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "engine@gmail.com",
     password: "123",
@@ -24,9 +26,10 @@ const Login = () => {
         formData,
         { withCredentials: true }
       );
+      fetchUser();
       console.log("res.data is ", res.data);
     } catch (error) {
-      console.error(
+      console.log(
         "Login failed:",
         error.response ? error.response.data : error.message
       );

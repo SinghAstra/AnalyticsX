@@ -1,8 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Register.css";
 
 const Register = () => {
+  const { fetchUser } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     firstName: "The",
     lastName: "Engineer",
@@ -23,16 +26,25 @@ const Register = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
-    const res = await axios.post(
-      "http://localhost:5000/auth/register",
-      formDataToSend,
-      { withCredentials: true }
-    );
-    console.log("res.data is ", res.data);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/auth/register",
+        formDataToSend,
+        { withCredentials: true }
+      );
+
+      fetchUser();
+
+      console.log("Response data:", res.data);
+    } catch (error) {
+      console.log("Registration error:", error.response.data);
+    }
   };
 
   return (
