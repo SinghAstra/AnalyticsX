@@ -29,9 +29,9 @@ const Register = () => {
     });
     const res = await axios.post(
       "http://localhost:5000/auth/register",
-      formDataToSend
+      formDataToSend,
+      { withCredentials: true }
     );
-    console.log("res is ", res);
     console.log("res.data is ", res.data);
   };
 
