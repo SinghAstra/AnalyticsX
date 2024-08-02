@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Post from "./components/Post";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
-import TopBar from "./components/TopBar";
 import CreatePost from "./pages/CreatePost";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
