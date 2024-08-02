@@ -6,6 +6,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .user-profile-header {
@@ -33,12 +35,6 @@
 
 .user-profile-info {
   padding: 20px;
-  border-top: 1px solid #eee;
-}
-
-.user-profile-email {
-  font-weight: bold;
-  color: #007bff;
 }
 
 .user-profile-loading {

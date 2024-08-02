@@ -54,6 +54,7 @@
 .user-profile-follow-button {
   padding: 8px 16px;
   font-size: 0.9rem;
+  height: fit-content;
   border: none;
   border-radius: 4px;
   cursor: pointer;

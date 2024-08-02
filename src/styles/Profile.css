@@ -1,59 +1,10 @@
-/* Profile.css */
-
-/* Container for the entire profile page */
 .profile-container {
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #666;
   color: white;
 }
 
-/* Header section of the profile page */
-.profile-header {
+.posts-container {
+  width: 100%;
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-/* Profile picture styling */
-.profile-picture {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
-  padding: 2px;
-  margin-right: 20px;
-}
-
-/* Profile name styling */
-.profile-name {
-  font-size: 2rem;
-  margin: 0;
-}
-
-/* Profile info section styling */
-.profile-info {
-  font-size: 1rem;
-}
-
-/* Specific profile info fields styling */
-.profile-info p {
-  margin: 10px 0;
-}
-
-/* Loading and error messages */
-.profile-loading,
-.profile-error {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #666;
-}
-
-/* Styling for the error message */
-.profile-error {
-  color: #e74c3c;
+  flex-wrap: wrap;
 }
