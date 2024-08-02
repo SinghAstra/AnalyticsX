@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { FaHeart, FaRegCommentAlt, FaRegHeart } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
@@ -10,16 +11,26 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes.length);
   const [comments, setComments] = useState(post.comments);
   const [showComments, setShowComments] = useState(false);
-  const isLiked = !post.likes.includes(user._id);
+  const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
 
-  const handleLike = () => {
-    // Logic to handle like/unlike
-    if (isLiked) {
-      setLikes(likes - 1);
-    } else {
-      setLikes(likes + 1);
+  const handleLike = async () => {
+    try {
+      // Update the UI immediately
+      setIsLiked((prev) => !prev);
+      setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
+
+      // Send the like/unlike request to the backend
+      await axios.post(
+        `http://localhost:5000/posts/${post._id}/like`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.log("Error while liking post.");
+      // Revert UI changes in case of an error
+      setIsLiked((prev) => !prev);
+      setLikes((prev) => (isLiked ? prev + 1 : prev - 1));
     }
-    // You would also need to update the backend here
   };
 
   const handleAddComment = (commentText) => {
