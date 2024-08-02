@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import Post from "./components/Post";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import TopBar from "./components/TopBar";
@@ -83,6 +84,14 @@ function App() {
           element={
             <PrivateRoute>
               <Following />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/post"
+          element={
+            <PrivateRoute>
+              <Post />
             </PrivateRoute>
           }
         />

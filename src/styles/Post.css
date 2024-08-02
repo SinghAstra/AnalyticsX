@@ -1,0 +1,73 @@
+.post {
+  border: 2px solid white;
+  width: 450px;
+  border-radius: 8px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.post-user-picture {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-location-info {
+  display: flex;
+  gap: 4px;
+}
+
+.post-body {
+  margin: 4px 0px;
+}
+
+.post-picture {
+  width: 100%;
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.post-body p {
+  padding: 0px 8px;
+  font-size: 14px;
+  color: #636161;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.post-footer-buttons {
+  display: flex;
+  gap: 16px;
+  padding: 4px 8px;
+  align-items: start;
+}
+
+.like-button {
+  color: red;
+}
+
+.add-comment {
+  padding: 4px 8px;
+}
+
+.add-comment input {
+  width: 100%;
+  background-color: #636161;
+  border-radius: 4px;
+}
+
+.post {
+  margin: 20px;
+}

@@ -17,6 +17,9 @@ const TopBar = () => {
       <Link to="/profile" className="top-bar-button">
         Profile
       </Link>
+      <Link to="/post" className="top-bar-button">
+        Post
+      </Link>
     </div>
   );
 };
