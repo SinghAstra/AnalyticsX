@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/UserProfile.css";
 
@@ -70,12 +70,16 @@ const UserProfile = () => {
         <p className="user-profile-occupation">
           Occupation: {user.occupation || "Not provided"}
         </p>
-        <p className="user-profile-followers">
-          Followers: {user.followers.length}
-        </p>
-        <p className="user-profile-following">
-          Following: {user.following.length}
-        </p>
+        <Link to={`/users/${id}/followers`}>
+          <p className="user-profile-followers">
+            Followers: {user.followers.length}
+          </p>
+        </Link>
+        <Link to={`/users/${id}/following`}>
+          <p className="user-profile-following">
+            Following: {user.following.length}
+          </p>
+        </Link>
         <p className="user-profile-views">
           Profile Views: {user.viewedProfile || 0}
         </p>

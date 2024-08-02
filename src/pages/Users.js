@@ -51,7 +51,11 @@ const Users = () => {
       <h2 className="users-title">Users</h2>
       <div className="users-list">
         {users.map((user) => (
-          <UserCard userInfo={user} handleFollowToggle={handleFollowToggle} />
+          <UserCard
+            key={user._id}
+            userInfo={user}
+            handleFollowToggle={handleFollowToggle}
+          />
         ))}
       </div>
     </div>

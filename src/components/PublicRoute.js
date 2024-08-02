@@ -10,7 +10,11 @@ const PublicRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  return user ? <Navigate to="/" /> : children;
+  return user ? (
+    <Navigate to="/" />
+  ) : (
+    <div className="main-container">{children}</div>
+  );
 };
 
 export default PublicRoute;

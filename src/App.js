@@ -3,6 +3,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import TopBar from "./components/TopBar";
 import CreatePost from "./pages/CreatePost";
+import Followers from "./pages/Followers";
+import Following from "./pages/Following";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -65,6 +67,22 @@ function App() {
           element={
             <PrivateRoute>
               <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users/:id/followers"
+          element={
+            <PrivateRoute>
+              <Followers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users/:id/following"
+          element={
+            <PrivateRoute>
+              <Following />
             </PrivateRoute>
           }
         />
