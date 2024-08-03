@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { HiOutlineEye } from "react-icons/hi";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { MdOutlineMailOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Login.css";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const { fetchUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "engine@gmail.com",
@@ -18,6 +20,10 @@ const Login = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const handleFormSubmit = async (e) => {
@@ -44,10 +50,10 @@ const Login = () => {
         <img src="/social.png" alt="logo" />
       </div>
       <div className="title-container">
-        <p className="title">Login to your Account</p>
+        <p className="title">Welcome Back!</p>
         <span className="subtitle">
-          Get started with <b>social</b>, just create an account and enjoy the
-          experience.
+          Log in to your account to continue your journey. Connect with friends,
+          explore new content, and stay updated.
         </span>
       </div>
       <div className="input-container">
@@ -60,7 +66,7 @@ const Login = () => {
           id="email"
           type="email"
           name="email"
-          className="input-field"
+          className="input-field-with-icon-left"
           value={formData.email}
           onChange={handleChange}
           required
@@ -70,32 +76,46 @@ const Login = () => {
         <label className="input-label" for="password">
           Password
         </label>
-        <HiOutlineEye className="icon-right" />
+        {showPassword ? (
+          <HiOutlineEyeOff
+            className="icon-right"
+            onClick={togglePasswordVisibility}
+          />
+        ) : (
+          <HiOutlineEye
+            className="icon-right"
+            onClick={togglePasswordVisibility}
+          />
+        )}
         <input
           placeholder="Password"
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           className="input-field input-field-with-icon-right"
           value={formData.password}
           onChange={handleChange}
           required
         />
       </div>
-      <button type="submit" class="sign-in-btn">
+      <button type="submit" class="block-level-button blue-button">
         <span>Sign In</span>
       </button>
-
+      <div class="no-account-message">
+        <Link to="/register">
+          <span>Don't have an account? Sign Up</span>
+        </Link>
+      </div>
       <div class="separator">
         <hr class="line" />
         <span>Or</span>
         <hr class="line" />
       </div>
-      <button class="sign-in-google">
+      <button class="block-level-button button-with-img white-button">
         <img src="/google.png" alt="google" />
         <span>Sign In with Google</span>
       </button>
-      <button title="Sign In" class="sign-in-github">
+      <button class="block-level-button button-with-img black-button">
         <img src="/github.png" alt="github" />
         <span>Sign In with Github</span>
       </button>

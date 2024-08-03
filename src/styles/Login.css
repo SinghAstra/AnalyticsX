@@ -9,6 +9,8 @@
   padding: 50px 40px 20px 40px;
   background-color: #ffffff;
   border-radius: 11px;
+  width: 576px;
+  margin: 12px 0px;
 }
 
 .logo-container {
@@ -75,6 +77,7 @@
   right: 12px;
   bottom: 12px;
   color: black;
+  cursor: pointer;
 }
 
 .input-label {
@@ -83,10 +86,11 @@
   font-weight: 600;
 }
 
-.input-field {
+.input-field,
+.input-field-with-icon-left,
+.input-field-with-icon-right {
   width: auto;
   height: 40px;
-  padding: 0 0 0 40px;
   border-radius: 7px;
   outline: none;
   border: 1px solid #e5e5e5;
@@ -94,6 +98,14 @@
     drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
   color: black;
+}
+
+.input-field {
+  padding: 0 0 0 12px;
+}
+
+.input-field-with-icon-left {
+  padding: 0 0 0 40px;
 }
 
 .input-field-with-icon-right {
@@ -106,15 +118,55 @@
   background-color: transparent;
 }
 
-.sign-in-btn {
+.block-level-button {
   width: 100%;
   height: 40px;
   border: 0;
-  background: #115dfc;
   border-radius: 7px;
   outline: none;
-  color: #ffffff;
   cursor: pointer;
+}
+
+.button-with-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-with-img img {
+  width: 20px;
+  height: 20px;
+}
+
+.blue-button {
+  background: #115dfc;
+  color: #ffffff;
+}
+
+.white-button {
+  color: #242424;
+  border: 1px solid #e5e5e5;
+  filter: drop-shadow(0px 1px 0px #efefef)
+    drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+}
+
+.black-button {
+  background: #212121;
+  color: white;
+}
+
+.no-account-message {
+  width: 100%;
+  color: #115dfc;
+  text-align: end;
+  margin-top: -10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.no-account-message:hover {
+  text-decoration: underline;
 }
 
 .separator {
@@ -134,37 +186,14 @@
   background-color: #e8e8e8;
 }
 
-.sign-in-google,
-.sign-in-github {
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: #ffffff;
-  border-radius: 7px;
-  outline: none;
-  color: #242424;
-  border: 1px solid #e5e5e5;
-  filter: drop-shadow(0px 1px 0px #efefef)
-    drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
-  cursor: pointer;
-}
-
-.sign-in-google img,
-.sign-in-github img {
-  width: 20px;
-  height: 20px;
-}
-
-.sign-in-github {
-  background: #212121;
-  color: white;
-}
-
 .note {
   font-size: 0.75rem;
   color: #8b8e98;
   text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  .form-container {
+    width: 95%;
+  }
 }
