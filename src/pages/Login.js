@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
+import { HiOutlineEye } from "react-icons/hi";
+import { MdOutlineMailOutline } from "react-icons/md";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Login.css";
 
@@ -37,44 +39,68 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2 className="login-title">Login</h2>
-      <form className="login-form" onSubmit={handleFormSubmit}>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="form-input"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className="form-input"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="login-button">
-          Login
-        </button>
-      </form>
-    </div>
+    <form className="form-container" onSubmit={handleFormSubmit}>
+      <div className="logo-container">
+        <img src="/social.png" alt="logo" />
+      </div>
+      <div className="title-container">
+        <p className="title">Login to your Account</p>
+        <span className="subtitle">
+          Get started with <b>social</b>, just create an account and enjoy the
+          experience.
+        </span>
+      </div>
+      <div className="input-container">
+        <label className="input-label" for="email">
+          Email
+        </label>
+        <MdOutlineMailOutline className="icon" />
+        <input
+          placeholder="name@mail.com"
+          id="email"
+          type="email"
+          name="email"
+          className="input-field"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="input-container">
+        <label className="input-label" for="password">
+          Password
+        </label>
+        <HiOutlineEye className="icon-right" />
+        <input
+          placeholder="Password"
+          id="password"
+          name="password"
+          type="password"
+          className="input-field input-field-with-icon-right"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <button type="submit" class="sign-in-btn">
+        <span>Sign In</span>
+      </button>
+
+      <div class="separator">
+        <hr class="line" />
+        <span>Or</span>
+        <hr class="line" />
+      </div>
+      <button class="sign-in-google">
+        <img src="/google.png" alt="google" />
+        <span>Sign In with Google</span>
+      </button>
+      <button title="Sign In" class="sign-in-github">
+        <img src="/github.png" alt="github" />
+        <span>Sign In with Github</span>
+      </button>
+      <p class="note">Terms of use &amp; Conditions</p>
+    </form>
   );
 };
 

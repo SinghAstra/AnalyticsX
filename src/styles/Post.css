@@ -71,3 +71,8 @@
 .post {
   margin: 20px;
 }
+
+.read-more {
+  color: white;
+  cursor: pointer;
+}

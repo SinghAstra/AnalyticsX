@@ -5,6 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Post.css";
+import Comment from "./Comment";
 
 const Post = ({ post }) => {
   const { user } = useContext(AuthContext);
@@ -12,11 +13,18 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState(post.comments);
   const [showComments, setShowComments] = useState(false);
   const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [newComment, setNewComment] = useState("");
+
+  console.log("comments is ", comments);
+
+  const MAX_DESCRIPTION_LENGTH = 100;
 
   const handleLike = async () => {
     try {
       // Update the UI immediately
       setIsLiked((prev) => !prev);
+      // It has been anticipated that the value of isLiked will not change immediately.
       setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
 
       // Send the like/unlike request to the backend
@@ -33,10 +41,31 @@ const Post = ({ post }) => {
     }
   };
 
-  const handleAddComment = (commentText) => {
-    // Logic to add a new comment
-    setComments([...comments, { userId: user._id, text: commentText }]);
-    // You would also need to update the backend here
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return; // Prevent adding empty comments
+
+    try {
+      // Update UI immediately
+      const comment = { _id: user._id, user: user._id, text: newComment };
+      setComments([...comments, comment]);
+
+      // Send the comment to the backend
+      const response = await axios.post(
+        `http://localhost:5000/comments/${post._id}`,
+        { text: newComment },
+        { withCredentials: true }
+      );
+
+      console.log("response.data is ", response.data);
+
+      setNewComment(""); // Clear the input field
+    } catch (err) {
+      console.log("Error while adding comment:", err);
+    }
+  };
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded((prev) => !prev);
   };
 
   return (
@@ -62,7 +91,17 @@ const Post = ({ post }) => {
         {post.picturePath && (
           <img src={post.picturePath} alt="Post" className="post-picture" />
         )}
-        <p>{post.description}</p>
+        <p>
+          {isDescriptionExpanded ||
+          post.description.length <= MAX_DESCRIPTION_LENGTH
+            ? post.description
+            : `${post.description.substring(0, MAX_DESCRIPTION_LENGTH)}...`}
+          {post.description.length > MAX_DESCRIPTION_LENGTH && (
+            <span onClick={toggleDescription} className="read-more">
+              {isDescriptionExpanded ? " Show less" : " Read more"}
+            </span>
+          )}
+        </p>
       </div>
       <div className="post-footer">
         <div className="post-footer-buttons">
@@ -81,16 +120,15 @@ const Post = ({ post }) => {
         </div>
         {showComments && (
           <div className="comments-section">
-            {comments.map((comment, index) => (
-              <div key={index} className="comment">
-                <p>
-                  <strong>{comment.userName}:</strong> {comment.text}
-                </p>
-              </div>
+            {comments.map((comment) => (
+              // <Comment key={comment._id} comment={comment} />
+              <h1 key={comment._id}>{comment.text}</h1>
             ))}
             <div className="add-comment">
               <input
                 type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -99,6 +137,7 @@ const Post = ({ post }) => {
                   }
                 }}
               />
+              {/* <button onClick={handleAddComment}>Add Comment</button> */}
             </div>
           </div>
         )}
