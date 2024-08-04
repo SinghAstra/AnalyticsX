@@ -1,0 +1,48 @@
+.sidebar-container {
+  overflow-y: auto;
+  text-align: center;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 4rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--color-white);
+}
+
+.sidebar-item.active {
+  background-color: var(--color-light);
+  color: var(--color-primary);
+}
+
+.sidebar-item.active svg {
+  color: var(--color-primary);
+}
+
+.sidebar-item:hover {
+  background-color: var(--color-light);
+}
+
+.sidebar-item svg {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  position: relative;
+  margin-left: 1rem;
+}
+
+.sidebar-item h3 {
+  font-size: 1rem;
+}
+
+.sidebar-container .create-post-button {
+  width: 90%;
+  text-align: center;
+  padding: 1rem 0;
+  margin: 1rem 0;
+}

@@ -1,0 +1,9 @@
+.main-container {
+  position: fixed;
+  width: 100%;
+  top: 4.5rem;
+  bottom: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 20vw auto;
+}
