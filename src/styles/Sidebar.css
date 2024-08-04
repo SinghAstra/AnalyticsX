@@ -30,10 +30,13 @@
 }
 
 .sidebar-item svg {
-  font-size: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: auto 1rem;
   color: var(--color-gray);
   position: relative;
   margin-left: 1rem;
+  margin-top: 1.8rem;
 }
 
 .sidebar-item h3 {
