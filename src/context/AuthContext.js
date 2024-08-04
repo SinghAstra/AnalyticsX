@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const fetchUser = async () => {
     try {
@@ -16,9 +17,11 @@ export const AuthProvider = ({ children }) => {
         { withCredentials: true }
       );
       setUser(response.data.user);
+      setIsAuthenticated(true);
     } catch (error) {
       console.log("error is ", error);
       setUser(null);
+      setIsAuthenticated(false);
     } finally {
       setIsAuthenticating(false);
     }
@@ -29,7 +32,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticating, fetchUser }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticating, fetchUser, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

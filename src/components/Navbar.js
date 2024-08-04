@@ -1,5 +1,6 @@
 import { UilSearch } from "@iconscout/react-unicons";
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
@@ -16,9 +17,9 @@ const Navbar = () => {
           />
         </div>
         <div className="navbar-right-section">
-          <label htmlFor="create-post" className="btn btn-primary">
+          <Link to="/create-post" className="btn btn-primary">
             Create
-          </label>
+          </Link>
           <div className="user-profile-picture">
             <img src="/profile-1.jpg" alt="user profile" />
           </div>

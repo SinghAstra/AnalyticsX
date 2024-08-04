@@ -1,6 +1,7 @@
 .sidebar-container {
   overflow-y: auto;
   text-align: center;
+  background-color: var(--color-white);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -13,7 +14,6 @@
   height: 4rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  background-color: var(--color-white);
 }
 
 .sidebar-item.active {

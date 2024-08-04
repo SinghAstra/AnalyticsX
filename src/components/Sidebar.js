@@ -53,12 +53,9 @@ const Sidebar = () => {
           <h3>Settings</h3>
         </Link>
       </div>
-      <button
-        htmlFor="create-post"
-        className="btn btn-primary create-post-button"
-      >
+      <Link to="/create-post" className="btn btn-primary create-post-button">
         Create Post
-      </button>
+      </Link>
     </div>
   );
 };
