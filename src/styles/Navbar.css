@@ -1,0 +1,60 @@
+.navbar {
+  width: 100%;
+  background: var(--color-white);
+  padding: 0.7rem 0;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.navbar-right-section .user-profile-picture img {
+  object-fit: cover;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+}
+
+.navbar-right-section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-search-bar {
+  background: var(--color-light);
+  border-radius: var(--border-radius);
+  padding: var(--search-padding);
+  display: flex;
+}
+
+.navbar-search-bar svg {
+  color: var(--color-primary);
+}
+
+.navbar-search-bar input {
+  background: transparent;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  width: 30vw;
+}
+
+.navbar-search-bar input::placeholder {
+  color: var(--color-gray);
+}

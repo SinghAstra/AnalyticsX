@@ -156,7 +156,8 @@
   color: white;
 }
 
-.no-account-message {
+.no-account-message,
+.already-account-message {
   width: 100%;
   color: #115dfc;
   text-align: end;
@@ -165,7 +166,8 @@
   cursor: pointer;
 }
 
-.no-account-message:hover {
+.no-account-message:hover,
+.already-account-message:hover {
   text-decoration: underline;
 }
 

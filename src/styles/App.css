@@ -1,12 +1,26 @@
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.btn {
+  display: inline-block;
+  padding: var(--btn-padding);
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
-.main-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.btn:hover {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.text-muted {
+  color: var(--color-gray);
 }

@@ -192,6 +192,11 @@ const Register = () => {
       <button type="submit" className="block-level-button blue-button">
         Register
       </button>
+      <div class="already-account-message">
+        <Link to="/login">
+          <span>Already have an account? Sign In</span>
+        </Link>
+      </div>
       <div class="separator">
         <hr class="line" />
         <span>Or</span>

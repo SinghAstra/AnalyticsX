@@ -5,7 +5,6 @@ import { FaLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Post.css";
-import Comment from "./Comment";
 
 const Post = ({ post }) => {
   const { user } = useContext(AuthContext);
