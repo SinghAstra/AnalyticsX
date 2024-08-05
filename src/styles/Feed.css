@@ -5,7 +5,6 @@
   border-radius: var(--card-border-radius);
   font-size: 0.85rem;
   line-height: 1.5;
-  width: 60%;
 }
 
 .feeds .feed:last-child {

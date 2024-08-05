@@ -1,9 +1,22 @@
+.feeds-wrapper {
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: auto 30vw;
+}
+
 .feeds {
   background-color: palegreen;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   gap: 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.suggested-profiles-container {
+  background-color: yellow;
 }
 
 .card {
