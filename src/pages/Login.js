@@ -57,7 +57,7 @@ const Login = () => {
         </span>
       </div>
       <div className="input-container">
-        <label className="input-label" for="email">
+        <label className="input-label" htmlFor="email">
           Email
         </label>
         <MdOutlineMailOutline className="icon" />
@@ -73,7 +73,7 @@ const Login = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="password">
+        <label className="input-label" htmlFor="password">
           Password
         </label>
         {showPassword ? (
@@ -98,28 +98,28 @@ const Login = () => {
           required
         />
       </div>
-      <button type="submit" class="block-level-button blue-button">
+      <button type="submit" className="block-level-button blue-button">
         <span>Sign In</span>
       </button>
-      <div class="no-account-message">
+      <div className="no-account-message">
         <Link to="/register">
           <span>Don't have an account? Sign Up</span>
         </Link>
       </div>
-      <div class="separator">
-        <hr class="line" />
+      <div className="separator">
+        <hr className="line" />
         <span>Or</span>
-        <hr class="line" />
+        <hr className="line" />
       </div>
-      <button class="block-level-button button-with-img white-button">
+      <button className="block-level-button button-with-img white-button">
         <img src="/google.png" alt="google" />
         <span>Sign In with Google</span>
       </button>
-      <button class="block-level-button button-with-img black-button">
+      <button className="block-level-button button-with-img black-button">
         <img src="/github.png" alt="github" />
         <span>Sign In with Github</span>
       </button>
-      <p class="note">Terms of use &amp; Conditions</p>
+      <p className="note">Terms of use &amp; Conditions</p>
     </form>
   );
 };

@@ -1,3 +1,14 @@
 .feeds {
   background-color: palegreen;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 10px;
+}
+
+.card {
+  background: palevioletred;
+  height: 4rem;
+  width: 100%;
+  flex: 0 0 auto;
 }

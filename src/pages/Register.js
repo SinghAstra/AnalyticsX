@@ -72,7 +72,7 @@ const Register = () => {
         </span>
       </div>
       <div className="input-container">
-        <label className="input-label" for="firstName">
+        <label className="input-label" htmlFor="firstName">
           FirstName
         </label>
         <input
@@ -87,7 +87,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="lastName">
+        <label className="input-label" htmlFor="lastName">
           LastName
         </label>
         <input
@@ -102,7 +102,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="location">
+        <label className="input-label" htmlFor="location">
           Location
         </label>
         <HiOutlineLocationMarker className="icon-right" />
@@ -118,7 +118,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="occupation">
+        <label className="input-label" htmlFor="occupation">
           Occupation
         </label>
         <PiSuitcaseSimpleFill className="icon-right" />
@@ -134,7 +134,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="profile-picture">
+        <label className="input-label" htmlFor="profile-picture">
           Profile Picture
         </label>
         <input
@@ -148,7 +148,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="email">
+        <label className="input-label" htmlFor="email">
           Email
         </label>
         <MdOutlineMailOutline className="icon" />
@@ -164,7 +164,7 @@ const Register = () => {
         />
       </div>
       <div className="input-container">
-        <label className="input-label" for="password">
+        <label className="input-label" htmlFor="password">
           Password
         </label>
         {showPassword ? (
@@ -192,25 +192,25 @@ const Register = () => {
       <button type="submit" className="block-level-button blue-button">
         Register
       </button>
-      <div class="already-account-message">
+      <div className="already-account-message">
         <Link to="/login">
           <span>Already have an account? Sign In</span>
         </Link>
       </div>
-      <div class="separator">
-        <hr class="line" />
+      <div className="separator">
+        <hr className="line" />
         <span>Or</span>
-        <hr class="line" />
+        <hr className="line" />
       </div>
-      <button class="block-level-button button-with-img white-button">
+      <button className="block-level-button button-with-img white-button">
         <img src="/google.png" alt="google" />
         <span>Sign In with Google</span>
       </button>
-      <button class="block-level-button button-with-img black-button">
+      <button className="block-level-button button-with-img black-button">
         <img src="/github.png" alt="github" />
         <span>Sign In with Github</span>
       </button>
-      <p class="note">Terms of use &amp; Conditions</p>
+      <p className="note">Terms of use &amp; Conditions</p>
     </form>
   );
 };

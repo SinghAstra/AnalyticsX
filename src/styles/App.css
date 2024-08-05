@@ -28,9 +28,25 @@
 .main-container {
   position: fixed;
   width: 100%;
-  top: 4.5rem;
+  top: 0;
   bottom: 0;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 20vw auto;
+  column-gap: 2rem;
+}
+
+.home-container {
+  display: grid;
+  grid-template-columns: auto 30vw;
+  column-gap: 2rem;
+}
+
+.placeholder {
+  background-color: palevioletred;
+  color: var(--color-white);
+}
+.placeholder h1 {
+  font-size: 20rem;
+  text-transform: rotate(90deg);
 }

@@ -1,15 +1,20 @@
-import { UilSearch } from "@iconscout/react-unicons";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext);
+
+  if (!user) {
+    return null;
+  }
   return (
     <div className="navbar">
       <div className="navbar-container">
         <h2 className="navbar-logo">Social</h2>
         <div className="navbar-search-bar">
-          <UilSearch />
+          <i className="uil uil-search"></i>
           <input
             type="text"
             placeholder="Search for creators, inspiration, and contacts"
@@ -21,7 +26,7 @@ const Navbar = () => {
             Create
           </Link>
           <div className="user-profile-picture">
-            <img src="/profile-1.jpg" alt="user profile" />
+            <img src={user.picturePath} alt="user profile" />
           </div>
         </div>
       </div>
