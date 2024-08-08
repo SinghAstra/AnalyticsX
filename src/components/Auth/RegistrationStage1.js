@@ -23,15 +23,15 @@ const RegistrationStage1 = ({ onNext }) => {
     });
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = async (e) => {
     const { name, value } = e.target;
     let error = "";
     if (name === "mobileOrEmail") {
-      error = validateEmailOrMobile(value);
+      error = await validateEmailOrMobile(value);
     } else if (name === "fullName") {
       error = validateFullName(value);
     } else if (name === "username") {
-      error = validateUsername(value);
+      error = await validateUsername(value);
     } else if (name === "password") {
       error = validatePassword(value);
     }
@@ -47,29 +47,61 @@ const RegistrationStage1 = ({ onNext }) => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const validateEmailOrMobile = (value) => {
+  const validateEmailOrMobile = async (value) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const mobileRegex = /^[0-9]{10,15}$/;
-    if (emailRegex.test(value) || mobileRegex.test(value)) {
-      return "";
+    if (value.trim() === "") {
+      return "Email or mobile number is required.";
+    } else if (emailRegex.test(value) || mobileRegex.test(value)) {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/check-availability",
+          {
+            mobileOrEmail: value,
+          }
+        );
+        console.log("response.data is ", response.data);
+        return response.data.isAvailable
+          ? ""
+          : "Email or mobile number is already taken.";
+      } catch (error) {
+        console.log("Error checking availability:", error);
+        return "Error checking availability.";
+      }
     } else {
       return "Invalid email address or mobile number.";
     }
   };
 
   const validateFullName = (value) => {
-    const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
-    if (nameRegex.test(value)) {
-      return "";
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (value.trim() === "") {
+      return "Full name is required.";
+    } else if (!nameRegex.test(value)) {
+      return "Full name can only contain letters and spaces.";
     } else {
-      return "Full name must contain only letters.";
+      return "";
     }
   };
 
-  const validateUsername = (value) => {
+  const validateUsername = async (value) => {
     const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
-    if (usernameRegex.test(value)) {
-      return "";
+    if (value.trim() === "") {
+      return "Username is required.";
+    } else if (usernameRegex.test(value)) {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/check-availability",
+          {
+            username: value,
+          }
+        );
+        console.log("response.data is ", response.data);
+        return response.data.isAvailable ? "" : "Username is already taken.";
+      } catch (error) {
+        console.error("Error checking availability:", error);
+        return "Error checking availability.";
+      }
     } else {
       return "Username must be 3-15 characters long and can only contain letters, numbers, and underscores.";
     }
@@ -78,7 +110,9 @@ const RegistrationStage1 = ({ onNext }) => {
   const validatePassword = (value) => {
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/;
-    if (passwordRegex.test(value)) {
+    if (value.trim() === "") {
+      return "Password is required.";
+    } else if (passwordRegex.test(value)) {
       return "";
     } else {
       return "Password must be 6-20 characters long and include at least one letter, one number, and one special character.";
@@ -102,6 +136,8 @@ const RegistrationStage1 = ({ onNext }) => {
     }
     console.log("formData is ", formData);
   };
+
+  console.log("errors is ", errors);
 
   return (
     <>
@@ -137,6 +173,9 @@ const RegistrationStage1 = ({ onNext }) => {
             type="text"
             value={formData.mobileOrEmail}
           />
+          {errors.mobileOrEmail && (
+            <p className="error-message">{errors.mobileOrEmail}</p>
+          )}
         </div>
         <div className="input-container">
           <label
@@ -156,6 +195,9 @@ const RegistrationStage1 = ({ onNext }) => {
             type="text"
             value={formData.fullName}
           />
+          {errors.fullName && (
+            <p className="error-message">{errors.fullName}</p>
+          )}
         </div>
         <div className="input-container">
           <label
@@ -178,6 +220,9 @@ const RegistrationStage1 = ({ onNext }) => {
             type="text"
             value={formData.username}
           />
+          {errors.username && (
+            <p className="error-message">{errors.username}</p>
+          )}
         </div>
         <div className="input-container">
           <label
@@ -210,6 +255,9 @@ const RegistrationStage1 = ({ onNext }) => {
             type={showPassword ? "text" : "password"}
             value={formData.password}
           />
+          {errors.password && (
+            <p className="error-message">{errors.password}</p>
+          )}
         </div>
         <button type="submit" className="block-level-button blue-button">
           Sign Up
