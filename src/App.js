@@ -13,6 +13,7 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import RegistrationPage from "./pages/RegistrationPage";
 import Settings from "./pages/Settings";
 import Theme from "./pages/Theme";
 import "./styles/App.css";
@@ -46,8 +47,8 @@ function App() {
       ) : (
         <Routes>
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route exact path="/accounts/signup" element={<RegistrationPage />} />
+          <Route path="*" element={<Navigate to="/accounts/signup" />} />
         </Routes>
       )}
     </div>

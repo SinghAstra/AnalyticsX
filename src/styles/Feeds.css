@@ -5,7 +5,6 @@
 }
 
 .feeds {
-  background-color: palegreen;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

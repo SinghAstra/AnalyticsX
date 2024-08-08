@@ -9,7 +9,6 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { PiSuitcaseSimpleFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/Register.css";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);

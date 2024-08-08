@@ -45,82 +45,84 @@ const Login = () => {
   };
 
   return (
-    <form className="form-container" onSubmit={handleFormSubmit}>
-      <div className="logo-container">
-        <img src="/social.png" alt="logo" />
-      </div>
-      <div className="title-container">
-        <p className="title">Welcome Back!</p>
-        <span className="subtitle">
-          Log in to your account to continue your journey. Connect with friends,
-          explore new content, and stay updated.
-        </span>
-      </div>
-      <div className="input-container">
-        <label className="input-label" htmlFor="email">
-          Email
-        </label>
-        <MdOutlineMailOutline className="icon" />
-        <input
-          placeholder="name@mail.com"
-          id="email"
-          type="email"
-          name="email"
-          className="input-field-with-icon-left"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <label className="input-label" htmlFor="password">
-          Password
-        </label>
-        {showPassword ? (
-          <HiOutlineEyeOff
-            className="icon-right"
-            onClick={togglePasswordVisibility}
+    <div className="form-container-wrapper">
+      <form className="form-container" onSubmit={handleFormSubmit}>
+        <div className="logo-container">
+          <img src="/social.png" alt="logo" />
+        </div>
+        <div className="title-container">
+          <p className="title">Welcome Back!</p>
+          <span className="subtitle">
+            Log in to your account to continue your journey. Connect with
+            friends, explore new content, and stay updated.
+          </span>
+        </div>
+        <div className="input-container">
+          <label className="input-label" htmlFor="email">
+            Email
+          </label>
+          <MdOutlineMailOutline className="icon" />
+          <input
+            placeholder="name@mail.com"
+            id="email"
+            type="email"
+            name="email"
+            className="input-field-with-icon-left"
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
-        ) : (
-          <HiOutlineEye
-            className="icon-right"
-            onClick={togglePasswordVisibility}
+        </div>
+        <div className="input-container">
+          <label className="input-label" htmlFor="password">
+            Password
+          </label>
+          {showPassword ? (
+            <HiOutlineEyeOff
+              className="icon-right"
+              onClick={togglePasswordVisibility}
+            />
+          ) : (
+            <HiOutlineEye
+              className="icon-right"
+              onClick={togglePasswordVisibility}
+            />
+          )}
+          <input
+            placeholder="Password"
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            className="input-field input-field-with-icon-right"
+            value={formData.password}
+            onChange={handleChange}
+            required
           />
-        )}
-        <input
-          placeholder="Password"
-          id="password"
-          name="password"
-          type={showPassword ? "text" : "password"}
-          className="input-field input-field-with-icon-right"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit" className="block-level-button blue-button">
-        <span>Sign In</span>
-      </button>
-      <div className="no-account-message">
-        <Link to="/register">
-          <span>Don't have an account? Sign Up</span>
-        </Link>
-      </div>
-      <div className="separator">
-        <hr className="line" />
-        <span>Or</span>
-        <hr className="line" />
-      </div>
-      <button className="block-level-button button-with-img white-button">
-        <img src="/google.png" alt="google" />
-        <span>Sign In with Google</span>
-      </button>
-      <button className="block-level-button button-with-img black-button">
-        <img src="/github.png" alt="github" />
-        <span>Sign In with Github</span>
-      </button>
-      <p className="note">Terms of use &amp; Conditions</p>
-    </form>
+        </div>
+        <button type="submit" className="block-level-button blue-button">
+          <span>Sign In</span>
+        </button>
+        <div className="no-account-message">
+          <Link to="/accounts/signup">
+            <span>Don't have an account? Sign Up</span>
+          </Link>
+        </div>
+        <div className="separator">
+          <hr className="line" />
+          <span>Or</span>
+          <hr className="line" />
+        </div>
+        <button className="block-level-button button-with-img white-button">
+          <img src="/google.png" alt="google" />
+          <span>Sign In with Google</span>
+        </button>
+        <button className="block-level-button button-with-img black-button">
+          <img src="/github.png" alt="github" />
+          <span>Sign In with Github</span>
+        </button>
+        <p className="note">Terms of use &amp; Conditions</p>
+      </form>
+    </div>
   );
 };
 
