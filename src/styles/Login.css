@@ -67,29 +67,37 @@
   gap: 5px;
 }
 
-.icon {
-  width: 20px;
-  position: absolute;
-  z-index: 99;
-  left: 12px;
-  bottom: 12px;
-  color: black;
-}
-
+.icon-left,
 .icon-right {
   width: 20px;
   position: absolute;
   z-index: 99;
-  right: 12px;
   bottom: 12px;
   color: black;
+}
+
+.icon-left {
+  left: 12px;
+}
+
+.icon-right {
+  right: 12px;
   cursor: pointer;
+}
+
+.icon-left.error,
+.icon-right.error {
+  color: red;
 }
 
 .input-label {
   font-size: 0.75rem;
   color: #8b8e98;
   font-weight: 600;
+}
+
+.input-label.error {
+  color: red;
 }
 
 .input-field,
@@ -116,6 +124,13 @@
 
 .input-field-with-icon-right {
   padding: 0 40px 0 12px;
+}
+
+.input-field.error,
+.input-field-with-icon-left.error,
+.input-field-with-icon-right.error {
+  border-color: red;
+  color: red;
 }
 
 .input-field:focus,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RegistrationStage1 from "../components/Auth/RegistrationStage1";
 import RegistrationStage2 from "../components/Auth/RegistrationStage2";
 import RegistrationStage3 from "../components/Auth/RegistrationStage3";
@@ -13,6 +13,10 @@ const RegistrationPage = () => {
   const handleBack = () => {
     setCurrentStage(currentStage - 1);
   };
+
+  useEffect(() => {
+    document.title = "Sign Up · Social UI 2.0";
+  }, []);
 
   return (
     <div className="form-container-wrapper">
