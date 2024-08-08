@@ -18,6 +18,13 @@
   background-color: #ffffff;
   border-radius: 11px;
   margin: 12px auto;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 24px;
+  left: 24px;
 }
 
 .logo-container {
@@ -171,6 +178,11 @@
 
 .blue-button {
   background: #115dfc;
+  color: #ffffff;
+}
+
+.disabled-blue-button {
+  background: #5789f3;
   color: #ffffff;
 }
 

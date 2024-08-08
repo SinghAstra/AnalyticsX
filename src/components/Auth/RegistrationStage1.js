@@ -5,14 +5,8 @@ import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const RegistrationStage1 = ({ onNext }) => {
+const RegistrationStage1 = ({ formData, setFormData, onNext }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    mobileOrEmail: "",
-    fullName: "",
-    username: "",
-    password: "",
-  });
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -121,9 +115,9 @@ const RegistrationStage1 = ({ onNext }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailError = validateEmailOrMobile(formData.mobileOrEmail);
+    const emailError = await validateEmailOrMobile(formData.mobileOrEmail);
     const nameError = validateFullName(formData.fullName);
-    const usernameError = validateUsername(formData.username);
+    const usernameError = await validateUsername(formData.username);
     const passwordError = validatePassword(formData.password);
     if (emailError || nameError || usernameError || passwordError) {
       setErrors({
@@ -134,10 +128,8 @@ const RegistrationStage1 = ({ onNext }) => {
       });
       return;
     }
-    console.log("formData is ", formData);
+    onNext();
   };
-
-  console.log("errors is ", errors);
 
   return (
     <>
@@ -146,6 +138,7 @@ const RegistrationStage1 = ({ onNext }) => {
           <img src="/social.png" alt="logo" />
         </div>
         <div className="title-container">
+          <span className="title">Social UI 2.0</span>
           <span className="subtitle">
             Sign up to see photos and videos <br /> from your friends
           </span>
@@ -260,7 +253,7 @@ const RegistrationStage1 = ({ onNext }) => {
           )}
         </div>
         <button type="submit" className="block-level-button blue-button">
-          Sign Up
+          Next
         </button>
       </form>
       <div className="register-form-footer-container">
