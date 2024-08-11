@@ -26,10 +26,6 @@ const RegistrationPage = () => {
     document.title = "Sign Up • Social UI 2.0";
   }, []);
 
-  const registerUser = async () => {
-    console.log("formData is ", formData);
-  };
-
   return (
     <div className="form-container-wrapper">
       {currentStage === 1 && (
@@ -53,7 +49,6 @@ const RegistrationPage = () => {
           confirmationCode={confirmationCode}
           setConfirmationCode={setConfirmationCode}
           formData={formData}
-          onNext={registerUser}
           onBack={handleBack}
         />
       )}

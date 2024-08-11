@@ -50,3 +50,9 @@
   font-size: 20rem;
   text-transform: rotate(90deg);
 }
+
+@media screen and (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 70px auto;
+  }
+}

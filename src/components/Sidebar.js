@@ -102,9 +102,15 @@ const Sidebar = () => {
           }`}
           onClick={() => handleSetActiveItem("/profile")}
         >
-          <div className="user-profile-picture">
-            <img src={user.picturePath} alt="user profile" />
-          </div>
+          {user.profilePicture ? (
+            <div className="user-profile-picture">
+              <img src={user.profilePicture} alt="user profile" />
+            </div>
+          ) : (
+            <div className="user-profile-logo">
+              <span>{user.fullName[0]}</span>
+            </div>
+          )}
           <h3>Profile</h3>
         </Link>
       </div>
@@ -114,6 +120,13 @@ const Sidebar = () => {
         onClick={() => handleSetActiveItem("/create-post")}
       >
         Create Post
+      </Link>
+      <Link
+        to="/create-post"
+        className="plus-create-post-button"
+        onClick={() => handleSetActiveItem("/create-post")}
+      >
+        +
       </Link>
     </div>
   );

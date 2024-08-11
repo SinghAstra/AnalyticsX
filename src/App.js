@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Feeds from "./components/Feeds";
-import Placeholder from "./components/Placeholder";
 import Sidebar from "./components/Sidebar";
 import { AuthContext } from "./context/AuthContext";
 import Analytics from "./pages/Analytics";
@@ -12,8 +11,8 @@ import Login from "./pages/Login";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
-import Register from "./pages/Register";
 import RegistrationPage from "./pages/RegistrationPage";
+import Responsive from "./pages/Responsive";
 import Settings from "./pages/Settings";
 import Theme from "./pages/Theme";
 import "./styles/App.css";
@@ -41,6 +40,7 @@ function App() {
             <Route exact path="/settings" element={<Settings />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/create-post" element={<CreatePost />} />
+            <Route exact path="/responsive" element={<Responsive />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

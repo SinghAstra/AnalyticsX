@@ -1,12 +1,17 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import UserProfileCard from "../components/UserProfileCard";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Profile.css";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
+
+  console.log("user is ", user);
+
+  useEffect(() => {
+    document.title = `${user.fullName} (@${user.userName}) • Social UI 2.0`;
+  }, []);
 
   useEffect(() => {
     if (user) {

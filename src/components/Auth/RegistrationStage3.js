@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import Notification from "../Notification";
 
 const RegistrationStage3 = ({
@@ -15,6 +16,8 @@ const RegistrationStage3 = ({
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
   const [notification, setNotification] = useState("");
+
+  const { fetchUser } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setOtp(e.target.value);
@@ -32,14 +35,23 @@ const RegistrationStage3 = ({
     setErrors({ ...errors, otp: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if the entered OTP matches the generated confirmation code
-    // if the usr has entered correct confirmation code register the user
     if (otp === confirmationCode) {
-      // Proceed to the next stage
-      console.log("Register User formData : ", formData);
+      try {
+        // Proceed to register user
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/register",
+          formData,
+          { withCredentials: true }
+        );
+        console.log("User registered successfully:", response.data);
+        fetchUser();
+      } catch (error) {
+        console.log("Error registering user:", error);
+      }
     } else {
       // Show an error if the OTP doesn't match
       setErrors({
@@ -53,7 +65,7 @@ const RegistrationStage3 = ({
   const sendConfirmationCode = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/send-confirmation-code",
+        "http://localhost:5000/api/auth/verify-email",
         {
           email: formData.mobileOrEmail,
         }
