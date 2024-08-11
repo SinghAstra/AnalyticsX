@@ -5,13 +5,14 @@ import RegistrationStage3 from "../components/Auth/RegistrationStage3";
 import "../styles/Registration.css";
 
 const RegistrationPage = () => {
-  const [currentStage, setCurrentStage] = useState(2);
+  const [currentStage, setCurrentStage] = useState(1);
   const [formData, setFormData] = useState({
-    mobileOrEmail: "random@gmail.com",
-    fullName: "Singh",
-    username: "singh",
-    password: "Abhay@codeman1",
+    mobileOrEmail: "",
+    fullName: "",
+    username: "",
+    password: "",
   });
+  const [confirmationCode, setConfirmationCode] = useState("");
 
   const handleNext = () => {
     setCurrentStage(currentStage + 1);
@@ -22,8 +23,12 @@ const RegistrationPage = () => {
   };
 
   useEffect(() => {
-    document.title = "Sign Up · Social UI 2.0";
+    document.title = "Sign Up • Social UI 2.0";
   }, []);
+
+  const registerUser = async () => {
+    console.log("formData is ", formData);
+  };
 
   return (
     <div className="form-container-wrapper">
@@ -35,9 +40,23 @@ const RegistrationPage = () => {
         />
       )}
       {currentStage === 2 && (
-        <RegistrationStage2 onNext={handleNext} onBack={handleBack} />
+        <RegistrationStage2
+          onNext={handleNext}
+          onBack={handleBack}
+          formData={formData}
+          setFormData={setFormData}
+          setConfirmationCode={setConfirmationCode}
+        />
       )}
-      {currentStage === 3 && <RegistrationStage3 onBack={handleBack} />}
+      {currentStage === 3 && (
+        <RegistrationStage3
+          confirmationCode={confirmationCode}
+          setConfirmationCode={setConfirmationCode}
+          formData={formData}
+          onNext={registerUser}
+          onBack={handleBack}
+        />
+      )}
     </div>
   );
 };

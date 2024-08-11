@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsAuthenticating(true);
       const response = await axios.post(
-        "http://localhost:5000/auth/user",
+        "http://localhost:5000/api/auth/user",
         {},
         { withCredentials: true }
       );

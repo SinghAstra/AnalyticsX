@@ -1,7 +1,14 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
-const RegistrationStage2 = ({ onNext, onBack }) => {
+const RegistrationStage2 = ({
+  onNext,
+  onBack,
+  formData,
+  setFormData,
+  setConfirmationCode,
+}) => {
   const [months] = useState([
     "January",
     "February",
@@ -70,9 +77,18 @@ const RegistrationStage2 = ({ onNext, onBack }) => {
     }
   }, [selectedMonth, selectedDay, selectedYear]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isValid) {
+      const dateOfBirth = {
+        day: selectedDay,
+        month: selectedMonth,
+        year: selectedYear,
+      };
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        dateOfBirth: dateOfBirth,
+      }));
       onNext();
     }
   };

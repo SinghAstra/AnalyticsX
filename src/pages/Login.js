@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/login",
+        "http://localhost:5000/api/auth/login",
         formData,
         { withCredentials: true }
       );
@@ -43,6 +43,10 @@ const Login = () => {
       );
     }
   };
+
+  useEffect(() => {
+    document.title = "Log In • Social UI 2.0";
+  }, []);
 
   return (
     <div className="form-container-wrapper">
@@ -61,7 +65,7 @@ const Login = () => {
           <label className="input-label" htmlFor="email">
             Email
           </label>
-          <MdOutlineMailOutline className="icon" />
+          <MdOutlineMailOutline className="icon-left" />
           <input
             placeholder="name@mail.com"
             id="email"

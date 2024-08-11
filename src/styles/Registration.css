@@ -1,4 +1,5 @@
-.birthday-icon {
+.birthday-icon,
+.mail-icon {
   width: 200px;
   height: 200px;
   object-fit: cover;
@@ -15,4 +16,9 @@
   border: 1px solid grey;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.subtitle a {
+  color: #115dfc;
+  text-decoration: none;
 }
