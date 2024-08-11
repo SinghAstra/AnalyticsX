@@ -17,6 +17,11 @@
   color: var(--color-white);
 }
 
+.btn-secondary {
+  background: var(--color-gray);
+  color: var(--color-white);
+}
+
 .text-bold {
   font-weight: 500;
 }
@@ -33,7 +38,6 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 20vw auto;
-  column-gap: 2rem;
 }
 
 .home-container {
@@ -54,5 +58,11 @@
 @media screen and (max-width: 1024px) {
   .main-container {
     grid-template-columns: 70px auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 0 auto;
   }
 }

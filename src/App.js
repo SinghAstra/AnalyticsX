@@ -10,9 +10,11 @@ import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
-import Profile from "./pages/Profile";
+import ProfilePage from "./pages/ProfilePage";
+import Reels from "./pages/Reels";
 import RegistrationPage from "./pages/RegistrationPage";
 import Responsive from "./pages/Responsive";
+import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 import Theme from "./pages/Theme";
 import "./styles/App.css";
@@ -31,14 +33,16 @@ function App() {
           <Sidebar />
           <Routes>
             <Route exact path="/" element={<Feeds />} />
+            <Route exact path="/search" element={<Search />} />
             <Route exact path="/explore" element={<Explore />} />
-            <Route exact path="/notifications" element={<Notifications />} />
+            <Route exact path="/reels" element={<Reels />} />
             <Route exact path="/messages" element={<Messages />} />
+            <Route exact path="/notifications" element={<Notifications />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />
             <Route exact path="/analytics" element={<Analytics />} />
             <Route exact path="/theme" element={<Theme />} />
             <Route exact path="/settings" element={<Settings />} />
-            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/profile" element={<ProfilePage />} />
             <Route exact path="/create-post" element={<CreatePost />} />
             <Route exact path="/responsive" element={<Responsive />} />
             <Route path="*" element={<Navigate to="/" />} />

@@ -1,0 +1,45 @@
+.profile-page {
+  background-color: yellow;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: grid;
+  /* Responsiveness Required */
+  grid-template-columns: 1fr 2fr;
+  padding: 1.5rem 0;
+}
+
+.profile-header .profile-picture,
+.profile-header .profile-picture-logo {
+  width: 9.375rem;
+  height: 9.375rem;
+  border-radius: 50%;
+}
+
+.profile-header .profile-picture-logo {
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  color: white;
+  margin: 0 auto;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.profile-info .profile-username {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+}
+
+.profile-info .profile-username h1 {
+  font-size: 1.5rem;
+}

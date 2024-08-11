@@ -20,8 +20,18 @@ const Sidebar = () => {
           className={`sidebar-item ${activeItem === "/" ? "active" : ""}`}
           onClick={() => handleSetActiveItem("/")}
         >
-          <i className="uil uil-search"></i>
+          <i className="uil uil-estate"></i>
           <h3>Home</h3>
+        </Link>
+        <Link
+          to="/search"
+          className={`sidebar-item sidebar-item-search ${
+            activeItem === "/search" ? "active" : ""
+          }`}
+          onClick={() => handleSetActiveItem("/search")}
+        >
+          <i className="uil uil-search"></i>
+          <h3>Search</h3>
         </Link>
         <Link
           to="/explore"
@@ -34,16 +44,14 @@ const Sidebar = () => {
           <h3>Explore</h3>
         </Link>
         <Link
-          to="/notifications"
-          className={`sidebar-item ${
-            activeItem === "/notifications" ? "active" : ""
+          to="/reels"
+          className={`sidebar-item sidebar-item-reels ${
+            activeItem === "/reels" ? "active" : ""
           }`}
-          onClick={() => handleSetActiveItem("/notifications")}
+          onClick={() => handleSetActiveItem("/reels")}
         >
-          <i className="uil uil-bell">
-            <small className="notification-count">9+</small>
-          </i>
-          <h3>Notifications</h3>
+          <i className="uil uil-film"></i>
+          <h3>Reels</h3>
         </Link>
         <Link
           to="/messages"
@@ -58,8 +66,30 @@ const Sidebar = () => {
           <h3>Messages</h3>
         </Link>
         <Link
+          to="/notifications"
+          className={`sidebar-item sidebar-item-notifications ${
+            activeItem === "/notifications" ? "active" : ""
+          }`}
+          onClick={() => handleSetActiveItem("/notifications")}
+        >
+          <i className="uil uil-bell">
+            <small className="notification-count">9+</small>
+          </i>
+          <h3>Notifications</h3>
+        </Link>
+        <Link
+          to="/create-post"
+          className={`sidebar-item sidebar-item-create-post ${
+            activeItem === "/create-post" ? "active" : ""
+          }`}
+          onClick={() => handleSetActiveItem("/create-post")}
+        >
+          <i className="uil uil-plus-circle"></i>
+          <h3>Create Post</h3>
+        </Link>
+        <Link
           to="/bookmarks"
-          className={`sidebar-item ${
+          className={`sidebar-item sidebar-item-bookmarks ${
             activeItem === "/bookmarks" ? "active" : ""
           }`}
           onClick={() => handleSetActiveItem("/bookmarks")}
@@ -69,7 +99,7 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/analytics"
-          className={`sidebar-item ${
+          className={`sidebar-item sidebar-item-analytics ${
             activeItem === "/analytics" ? "active" : ""
           }`}
           onClick={() => handleSetActiveItem("/analytics")}
@@ -79,7 +109,9 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/theme"
-          className={`sidebar-item ${activeItem === "/theme" ? "active" : ""}`}
+          className={`sidebar-item sidebar-item-theme ${
+            activeItem === "/theme" ? "active" : ""
+          }`}
           onClick={() => handleSetActiveItem("/theme")}
         >
           <i className="uil uil-palette"></i>
@@ -87,7 +119,7 @@ const Sidebar = () => {
         </Link>
         <Link
           to="/settings"
-          className={`sidebar-item ${
+          className={`sidebar-item sidebar-item-settings ${
             activeItem === "/settings" ? "active" : ""
           }`}
           onClick={() => handleSetActiveItem("/settings")}
@@ -120,13 +152,6 @@ const Sidebar = () => {
         onClick={() => handleSetActiveItem("/create-post")}
       >
         Create Post
-      </Link>
-      <Link
-        to="/create-post"
-        className="plus-create-post-button"
-        onClick={() => handleSetActiveItem("/create-post")}
-      >
-        +
       </Link>
     </div>
   );
