@@ -1,5 +1,5 @@
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/ProfilePage.css";
 
@@ -32,7 +32,7 @@ const ProfilePage = () => {
         <div className="profile-info">
           <div className="profile-username">
             <h1>{user.userName}</h1>
-            <button className="btn btn-secondary edit-profile-button">
+            <button className="btn btn-primary edit-profile-button">
               Edit Profile
             </button>
           </div>
@@ -48,6 +48,7 @@ const ProfilePage = () => {
             </span>
           </div>
           <div className="profile-bio">
+            <strong>{user.fullName}</strong>
             <p>Bio text goes here.</p>
             <a href="website_url" className="profile-website">
               website.com
@@ -56,22 +57,34 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Implement Profile Highlights */}
+      <div className="separator-line"></div>
 
-      {/* Profile Posts */}
-      {/* <section className="profile-posts">
-        <div className="post-grid">
-          <div className="post-item">
-            <img
-              src="path_to_post_image.jpg"
-              alt="Post 1"
-              className="post-image"
-            />
-          </div>
-        </div>
-      </section> */}
+      <div className="profile-navigation">
+        <NavLink to="/profile" className="nav-link" end>
+          <i class="uil uil-table"></i>
+          <h3>Posts</h3>
+        </NavLink>
+        <NavLink to="/profile/feed" className="nav-link">
+          <i class="uil uil-newspaper"></i>
+          <h3>Feed</h3>
+        </NavLink>
+        <NavLink to="/profile/saved" className="nav-link">
+          <i class="uil uil-bookmark"></i>
+          <h3>Saved</h3>
+        </NavLink>
+        <NavLink to="/profile/tagged" className="nav-link">
+          <i class="uil uil-tag"></i>
+          <h3>Tagged</h3>
+        </NavLink>
+      </div>
+
+      <div className="profile-content">
+        <Outlet />
+      </div>
     </div>
   );
 };
 
 export default ProfilePage;
+
+/* Implement Profile Highlights */

@@ -1,5 +1,4 @@
 .profile-page {
-  background-color: yellow;
   width: 95%;
   margin: 0 auto;
 }
@@ -42,4 +41,39 @@
 
 .profile-info .profile-username h1 {
   font-size: 1.5rem;
+}
+
+.profile-info .profile-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.profile-bio {
+  font-size: 0.9rem;
+  line-height: 1rem;
+}
+
+.separator-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background-color: #8b8e98;
+}
+
+.profile-navigation {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  gap: 2.2rem;
+}
+
+.profile-navigation .nav-link {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.profile-navigation .nav-link.active {
+  color: var(--color-primary);
+  transition: all 0.3s;
 }

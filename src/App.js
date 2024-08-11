@@ -1,6 +1,10 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Feeds from "./components/Feeds";
+import FeedSection from "./components/Profile/FeedSection";
+import PostsSection from "./components/Profile/PostsSection";
+import SavedSection from "./components/Profile/SavedSection";
+import TaggedSection from "./components/Profile/TaggedSection";
 import Sidebar from "./components/Sidebar";
 import { AuthContext } from "./context/AuthContext";
 import Analytics from "./pages/Analytics";
@@ -42,10 +46,15 @@ function App() {
             <Route exact path="/analytics" element={<Analytics />} />
             <Route exact path="/theme" element={<Theme />} />
             <Route exact path="/settings" element={<Settings />} />
-            <Route exact path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProfilePage />}>
+              <Route path="/profile/" element={<PostsSection />} />
+              <Route path="/profile/feed" element={<FeedSection />} />
+              <Route path="/profile/saved" element={<SavedSection />} />
+              <Route path="/profile/tagged" element={<TaggedSection />} />
+            </Route>
             <Route exact path="/create-post" element={<CreatePost />} />
             <Route exact path="/responsive" element={<Responsive />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            {/* <Route path="*" element={<Navigate to="/" />} /> */}
           </Routes>
         </div>
       ) : (
