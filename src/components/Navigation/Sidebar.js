@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import "../styles/Sidebar.css";
+import { AuthContext } from "../../context/AuthContext";
+import "../../styles/Sidebar.css";
 
 const Sidebar = () => {
   const location = useLocation();

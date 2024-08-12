@@ -9,7 +9,10 @@
 }
 
 .btn:hover {
-  opacity: 0.8;
+  filter: brightness(0.8);
+}
+.btn:active {
+  transform: scale(0.9);
 }
 
 .btn-primary {

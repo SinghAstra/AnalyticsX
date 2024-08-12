@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Feeds from "./components/Feeds";
+import Sidebar from "./components/Navigation/Sidebar";
 import FeedSection from "./components/Profile/FeedSection";
 import PostsSection from "./components/Profile/PostsSection";
 import SavedSection from "./components/Profile/SavedSection";
 import TaggedSection from "./components/Profile/TaggedSection";
-import Sidebar from "./components/Sidebar";
 import { AuthContext } from "./context/AuthContext";
 import Analytics from "./pages/Analytics";
 import Bookmarks from "./pages/Bookmarks";

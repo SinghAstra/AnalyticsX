@@ -1,117 +1,99 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/CreatePost.css";
 
 const CreatePost = () => {
-  const [postData, setPostData] = useState({
-    location: "India",
-    description: "Just Random Text",
-    picture: null,
-  });
-  const [previewImage, setPreviewImage] = useState(null);
+  const [caption, setCaption] = useState(
+    "This is Caption  @mention1 @mention2 #free #solo"
+  );
+  const [location, setLocation] = useState("Geo Location");
+  const [mediaFiles, setMediaFiles] = useState([]);
+  const [modalShown, toggleModal] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "picture") {
-      const file = files[0];
-      setPostData((prevData) => ({ ...prevData, picture: file }));
-
-      // Generate a preview of the selected image
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPostData((prevData) => ({ ...prevData, [name]: value }));
-    }
+  const handleFileChange = (e) => {
+    setMediaFiles(e.target.files);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("Creating Post.");
+
     const formData = new FormData();
-    formData.append("location", postData.location);
-    formData.append("description", postData.description);
-    formData.append("picture", postData.picture);
+    formData.append("caption", caption);
+    formData.append("location", location);
+
+    for (let i = 0; i < mediaFiles.length; i++) {
+      formData.append("media", mediaFiles[i]);
+    }
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/posts/create-post",
+        "http://localhost:5000/api/posts/create-post",
         formData,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
+
       console.log("Post created:", response.data);
-      setPostData({ location: "", description: "", picture: null });
-      setPreviewImage(null);
     } catch (error) {
-      console.error(
-        "Error creating post:",
-        error.response?.data?.message || error.message
-      );
+      console.log("Error creating post:", error);
     }
   };
 
+  useEffect(() => {
+    document.title = "Create New Post • Social UI 2.0";
+  }, []);
+
   return (
-    <div className="create-post-container">
-      <h2 className="create-post-title">Create New Post</h2>
-      <form className="create-post-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="location" className="form-label">
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            className="form-input"
-            value={postData.location}
-            onChange={handleChange}
-            placeholder="Enter location"
-            autoComplete="off"
-            required
-          />
+    <div>
+      <button
+        className="btn btn-primary btn-create-post"
+        onClick={() => {
+          toggleModal(!modalShown);
+        }}
+      >
+        Create Post
+      </button>
+      {modalShown && (
+        <div
+          className="modal-backdrop"
+          onClick={() => {
+            toggleModal(!modalShown);
+          }}
+        >
+          <div
+            className="create-post-dialog modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Create a New Post</h2>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Caption:</label>
+                <input
+                  type="text"
+                  value={caption}
+                  onChange={(e) => setCaption(e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Location:</label>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Media Files:</label>
+                <input type="file" onChange={handleFileChange} multiple />
+              </div>
+              <button type="submit">Create Post</button>
+            </form>
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="description" className="form-label">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            className="form-input"
-            value={postData.description}
-            onChange={handleChange}
-            placeholder="Enter description"
-            autoComplete="off"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="picture" className="form-label">
-            Picture
-          </label>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            className="form-input"
-            accept="image/*"
-            onChange={handleChange}
-          />
-          {previewImage && (
-            <div className="image-preview">
-              <img
-                src={previewImage}
-                alt="Selected preview"
-                className="preview-image"
-              />
-            </div>
-          )}
-        </div>
-        <button type="submit" className="create-post-button">
-          Create Post
-        </button>
-      </form>
+      )}
     </div>
   );
 };
