@@ -49,13 +49,17 @@
   column-gap: 2rem;
 }
 
-.placeholder {
-  background-color: palevioletred;
-  color: var(--color-white);
-}
-.placeholder h1 {
-  font-size: 20rem;
-  text-transform: rotate(90deg);
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
 @media screen and (max-width: 1024px) {

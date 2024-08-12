@@ -3,29 +3,3 @@
   height: fit-content;
   margin: 200px auto;
 }
-
-.create-post-dialog {
-  margin: 10% auto;
-  padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
-}
-
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-
-.modal-content {
-  width: 400px;
-  min-height: 200px;
-  background-color: white;
-  padding: 25px;
-}

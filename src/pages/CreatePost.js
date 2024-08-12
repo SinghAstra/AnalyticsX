@@ -1,17 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import AddCaptionModal from "../components/CreatePost/AddCaptionModal";
+import SelectMediaModal from "../components/CreatePost/SelectMediaModal";
 import "../styles/CreatePost.css";
 
 const CreatePost = () => {
+  const [currentStage, setCurrentStage] = useState(1);
   const [caption, setCaption] = useState(
     "This is Caption  @mention1 @mention2 #free #solo"
   );
   const [location, setLocation] = useState("Geo Location");
   const [mediaFiles, setMediaFiles] = useState([]);
-  const [modalShown, toggleModal] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
 
-  const handleFileChange = (e) => {
-    setMediaFiles(e.target.files);
+  const handleNext = () => {
+    setCurrentStage(2);
+  };
+
+  const handleBack = () => {
+    setCurrentStage(1);
   };
 
   const handleSubmit = async (e) => {
@@ -50,49 +57,30 @@ const CreatePost = () => {
     <div>
       <button
         className="btn btn-primary btn-create-post"
-        onClick={() => {
-          toggleModal(!modalShown);
-        }}
+        onClick={() => setModalShown(true)}
       >
         Create Post
       </button>
-      {modalShown && (
-        <div
-          className="modal-backdrop"
-          onClick={() => {
-            toggleModal(!modalShown);
-          }}
-        >
-          <div
-            className="create-post-dialog modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2>Create a New Post</h2>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label>Caption:</label>
-                <input
-                  type="text"
-                  value={caption}
-                  onChange={(e) => setCaption(e.target.value)}
-                />
-              </div>
-              <div>
-                <label>Location:</label>
-                <input
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </div>
-              <div>
-                <label>Media Files:</label>
-                <input type="file" onChange={handleFileChange} multiple />
-              </div>
-              <button type="submit">Create Post</button>
-            </form>
-          </div>
-        </div>
+
+      {modalShown && currentStage === 1 && (
+        <SelectMediaModal
+          mediaFiles={mediaFiles}
+          setMediaFiles={setMediaFiles}
+          onNext={handleNext}
+          setModalShown={setModalShown}
+        />
+      )}
+
+      {modalShown && currentStage === 2 && (
+        <AddCaptionModal
+          caption={caption}
+          setCaption={setCaption}
+          location={location}
+          setLocation={setLocation}
+          onBack={handleBack}
+          onSubmit={handleSubmit}
+          setModalShown={setModalShown}
+        />
       )}
     </div>
   );
