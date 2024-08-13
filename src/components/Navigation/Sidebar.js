@@ -71,7 +71,7 @@ const Sidebar = () => {
           <i className="uil uil-setting"></i>
           <h3>Settings</h3>
         </NavLink>
-        <NavLink to="/profile" className="sidebar-item">
+        <NavLink to={`/${user.userName}`} className="sidebar-item">
           {user.profilePicture ? (
             <div className="user-profile-picture">
               <img src={user.profilePicture} alt="user profile" />

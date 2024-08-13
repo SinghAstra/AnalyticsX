@@ -13,6 +13,7 @@ import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
+import PageNotFound from "./pages/PageNotFound";
 import ProfilePage from "./pages/ProfilePage";
 import Reels from "./pages/Reels";
 import RegistrationPage from "./pages/RegistrationPage";
@@ -45,11 +46,11 @@ function App() {
             <Route exact path="/analytics" element={<Analytics />} />
             <Route exact path="/theme" element={<Theme />} />
             <Route exact path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<ProfilePage />}>
-              <Route path="/profile/" element={<PostsSection />} />
-              <Route path="/profile/feed" element={<FeedSection />} />
-              <Route path="/profile/saved" element={<SavedSection />} />
-              <Route path="/profile/tagged" element={<TaggedSection />} />
+            <Route path="/:username" element={<ProfilePage />}>
+              <Route path="/:username/" element={<PostsSection />} />
+              <Route path="/:username/feed" element={<FeedSection />} />
+              <Route path="/:username/saved" element={<SavedSection />} />
+              <Route path="/:username/tagged" element={<TaggedSection />} />
             </Route>
             <Route exact path="/responsive" element={<Responsive />} />
             {/* <Route path="*" element={<Navigate to="/" />} /> */}

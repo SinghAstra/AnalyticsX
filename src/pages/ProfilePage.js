@@ -1,16 +1,47 @@
-import React, { useContext, useEffect } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import "../styles/ProfilePage.css";
+import PageNotFound from "./PageNotFound";
 
 const ProfilePage = () => {
-  const { user } = useContext(AuthContext);
+  const { username } = useParams();
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   console.log("user is ", user);
 
   useEffect(() => {
-    document.title = `${user.fullName} (@${user.userName}) • Social UI 2.0`;
-  }, [user.fullName, user.userName]);
+    if (user) {
+      document.title = `${user.fullName} (@${user.userName}) • Social UI 2.0`;
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${username}`,
+          { withCredentials: true }
+        );
+        setUser(response.data);
+        setError(null);
+      } catch (err) {
+        setError("User not found");
+        setUser(null);
+      }
+    };
+
+    fetchUserProfile();
+  }, [username]);
+
+  if (error) {
+    return <PageNotFound />;
+  }
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-page">
@@ -38,21 +69,23 @@ const ProfilePage = () => {
           </div>
           <div className="profile-stats">
             <span className="posts-count">
-              <strong>100</strong> posts
+              <strong>{user.postCount}</strong> posts
             </span>
             <span className="followers-count">
-              <strong>200k</strong> followers
+              <strong>{user.followers.length}</strong> followers
             </span>
             <span className="following-count">
-              <strong>180</strong> following
+              <strong>{user.following.length}</strong> following
             </span>
           </div>
           <div className="profile-bio">
             <strong>{user.fullName}</strong>
-            <p>Bio text goes here.</p>
-            <a href="website_url" className="profile-website">
-              website.com
-            </a>
+            {user.bio && <p>{user.bio}</p>}
+            {user.website && (
+              <a href={user.website} className="profile-website">
+                {user.website}
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -60,20 +93,20 @@ const ProfilePage = () => {
       <div className="separator-line"></div>
 
       <div className="profile-navigation">
-        <NavLink to="/profile" className="nav-link" end>
-          <i class="uil uil-table"></i>
+        <NavLink to={`/${user.userName}`} className="nav-link" end>
+          <i className="uil uil-table"></i>
           <h3>Posts</h3>
         </NavLink>
-        <NavLink to="/profile/feed" className="nav-link">
-          <i class="uil uil-newspaper"></i>
+        <NavLink to={`/${user.userName}/feed`} className="nav-link">
+          <i className="uil uil-newspaper"></i>
           <h3>Feed</h3>
         </NavLink>
-        <NavLink to="/profile/saved" className="nav-link">
-          <i class="uil uil-bookmark"></i>
+        <NavLink to={`/${user.userName}/saved`} className="nav-link">
+          <i className="uil uil-bookmark"></i>
           <h3>Saved</h3>
         </NavLink>
-        <NavLink to="/profile/tagged" className="nav-link">
-          <i class="uil uil-tag"></i>
+        <NavLink to={`/${user.userName}/tagged`} className="nav-link">
+          <i className="uil uil-tag"></i>
           <h3>Tagged</h3>
         </NavLink>
       </div>

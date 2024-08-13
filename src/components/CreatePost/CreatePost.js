@@ -37,8 +37,6 @@ const CreatePost = ({ modalShown, setModalShown }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Creating Post.");
-
     const postData = new FormData();
     postData.append("caption", formData.caption);
     postData.append("location", formData.location);
@@ -47,8 +45,6 @@ const CreatePost = ({ modalShown, setModalShown }) => {
     for (let i = 0; i < formData.mediaFiles.length; i++) {
       postData.append("media", formData.mediaFiles[i]);
     }
-
-    console.log("formData.mediaFiles is ", formData.mediaFiles);
 
     setModalShown(false);
     setCurrentStage(1);
@@ -76,8 +72,6 @@ const CreatePost = ({ modalShown, setModalShown }) => {
   useEffect(() => {
     document.title = "Create New Post • Social UI 2.0";
   }, []);
-
-  console.log("mediaPreview is ", mediaPreview);
 
   return (
     <div>
