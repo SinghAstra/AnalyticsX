@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import "../../styles/SelectMediaModal.css";
 
-const SelectMediaModal = ({ setMediaFiles, onNext, setModalShown }) => {
+const SelectMediaModal = ({ handleMediaChange, onNext, setModalShown }) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
-    setMediaFiles(e.target.files);
+    handleMediaChange(e.target.files);
     onNext();
   };
 

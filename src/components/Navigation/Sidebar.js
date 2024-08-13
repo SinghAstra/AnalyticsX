@@ -1,16 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/Sidebar.css";
+import CreatePost from "../CreatePost/CreatePost";
 
 const Sidebar = () => {
-  const location = useLocation();
   const { user } = useContext(AuthContext);
-  const [activeItem, setActiveItem] = useState(location.pathname);
-
-  const handleSetActiveItem = (path) => {
-    setActiveItem(path);
-  };
+  const [createPostModal, setCreatePostModal] = useState(false);
 
   return (
     <div className="sidebar-container">
@@ -46,13 +42,13 @@ const Sidebar = () => {
           </i>
           <h3>Notifications</h3>
         </NavLink>
-        <NavLink
-          to="/create-post"
+        <div
           className="sidebar-item sidebar-item-create-post"
+          onClick={() => setCreatePostModal(true)}
         >
           <i className="uil uil-plus-circle"></i>
           <h3>Create Post</h3>
-        </NavLink>
+        </div>
         <NavLink
           to="/bookmarks"
           className="sidebar-item sidebar-item-bookmarks"
@@ -88,13 +84,16 @@ const Sidebar = () => {
           <h3>Profile</h3>
         </NavLink>
       </div>
-      <Link
-        to="/create-post"
+      <div
         className="btn btn-primary create-post-button"
-        onClick={() => handleSetActiveItem("/create-post")}
+        onClick={() => setCreatePostModal(true)}
       >
         Create Post
-      </Link>
+      </div>
+      <CreatePost
+        modalShown={createPostModal}
+        setModalShown={setCreatePostModal}
+      />
     </div>
   );
 };

@@ -9,7 +9,6 @@ import TaggedSection from "./components/Profile/TaggedSection";
 import { AuthContext } from "./context/AuthContext";
 import Analytics from "./pages/Analytics";
 import Bookmarks from "./pages/Bookmarks";
-import CreatePost from "./pages/CreatePost";
 import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
@@ -52,7 +51,6 @@ function App() {
               <Route path="/profile/saved" element={<SavedSection />} />
               <Route path="/profile/tagged" element={<TaggedSection />} />
             </Route>
-            <Route exact path="/create-post" element={<CreatePost />} />
             <Route exact path="/responsive" element={<Responsive />} />
             {/* <Route path="*" element={<Navigate to="/" />} /> */}
           </Routes>
