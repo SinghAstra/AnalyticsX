@@ -1,6 +1,7 @@
 .profile-page {
-  width: 95%;
+  padding: 0 5%;
   margin: 0 auto;
+  width: 100%;
 }
 
 .profile-header {
@@ -76,4 +77,42 @@
 .profile-navigation .nav-link.active {
   color: var(--color-primary);
   transition: all 0.3s;
+}
+
+@media screen and (min-width: 769px) {
+  .profile-page {
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile-header .profile-picture,
+  .profile-header .profile-picture-logo {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+  }
+
+  .profile-header .profile-picture-logo {
+    font-size: 4rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile-header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .profile-info .profile-username .btn {
+    display: none;
+  }
+
+  .profile-navigation a:nth-child(2) {
+    display: none;
+  }
 }
