@@ -1,21 +1,59 @@
 import {
+  blueTheme,
+  neutralTheme,
+  orangeTheme,
+  redTheme,
+  slateTheme,
+  violetTheme,
+} from "@/app/actions/theme";
+import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Palette } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ThemeChange = () => {
+  const storedThemeString = localStorage?.getItem("AutoForm-Theme");
+  const initialTheme = storedThemeString
+    ? JSON.parse(storedThemeString)
+    : slateTheme;
+
+  const [theme, setTheme] = useState(initialTheme);
+
+  useEffect(() => {
+    Object.entries(theme).forEach(([key, value]) => {
+      if (typeof value === "string") {
+        document.documentElement.style.setProperty(`--${key}`, value as string);
+      }
+    });
+  }, [theme]);
+
   const handleChange = (e) => {
-    console.log("e is ", e);
-    // TODO: Implement theme switching logic
+    const selectedTheme = e.target.textContent;
+    if (selectedTheme === "Slate") {
+      setTheme(slateTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(slateTheme));
+    } else if (selectedTheme === "Violet") {
+      setTheme(violetTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(violetTheme));
+    } else if (selectedTheme === "Red") {
+      setTheme(redTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(redTheme));
+    } else if (selectedTheme == "Blue") {
+      setTheme(blueTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(blueTheme));
+    } else if (selectedTheme == "Orange") {
+      setTheme(orangeTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(orangeTheme));
+    } else if (selectedTheme == "Neutral") {
+      setTheme(neutralTheme);
+      localStorage.setItem("AutoForm-Theme", JSON.stringify(neutralTheme));
+    }
   };
 
   return (

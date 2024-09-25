@@ -1,4 +1,4 @@
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import ThemeChange from "./ThemeChange";
 const Header = () => {
   const session = useSession();
   return (
-    <nav className="border-gray-200 px-4 py-3 border bottom-1">
+    <nav className=" border-b-[.25px] border-[#3f3e3e] px-4 py-3">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
         <Link href="/">
           <h1 className="md:text-2xl lg:text-2xl">AutoForm</h1>
@@ -34,6 +34,10 @@ const Header = () => {
                 />
               )} */}
               {/* <SignOut /> */}
+              <Button type="submit">
+                <LogOut className="md:hidden" />
+                <span className="hidden md:block">Sign out</span>
+              </Button>
             </div>
           ) : (
             <div className="flex">
