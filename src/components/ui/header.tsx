@@ -1,7 +1,10 @@
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
 const Header = () => {
+  const session = useSession();
+  console.log("session is ", session);
   return (
     <nav className="flex flex-wrap justify-between items-center border-gray-200 border bottom-1 px-4 py-3">
       <div className="mx-auto max-w-screen-xl ">
