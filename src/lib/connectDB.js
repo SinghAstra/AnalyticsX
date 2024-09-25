@@ -10,8 +10,6 @@ if (!DATABASE_URL) {
 
 let cached = global.mongoose;
 
-console.log("global.mongoose is ", cached);
-
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }

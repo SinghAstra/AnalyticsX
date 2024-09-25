@@ -1,20 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "../../../lib/connectDB";
-import user from "../../../models/User.js";
+import User from "../../../models/User.js";
 
 export async function POST(req: NextRequest) {
-  await connectDB();
-
-  const { name, age } = req.body;
-  const person = new user({
-    name: name,
-    age: age,
-  });
-  await person.save();
-  console.log("inside api", name, age);
-  NextResponse.json({ done: true }, { status: 200 });
+  try {
+    await connectDB();
+    const body = await req.json();
+    const { name, age } = body;
+    const person = new User({
+      name: name,
+      age: age,
+    });
+    await person.save();
+    console.log("inside api", name, age);
+    return NextResponse.json({ done: true }, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({ err });
+  }
 }
 
-export async function GET(req: NextRequest) {
-  return NextResponse.json({ message: "Hello there !" }, { status: 200 });
+export async function GET() {
+  await connectDB();
+  const users = await User.find({});
+  return NextResponse.json(
+    { message: "Hello there !", users },
+    { status: 200 }
+  );
 }
