@@ -1,6 +1,6 @@
-import client from "@/lib/mongoDB";
+import client from "@/db/index";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
@@ -13,8 +13,8 @@ export const authOptions = {
   ],
   secret: process.env.NEXT_AUTH_SECRET ?? "secret",
   callbacks: {
-    async signIn(params) {
-      if (!params.user.email) {
+    async signIn({ user }: { user: User }) {
+      if (!user.email) {
         return false;
       }
       return true;

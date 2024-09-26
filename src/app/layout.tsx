@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { Outfit } from "next/font/google";
 import "./globals.css";
+
+const inter = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AutoForm",
-  description: "Build & Publish Form.",
+  description: "Build & Share Form with AI",
 };
 
 export default function RootLayout({
@@ -13,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
