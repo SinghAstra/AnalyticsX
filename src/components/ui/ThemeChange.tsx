@@ -1,3 +1,4 @@
+"use client";
 import {
   blueTheme,
   neutralTheme,
@@ -18,7 +19,10 @@ import { Palette } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const ThemeChange = () => {
-  const storedThemeString = localStorage?.getItem("AutoForm-Theme");
+  const storedThemeString =
+    typeof window !== "undefined"
+      ? localStorage?.getItem("AutoForm-Theme")
+      : null;
   const initialTheme = storedThemeString
     ? JSON.parse(storedThemeString)
     : slateTheme;
@@ -33,8 +37,8 @@ const ThemeChange = () => {
     });
   }, [theme]);
 
-  const handleChange = (e) => {
-    const selectedTheme = e.target.textContent;
+  const handleChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    const selectedTheme = (e.target as HTMLElement).textContent;
     if (selectedTheme === "Slate") {
       setTheme(slateTheme);
       localStorage.setItem("AutoForm-Theme", JSON.stringify(slateTheme));
