@@ -4,14 +4,24 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { signIn, useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { useFormState } from "react-dom";
+import { generateForm } from "../actions/generateForm";
+import SubmitButton from "./SubmitButton";
+
+const initialState = {
+  message: "",
+};
 
 const FormGenerator = () => {
+  const [state, formAction] = useFormState(generateForm, initialState);
   const [open, setOpen] = useState(false);
   const session = useSession();
 
@@ -25,15 +35,13 @@ const FormGenerator = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="default"
-          onClick={handleGenerateForm}
-          className="cursor-pointer"
-        >
-          Open Modal
-        </Button>
-      </DialogTrigger>
+      <Button
+        variant="default"
+        onClick={handleGenerateForm}
+        className="cursor-pointer"
+      >
+        Get Started
+      </Button>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create New Form</DialogTitle>
