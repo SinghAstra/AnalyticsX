@@ -36,29 +36,17 @@ export async function generateForm(
     const jsonString = text.replace(/^```json\s*([\s\S]*)\s*```$/g, "$1");
     const responseObject = JSON.parse(jsonString);
 
-    const dbFormId = await saveForm({
+    const formId = await saveForm({
       user_prompt: data.description,
       name: responseObject.name,
       description: responseObject.description,
       questions: responseObject.questions,
     });
-
-    console.log("Generated Form Data", responseObject);
-
-    {
-      responseObject.questions.map((question) => {
-        console.log(
-          "question.fieldOptions is ",
-          JSON.stringify(question.fieldOptions)
-        );
-      });
-    }
-
     revalidatePath("/");
 
     return {
       message: "success",
-      data: { formId: "dbFormId" },
+      data: { formId: formId.toString() },
     };
   } catch (err) {
     console.log(err);

@@ -25,6 +25,8 @@ const FormGenerator = () => {
   const [open, setOpen] = useState(false);
   const session = useSession();
 
+  console.log("state --formGenerator is ", state);
+
   const handleGenerateForm = () => {
     if (session.data?.user) {
       setOpen(true);

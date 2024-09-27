@@ -1,4 +1,4 @@
-import client from "@/db/index";
+import client from "@/db/clientPromise";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
