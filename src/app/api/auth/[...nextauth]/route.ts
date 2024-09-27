@@ -1,7 +1,17 @@
 import client from "@/db/index";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import NextAuth, { User } from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+  }
+
+  interface Session {
+    user: User;
+  }
+}
 
 export const authOptions = {
   adapter: MongoDBAdapter(client),
@@ -18,6 +28,12 @@ export const authOptions = {
         return false;
       }
       return true;
+    },
+    async session({ session, user }: { session: Session; user: User }) {
+      if (user && session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
     },
   },
 };
