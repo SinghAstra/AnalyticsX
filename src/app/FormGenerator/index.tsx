@@ -11,12 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { signIn, useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { generateForm } from "../actions/generateForm";
 import SubmitButton from "./SubmitButton";
+import { useRouter } from "next/navigation";
 
-const initialState = {
+const initialState: {
+  message: string;
+  data?: any;
+} = {
   message: "",
 };
 
@@ -24,6 +28,7 @@ const FormGenerator = () => {
   const [state, formAction] = useFormState(generateForm, initialState);
   const [open, setOpen] = useState(false);
   const session = useSession();
+  const router = useRouter();
 
   console.log("state --formGenerator is ", state);
 
@@ -34,6 +39,14 @@ const FormGenerator = () => {
       signIn();
     }
   };
+
+  useEffect(() => {
+    console.log("State", state);
+    if (state?.message == "success") {
+      setOpen(false);
+      router.push(`/forms/edit/${state.data.formId}`);
+    }
+  }, [state?.message]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

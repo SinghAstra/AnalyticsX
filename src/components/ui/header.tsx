@@ -10,8 +10,8 @@ import ThemeChange from "./ThemeChange";
 
 // TODO :Skeleton for authentication
 
+export const session = useSession();
 const Header = () => {
-  const session = useSession();
   return (
     <nav className=" border-b-[.25px] border-[#3f3e3e] px-4 py-3">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">

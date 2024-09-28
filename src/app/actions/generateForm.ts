@@ -36,12 +36,16 @@ export async function generateForm(
     const jsonString = text.replace(/^```json\s*([\s\S]*)\s*```$/g, "$1");
     const responseObject = JSON.parse(jsonString);
 
+    console.log("responseObject is ", responseObject);
+
     const formId = await saveForm({
       user_prompt: data.description,
       name: responseObject.name,
       description: responseObject.description,
       questions: responseObject.questions,
     });
+
+    console.log("formId is ", formId);
     revalidatePath("/");
 
     return {
