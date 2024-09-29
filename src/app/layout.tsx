@@ -1,4 +1,5 @@
 "use client";
+import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextAuthProvider>
           <SessionProvider>{children}</SessionProvider>
+          <Toaster />
         </NextAuthProvider>
       </body>
     </html>

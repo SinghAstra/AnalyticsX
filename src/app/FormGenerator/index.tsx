@@ -9,16 +9,27 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useSessionContext } from "@/context/SessionContext";
+import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import SubmitButton from "./SubmitButton";
 
 const FormGenerator = () => {
   const [open, setOpen] = useState(false);
   const [generatingForm, setGeneratingForm] = useState(false);
-  const router = useRouter();
+  const [formData, setFormData] = useState({
+    description: "",
+  });
   const { session } = useSessionContext();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleGetStarted = () => {
     if (session?.user) {
@@ -28,10 +39,21 @@ const FormGenerator = () => {
     }
   };
 
-  const handleGenerateForm = () => {};
+  const validateForm = () => {
+    if (!formData.description.trim()) {
+      toast({
+        description: "Please enter a valid description!",
+      });
+      return false;
+    }
+    return true;
+  };
 
-  // setOpen(false);
-  // router.push(`/forms/edit/${state.data.formId}`);
+  const handleGenerateForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -50,8 +72,9 @@ const FormGenerator = () => {
           <Textarea
             id="description"
             name="description"
-            required
             placeholder="Share what your form is about, who is it for, and what information you would like to collect. And AI will do the rest!"
+            value={formData.description}
+            onChange={handleChange}
           />
           <DialogFooter>
             <Button type="submit" disabled={generatingForm}>
@@ -65,3 +88,6 @@ const FormGenerator = () => {
 };
 
 export default FormGenerator;
+
+// setOpen(false);
+// router.push(`/forms/edit/${state.data.formId}`);
