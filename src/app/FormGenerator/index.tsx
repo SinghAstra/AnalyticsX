@@ -3,56 +3,41 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { signIn, useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { generateForm } from "../actions/generateForm";
-import SubmitButton from "./SubmitButton";
+import { useSessionContext } from "@/context/SessionContext";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-const initialState: {
-  message: string;
-  data?: any;
-} = {
-  message: "",
-};
+import React, { useState } from "react";
+import SubmitButton from "./SubmitButton";
 
 const FormGenerator = () => {
-  const [state, formAction] = useFormState(generateForm, initialState);
   const [open, setOpen] = useState(false);
-  const session = useSession();
+  const [generatingForm, setGeneratingForm] = useState(false);
   const router = useRouter();
+  const { session } = useSessionContext();
 
-  console.log("state --formGenerator is ", state);
-
-  const handleGenerateForm = () => {
-    if (session.data?.user) {
+  const handleGetStarted = () => {
+    if (session?.user) {
       setOpen(true);
     } else {
       signIn();
     }
   };
 
-  useEffect(() => {
-    console.log("State", state);
-    if (state?.message == "success") {
-      setOpen(false);
-      router.push(`/forms/edit/${state.data.formId}`);
-    }
-  }, [state?.message]);
+  const handleGenerateForm = () => {};
+
+  // setOpen(false);
+  // router.push(`/forms/edit/${state.data.formId}`);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
         variant="default"
-        onClick={handleGenerateForm}
+        onClick={handleGetStarted}
         className="cursor-pointer"
       >
         Get Started
@@ -61,7 +46,7 @@ const FormGenerator = () => {
         <DialogHeader>
           <DialogTitle>Create New Form</DialogTitle>
         </DialogHeader>
-        <form action={formAction} className="grid gap-4 py-4">
+        <form className="grid gap-4 py-4" onSubmit={handleGenerateForm}>
           <Textarea
             id="description"
             name="description"
@@ -69,7 +54,9 @@ const FormGenerator = () => {
             placeholder="Share what your form is about, who is it for, and what information you would like to collect. And AI will do the rest!"
           />
           <DialogFooter>
-            <SubmitButton />
+            <Button type="submit" disabled={generatingForm}>
+              {generatingForm ? "Generating..." : "Generate Form"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
