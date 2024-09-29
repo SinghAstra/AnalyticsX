@@ -1,4 +1,5 @@
 "use client";
+import { session } from "@/components/ui/header";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -21,7 +22,6 @@ interface FormInfo {
 
 const EditForm = () => {
   const { formId } = useParams();
-  const { data: session, status } = useSession();
   const userId = session?.user?.id;
   const [formInfo, setFormInfo] = useState(null);
   const [loading, setLoading] = useState(true);
