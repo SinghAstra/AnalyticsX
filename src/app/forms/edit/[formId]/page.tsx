@@ -1,7 +1,6 @@
 "use client";
-import { session } from "@/components/ui/header";
+import { useSessionContext } from "@/context/SessionContext";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -22,6 +21,7 @@ interface FormInfo {
 
 const EditForm = () => {
   const { formId } = useParams();
+  const { session } = useSessionContext();
   const userId = session?.user?.id;
   const [formInfo, setFormInfo] = useState(null);
   const [loading, setLoading] = useState(true);
