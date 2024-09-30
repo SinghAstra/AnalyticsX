@@ -64,7 +64,7 @@ const ThemeChange = () => {
     <Menubar onClick={(e) => handleChange(e)}>
       <MenubarMenu>
         <MenubarTrigger>
-          <span className="flex items-center cursor-pointer z-10">
+          <span className="flex items-center cursor-pointer">
             <span className="md:mr-2">
               <Palette />
             </span>

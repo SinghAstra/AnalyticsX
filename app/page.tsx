@@ -1,5 +1,5 @@
+import Header from "@/components/Header";
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
-import Header from "@/components/ui/Header";
 import { SessionProvider } from "@/context/SessionContext";
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
 
