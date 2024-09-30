@@ -1,14 +1,13 @@
-"use client";
 import { Icons } from "@/components/Icons";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { SessionContext } from "@/context/SessionContext";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React, { useContext } from "react";
+import GetStarted from "./GetStarted";
+import GithubStars from "./GithubStars";
 
 const HomePage = () => {
-  const { isAuthenticating } = useContext(SessionContext);
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
@@ -29,19 +28,7 @@ const HomePage = () => {
             together.
           </p>
           <div className="flex items-center justify-center gap-4">
-            {isAuthenticating ? (
-              <Button variant={"outline"} size="lg">
-                <Icons.spinner className="animate-spin mr-2" />
-                Wait...
-              </Button>
-            ) : (
-              <Link
-                href="/login"
-                className={cn(buttonVariants({ size: "lg" }))}
-              >
-                Get Started
-              </Link>
-            )}
+            <GetStarted />
             <Link
               href={siteConfig.links.github}
               target="_blank"
@@ -51,6 +38,28 @@ const HomePage = () => {
               GitHub
             </Link>
           </div>
+        </div>
+      </section>
+      <section id="open-source" className="container py-8 md:py-12 lg:py-24">
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
+          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+            Proudly Open Source
+          </h2>
+          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            {siteConfig.name} is open source and powered by open source
+            software. <br />
+            The code is available on{" "}
+            <Link
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-4"
+            >
+              GitHub
+            </Link>
+            .
+          </p>
+          <GithubStars />
         </div>
       </section>
     </>
