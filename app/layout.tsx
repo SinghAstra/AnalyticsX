@@ -1,3 +1,4 @@
+import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
 import { SessionProvider } from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
@@ -18,9 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`min-h-screen bg-background antialiased relative ${inter.className}`}
+      >
         <NextAuthProvider>
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider>
+            <GridSmallBackground />
+            {children}
+          </SessionProvider>
         </NextAuthProvider>
       </body>
     </html>
