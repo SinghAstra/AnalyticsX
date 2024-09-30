@@ -37,4 +37,17 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  body {
+    scrollbar-width: none;
+  }
+
+  body::-ms-scrollbar {
+    display: none;
+  }
 }

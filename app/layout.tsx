@@ -1,5 +1,6 @@
-import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
+import { SessionProvider } from "@/context/SessionContext";
 import type { Metadata } from "next";
+import { SessionProvider as NextAuthProvider } from "next-auth/react";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -17,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <NextAuthProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </NextAuthProvider>
+      </body>
     </html>
   );
 }
