@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import ThemeChange from "./ThemeChange";
 
 const Header = () => {
   return (
@@ -8,6 +9,7 @@ const Header = () => {
         <Link href="/">
           <h1 className="md:text-2xl lg:text-2xl">AutoForm</h1>
         </Link>
+        <ThemeChange />
       </div>
     </nav>
   );
