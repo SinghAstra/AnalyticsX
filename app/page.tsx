@@ -1,15 +1,20 @@
+"use client";
 import { Icons } from "@/components/Icons";
-import MainNav from "@/components/MainNav";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
 import { siteConfig } from "@/config/site";
+import { SessionContext } from "@/context/SessionContext";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useContext } from "react";
+import HomeNav from "./HomeNav";
 
-export default async function Home() {
+export default function Home() {
+  const { isAuthenticating } = useContext(SessionContext);
+
   return (
     <div className="min-h-screen flex flex-col relative">
-      <MainNav />
+      <HomeNav />
       <GridSmallBackground />
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 z-10">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
@@ -28,10 +33,20 @@ export default async function Home() {
             open sourcing everything. Follow along as we figure this out
             together.
           </p>
-          <div className="space-x-4">
-            <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-              Get Started
-            </Link>
+          <div className="flex items-center justify-center gap-4">
+            {isAuthenticating ? (
+              <Button variant={"outline"} size="lg">
+                <Icons.spinner className="animate-spin mr-2" />
+                Wait...
+              </Button>
+            ) : (
+              <Link
+                href="/login"
+                className={cn(buttonVariants({ size: "lg" }))}
+              >
+                Get Started
+              </Link>
+            )}
             <Link
               href={siteConfig.links.github}
               target="_blank"
