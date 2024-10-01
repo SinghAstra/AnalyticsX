@@ -12,15 +12,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { SessionContext } from "@/context/SessionContext";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { generateForm } from "../actions/generateForm";
+import { navigateToEditForm } from "../actions/navigateToForm";
 
 const initialState: {
+  status: string;
   message: string;
   data?: any;
 } = {
+  status: "",
   message: "",
 };
 
@@ -41,7 +43,6 @@ const GetStarted = () => {
   const { toast } = useToast();
 
   console.log("state --getStarted is ", state);
-  // display state.message as toast
 
   const handleGetStarted = () => {
     if (session?.user) {
@@ -53,16 +54,15 @@ const GetStarted = () => {
 
   useEffect(() => {
     console.log("State", state);
-    if (state?.message == "success") {
-      console.log("state.data.formId is ", state.data.formId);
+    if (state?.status == "success") {
       setOpen(false);
-      redirect(`/forms/edit/${state.data.formId}`);
-    } else {
+      navigateToEditForm(state?.data?.formId);
+    }
+    if (state?.status == "error") {
       toast({
         description: state?.message,
       });
     }
-    console.log(state?.data);
   }, [state?.message]);
 
   return isAuthenticating ? (

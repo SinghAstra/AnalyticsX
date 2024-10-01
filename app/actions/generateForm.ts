@@ -21,6 +21,7 @@ export async function generateForm(
 
   if (!parse.success) {
     return {
+      status: "error",
       message: "Enter a valid description",
     };
   }
@@ -42,11 +43,13 @@ export async function generateForm(
     });
     console.log("dbFormId is ", dbFormId);
     return {
-      message: "success",
+      status: "success",
+      message: "Form created Successfully.",
       data: { formId: dbFormId },
     };
   } catch (error) {
     return {
+      status: "error",
       message: "Failed to create form",
     };
   }

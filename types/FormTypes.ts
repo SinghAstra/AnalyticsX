@@ -15,4 +15,5 @@ export interface FormData {
   description: string;
   questions: Question[];
   userId?: string;
+  published?: boolean;
 }
