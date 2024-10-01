@@ -1,4 +1,4 @@
-import { HomeConfig } from "@/types";
+import { HomeConfig } from "@/types/Index";
 
 export const homeConfig: HomeConfig = {
   mainNav: [

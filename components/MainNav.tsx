@@ -1,7 +1,7 @@
 "use client";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { NavItem } from "@/types";
+import { NavItem } from "@/types/Index";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Icons } from "./Icons";

@@ -42,31 +42,13 @@ const GetStarted = () => {
   const { toast } = useToast();
 
   console.log("state --getStarted is ", state);
+  // display state.message as toast
 
   const handleGetStarted = () => {
     if (session?.user) {
       setOpen(true);
     } else {
       signIn();
-    }
-  };
-
-  const validateForm = (formData: FormData) => {
-    const description = formData.get("description")?.toString().trim();
-    if (!description) {
-      toast({
-        description: "Please enter a valid description!",
-      });
-      return false;
-    }
-    return true;
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    if (validateForm(formData)) {
-      formAction(formData);
     }
   };
 
@@ -84,7 +66,7 @@ const GetStarted = () => {
         <DialogHeader>
           <DialogTitle>Create New Form</DialogTitle>
         </DialogHeader>
-        <form className="grid gap-4 py-4" onSubmit={handleFormSubmit}>
+        <form className="grid gap-4 py-4" action={formAction}>
           <Textarea
             id="description"
             name="description"

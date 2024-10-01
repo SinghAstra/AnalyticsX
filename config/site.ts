@@ -1,4 +1,4 @@
-import { SiteConfig } from "@/types";
+import { SiteConfig } from "@/types/Index";
 
 export const siteConfig: SiteConfig = {
   name: "AutoForm",
