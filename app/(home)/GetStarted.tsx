@@ -1,6 +1,6 @@
 "use client";
 import { Icons } from "@/components/Icons";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,28 +11,37 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { SessionContext } from "@/context/SessionContext";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 // import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { generateForm } from "../actions/generateForm";
+
+const initialState: {
+  message: string;
+  data?: any;
+} = {
+  message: "",
+};
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending}>
+      {pending && <Icons.spinner className="animate-spin mr-2" />}
+      {pending ? "Generating..." : "Generate Form"}
+    </Button>
+  );
+}
 
 const GetStarted = () => {
+  const [state, formAction] = useFormState(generateForm, initialState);
   const [open, setOpen] = useState(false);
-  const [generatingForm, setGeneratingForm] = useState(false);
-  const [formData, setFormData] = useState({
-    description: "",
-  });
   const { session, isAuthenticating } = useContext(SessionContext);
   //   const router = useRouter();
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  console.log("state --getStarted is ", state);
 
   const handleGetStarted = () => {
     if (session?.user) {
@@ -42,8 +51,9 @@ const GetStarted = () => {
     }
   };
 
-  const validateForm = () => {
-    if (!formData.description.trim()) {
+  const validateForm = (formData: FormData) => {
+    const description = formData.get("description")?.toString().trim();
+    if (!description) {
       toast({
         description: "Please enter a valid description!",
       });
@@ -52,10 +62,12 @@ const GetStarted = () => {
     return true;
   };
 
-  const handleGenerateForm = async (e: React.FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!validateForm()) return;
+    const formData = new FormData(e.currentTarget);
+    if (validateForm(formData)) {
+      formAction(formData);
+    }
   };
 
   return isAuthenticating ? (
@@ -72,22 +84,19 @@ const GetStarted = () => {
         <DialogHeader>
           <DialogTitle>Create New Form</DialogTitle>
         </DialogHeader>
-        <form className="grid gap-4 py-4" onSubmit={handleGenerateForm}>
+        <form className="grid gap-4 py-4" onSubmit={handleFormSubmit}>
           <Textarea
             id="description"
             name="description"
             placeholder="Share what your form is about, who is it for, and what information you would like to collect. And AI will do the rest!"
-            value={formData.description}
-            onChange={handleChange}
           />
           <DialogFooter>
-            <Button type="submit" disabled={generatingForm}>
-              {generatingForm ? "Generating..." : "Generate Form"}
-            </Button>
+            <SubmitButton />
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
   );
 };
+
 export default GetStarted;

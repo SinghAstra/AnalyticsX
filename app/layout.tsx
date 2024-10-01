@@ -1,4 +1,6 @@
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
+import { Toast } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
@@ -26,6 +28,7 @@ export default function RootLayout({
           <SessionProvider>
             <GridSmallBackground />
             {children}
+            <Toaster />
           </SessionProvider>
         </NextAuthProvider>
       </body>
