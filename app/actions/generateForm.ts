@@ -43,7 +43,7 @@ export async function generateForm(
     console.log("dbFormId is ", dbFormId);
     return {
       message: "success",
-      dbFormId,
+      data: { formId: dbFormId },
     };
   } catch (error) {
     return {

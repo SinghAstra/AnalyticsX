@@ -12,8 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { SessionContext } from "@/context/SessionContext";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
-// import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import { redirect } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { generateForm } from "../actions/generateForm";
 
@@ -38,7 +38,6 @@ const GetStarted = () => {
   const [state, formAction] = useFormState(generateForm, initialState);
   const [open, setOpen] = useState(false);
   const { session, isAuthenticating } = useContext(SessionContext);
-  //   const router = useRouter();
   const { toast } = useToast();
 
   console.log("state --getStarted is ", state);
@@ -51,6 +50,20 @@ const GetStarted = () => {
       signIn();
     }
   };
+
+  useEffect(() => {
+    console.log("State", state);
+    if (state?.message == "success") {
+      console.log("state.data.formId is ", state.data.formId);
+      setOpen(false);
+      redirect(`/forms/edit/${state.data.formId}`);
+    } else {
+      toast({
+        description: state?.message,
+      });
+    }
+    console.log(state?.data);
+  }, [state?.message]);
 
   return isAuthenticating ? (
     <Button variant="outline" size="lg">
