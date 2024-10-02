@@ -1,6 +1,6 @@
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
-import { Toast } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
+import { siteConfig } from "@/config/site";
 import { SessionProvider } from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { SessionProvider as NextAuthProvider } from "next-auth/react";
@@ -10,8 +10,8 @@ import "./globals.css";
 const inter = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AutoForm",
-  description: "Build & Share Form with AI",
+  title: siteConfig.name,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({

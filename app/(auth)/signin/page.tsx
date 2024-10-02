@@ -1,11 +1,12 @@
 import { signIn } from "@/auth";
 import { providerMap } from "@/auth.config";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign In | AutoForm",
-  description: "Sign In to your account",
+  title: `Sign In | ${siteConfig.name}`,
+  description: `Sign In to your ${siteConfig.name} account`,
 };
 
 export default async function SignInPage(props: {
