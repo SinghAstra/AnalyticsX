@@ -6,15 +6,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SessionContext } from "@/context/SessionContext";
 import { LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useContext } from "react";
 
 export function UserAvatar() {
-  const { session, isAuthenticating } = useContext(SessionContext);
-
   if (isAuthenticating) {
     return (
       <div className="rounded-full w-8 h-8 animate-pulse bg-slate-500"></div>
