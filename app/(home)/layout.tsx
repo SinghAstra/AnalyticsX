@@ -1,4 +1,4 @@
-import HomeNav from "./HomeNav";
+// import HomeNav from "./HomeNav";
 
 interface HomeLayoutProps {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ interface HomeLayoutProps {
 export default async function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <HomeNav />
+      {/* <HomeNav /> */}
       {children}
     </div>
   );
