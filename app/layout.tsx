@@ -1,3 +1,5 @@
+import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
@@ -19,9 +21,9 @@ export default function RootLayout({
       <body
         className={`min-h-screen bg-background antialiased relative ${inter.className}`}
       >
-        {/* <GridSmallBackground /> */}
+        <GridSmallBackground />
         {children}
-        {/* <Toaster /> */}
+        <Toaster />
       </body>
     </html>
   );
