@@ -1,4 +1,4 @@
-import HomeNav from "./HomeNav";
+import HomeNav from "./ḤomeNav";
 
 interface HomeLayoutProps {
   children: React.ReactNode;
