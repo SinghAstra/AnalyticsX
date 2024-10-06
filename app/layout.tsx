@@ -2,6 +2,7 @@ import { TailwindIndicator } from "@/components/Tailwind-Indicator";
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -22,10 +23,12 @@ export default function RootLayout({
       <body
         className={`min-h-screen bg-background antialiased relative ${inter.className}`}
       >
-        <GridSmallBackground />
-        {children}
-        <Toaster />
-        <TailwindIndicator />
+        <SessionProvider>
+          <GridSmallBackground />
+          {children}
+          <Toaster />
+          <TailwindIndicator />
+        </SessionProvider>
       </body>
     </html>
   );

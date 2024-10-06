@@ -1,16 +1,21 @@
 "use client";
+import { auth } from "@/auth";
 import { Icons } from "@/components/Icons";
 import MainNav from "@/components/MainNav";
 import SignIn from "@/components/SignIn";
 import ThemeChange from "@/components/ThemeChange";
 import { Button } from "@/components/ui/button";
-// import { UserAvatar } from "@/components/UserAvatar";s
+import { UserAvatar } from "@/components/UserAvatar";
 import { homeConfig } from "@/config/home";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 const HomeNav = () => {
-  const isAuthenticated = false;
-  const isAuthenticating = false;
+  const session = useSession();
+  const isAuthenticated = session.status === "authenticated" ? true : false;
+  const isAuthenticating = session.status === "loading" ? true : false;
+
+  console.log("session --HomeNav is ", session);
 
   return (
     <nav className="px-4 py-3 z-10">
@@ -24,7 +29,7 @@ const HomeNav = () => {
         ) : isAuthenticated ? (
           <div className="flex items-center gap-1 md:gap-1 lg:gap-4">
             <ThemeChange />
-            {/* <UserAvatar /> */}
+            <UserAvatar />
           </div>
         ) : (
           <div className="flex">

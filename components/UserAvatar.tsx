@@ -7,14 +7,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
 export function UserAvatar() {
-  const isAuthenticating = false;
-  const isAuthenticated = false;
-  const hasName = false;
-  const hasImage = false;
+  const session = useSession();
+  const user = session.data?.user;
+  const isAuthenticated = session.status === "authenticated" ? true : false;
+  const isAuthenticating = session.status === "loading" ? true : false;
+
+  console.log("user --userAvatar is ", user);
 
   if (isAuthenticating) {
     return (
@@ -25,17 +27,17 @@ export function UserAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="cursor-pointer">
-        {hasName && hasImage ? (
+        {user?.name && user?.image ? (
           <Image
-            src={session.user.image}
-            alt={session.user.name}
+            src={user?.image}
+            alt={user?.name}
             width={32}
             height={32}
             className="rounded-full hidden md:block border-2 border-primary"
           />
         ) : (
           <span className="w-8 h-8 rounded-full flex items-center justify-center bg-primary">
-            {session?.user?.name?.charAt(0)}
+            {user?.name?.charAt(0)}
           </span>
         )}
       </DropdownMenuTrigger>

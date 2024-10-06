@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 const SignIn = () => {
   return (
     <Button onClick={() => signIn()} variant="link" className="text-md z-10">
-      Sign in
+      Sign In
     </Button>
   );
 };
