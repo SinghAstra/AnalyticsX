@@ -1,3 +1,4 @@
+import { TailwindIndicator } from "@/components/Tailwind-Indicator";
 import { GridSmallBackground } from "@/components/ui/GridSmallBackground";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
@@ -24,6 +25,7 @@ export default function RootLayout({
         <GridSmallBackground />
         {children}
         <Toaster />
+        <TailwindIndicator />
       </body>
     </html>
   );
