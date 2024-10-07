@@ -18,3 +18,12 @@ export type SiteConfig = {
 export type HomeConfig = {
   mainNav: NavItem[];
 };
+
+export type Post = {
+  title: string;
+  description: string;
+  date: string;
+  content: string;
+  slug: string;
+  published?: boolean;
+}

@@ -4,7 +4,9 @@ const fs = require("fs");
 const matter = require("gray-matter");
 const path = require("path");
 
-const CONTENT_DIR = path.join(process.cwd(), "../content/blog");
+console.log("process.cwd() is ", process.cwd());
+
+const CONTENT_DIR = path.join(process.cwd(), "/content/blog");
 
 export const getAllPosts = () => {
   const filenames = fs.readdirSync(CONTENT_DIR);
@@ -13,6 +15,7 @@ export const getAllPosts = () => {
     const filePath = path.join(CONTENT_DIR, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(fileContents);
+    console.log("data is ", data);
 
     return {
       ...data,
@@ -21,7 +24,7 @@ export const getAllPosts = () => {
     };
   });
 
-  console.log("posts[0] is ", posts[0]);
+  return posts;
 
-  return posts.filter((post: Post) => post.published);
+  // return posts.filter((post: Post) => post.published);
 };
