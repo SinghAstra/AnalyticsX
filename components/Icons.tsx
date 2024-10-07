@@ -1,5 +1,6 @@
 import {
   ChevronLeft,
+  LayoutDashboard,
   LoaderCircle,
   NotepadText,
   Sparkle,
@@ -12,4 +13,5 @@ export const Icons = {
   sparkle: Sparkle,
   backArrow: ChevronLeft,
   delete: Trash2,
+  layout: LayoutDashboard,
 };

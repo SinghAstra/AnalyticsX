@@ -2,6 +2,7 @@ import { Icons } from "@/components/Icons";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -28,11 +29,13 @@ export default function Home() {
               <Highlight className="rounded-r-full pr-4"> Curiosity</Highlight>
             </h1>
           </HeroHighlight>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            I&apos;m building a web app with Next.js 14, NextAuth, MongoDB and
+          <TextGenerateEffect
+            className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8"
+            words="I'm building a web app with Next.js 14, NextAuth, MongoDB and
             open sourcing everything. Follow along as we figure this out
-            together.
-          </p>
+            together."
+          />
+
           <div className="flex items-center justify-center gap-4">
             <GetStarted />
             <Link
