@@ -1,42 +1,39 @@
 "use client";
 import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { signIn } from "next-auth/react";
-import React, { useContext } from "react";
-
-const initialState: {
-  status: string;
-  message: string;
-  data?: any;
-} = {
-  status: "",
-  message: "",
-};
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 const GetStarted = () => {
-  const { toast } = useToast();
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  // const handleGetStarted = () => {
-  //   if (session?.user) {
-  //     toast({ description: "You are authenticated" });
-  //   } else {
-  //     signIn();
-  //   }
-  // };
+  const isAuthenticated = status === "authenticated";
+  const isAuthenticating = status === "loading";
 
-  // return isAuthenticating ? (
-  //   <Button variant="outline" size="lg">
-  //     <Icons.spinner className="animate-spin mr-2" />
-  //     Wait...
-  //   </Button>
-  // ) : (
-  //   <Button onClick={handleGetStarted} className="cursor-pointer lg">
-  //     Get Started
-  //   </Button>
-  // );
+  const handleClick = () => {
+    if (isAuthenticated) {
+      router.push("/blog");
+    } else if (!isAuthenticated && !isAuthenticating) {
+      router.push("/login");
+    }
+  };
 
-  return <Button className="cursor-pointer lg">Get Started</Button>;
+  return isAuthenticating ? (
+    <Button variant="outline" size="lg">
+      <Icons.spinner className="animate-spin mr-2" />
+      Wait...
+    </Button>
+  ) : (
+    <Button
+      onClick={handleClick}
+      disabled={isAuthenticating}
+      className="cursor-pointer lg"
+    >
+      Get Started
+    </Button>
+  );
 };
 
 export default GetStarted;

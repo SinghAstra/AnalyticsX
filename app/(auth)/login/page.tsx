@@ -1,5 +1,6 @@
 import { signIn } from "@/auth";
 import { providerMap } from "@/auth.config";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import { AuthError } from "next-auth";
@@ -32,9 +33,9 @@ export default async function SignInPage(props: {
             }
           }}
         >
-          <button type="submit">
+          <Button className="lg link" type="submit">
             <span>Sign in with {provider.name}</span>
-          </button>
+          </Button>
         </form>
       ))}
     </div>
