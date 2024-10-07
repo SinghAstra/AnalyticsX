@@ -25,7 +25,7 @@ const ThemeChange = () => {
       : null;
   const initialTheme = storedThemeString
     ? JSON.parse(storedThemeString)
-    : slateTheme;
+    : blueTheme;
 
   const [theme, setTheme] = useState(initialTheme);
 

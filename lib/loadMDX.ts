@@ -1,5 +1,3 @@
-import { Post } from "@/types";
-
 const fs = require("fs");
 const matter = require("gray-matter");
 const path = require("path");

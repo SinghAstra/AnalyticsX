@@ -21,9 +21,10 @@ export type HomeConfig = {
 
 export type Post = {
   title: string;
+  image: string;
   description: string;
   date: string;
   content: string;
   slug: string;
   published?: boolean;
-}
+};
