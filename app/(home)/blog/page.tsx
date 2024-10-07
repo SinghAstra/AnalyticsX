@@ -1,12 +1,13 @@
+import { Icons } from "@/components/Icons";
+import { Button } from "@/components/ui/button";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { getAllPosts } from "@/lib/loadMDX";
 import { formatDate } from "@/lib/utils";
@@ -14,6 +15,7 @@ import { Post } from "@/types";
 import { compareDesc } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import BlogLayout from "./BlogLayout";
 
 export const metadata = {
   title: "Blog",
@@ -38,17 +40,7 @@ export default async function BlogPage() {
             words="Learning Together, Growing Together"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <BlogLayout/>
       </div>
       <hr className="my-8" />
       {sortedPosts.length ? (
