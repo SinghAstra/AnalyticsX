@@ -16,8 +16,6 @@ export function UserAvatar() {
   const isAuthenticated = session.status === "authenticated" ? true : false;
   const isAuthenticating = session.status === "loading" ? true : false;
 
-  console.log("user --userAvatar is ", user);
-
   if (isAuthenticating) {
     return (
       <div className="rounded-full w-8 h-8 animate-pulse bg-slate-500"></div>

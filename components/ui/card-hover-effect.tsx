@@ -8,9 +8,11 @@ import { useState } from "react";
 
 export const HoverEffect = ({
   posts,
+  layout,
   className,
 }: {
   posts: Post[];
+  layout: string;
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -18,7 +20,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+        `grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:${layout}`,
         className
       )}
     >

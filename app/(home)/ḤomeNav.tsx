@@ -15,8 +15,6 @@ const HomeNav = () => {
   const isAuthenticated = session.status === "authenticated" ? true : false;
   const isAuthenticating = session.status === "loading" ? true : false;
 
-  console.log("session --HomeNav is ", session);
-
   return (
     <nav className="px-4 py-3 z-10">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
