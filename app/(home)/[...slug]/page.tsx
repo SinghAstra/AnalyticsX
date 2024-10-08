@@ -2,6 +2,7 @@ import { siteConfig } from "@/config/site";
 import { getAllPosts } from "@/lib/loadMDX";
 import { absoluteUrl } from "@/lib/utils";
 import { Post } from "@/types";
+import { notFound } from "next/navigation";
 import React from "react";
 
 interface BlogPageProps {
@@ -31,12 +32,8 @@ export async function generateMetadata({ params }: BlogPageProps) {
   const url = process.env.NEXT_PUBLIC_APP_URL;
   const ogUrl = new URL(`${url}/api/og`);
 
-  console.log("ogUrl is ", ogUrl);
   ogUrl.searchParams.set("heading", page.title);
   ogUrl.searchParams.set("type", siteConfig.name);
-  ogUrl.searchParams.set("mode", "light");
-
-  console.log("updated ogUrl is ", ogUrl);
 
   return {
     title: page.title,
@@ -64,9 +61,35 @@ export async function generateMetadata({ params }: BlogPageProps) {
   };
 }
 
+export async function generateStaticParams() {
+  const allPosts = getAllPosts();
+  return allPosts.map((post: Post) => {
+    return {
+      slug: ["blog", post.slug],
+    };
+  });
+}
+
 const BlogPage = async ({ params }: BlogPageProps) => {
   const page = await getPageFromParams(params);
-  return <div>BlogPage</div>;
+
+  if (!page) {
+    notFound();
+  }
+  return (
+    <article className="container max-w-3xl py-6 lg:py-12">
+      <div className="space-y-4">
+        <h1 className="inline-block font-heading text-4xl lg:text-5xl">
+          {page.title}
+        </h1>
+        {page.description && (
+          <p className="text-xl text-muted-foreground">{page.description}</p>
+        )}
+      </div>
+      <hr className="my-4" />
+      {/* <Mdx code={page.body.code} /> */}
+    </article>
+  );
 };
 
 export default BlogPage;
