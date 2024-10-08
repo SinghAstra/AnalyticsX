@@ -13,8 +13,6 @@ export default function BlogClient({ posts }: { posts: Post[] }) {
     return compareDesc(new Date(a.date), new Date(b.date));
   });
 
-  console.log("layout is ",layout);
-
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex items-start justify-between">
@@ -27,7 +25,7 @@ export default function BlogClient({ posts }: { posts: Post[] }) {
             words="Learning Together, Growing Together"
           />
         </div>
-        <BlogLayout onLayoutChange={setLayout} />
+        <BlogLayout layout={layout} onLayoutChange={setLayout} />
       </div>
       <hr className="my-8" />
       {sortedPosts.length ? (

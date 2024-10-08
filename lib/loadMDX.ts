@@ -1,8 +1,8 @@
+import { Post } from "@/types";
+
 const fs = require("fs");
 const matter = require("gray-matter");
 const path = require("path");
-
-console.log("process.cwd() is ", process.cwd());
 
 const CONTENT_DIR = path.join(process.cwd(), "/content/blog");
 
@@ -21,7 +21,5 @@ export const getAllPosts = () => {
     };
   });
 
-  return posts;
-
-  // return posts.filter((post: Post) => post.published);
+  return posts.filter((post: Post) => post.published);
 };

@@ -16,7 +16,7 @@ export default function Home() {
           <HoverBorderGradient>
             <Link
               href={siteConfig.links.twitter}
-              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium flex gap-4"
+              className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium flex gap-4 items-center"
               target="_blank"
             >
               <Icons.sparkle className="animate-spin mr-2" /> Follow along on

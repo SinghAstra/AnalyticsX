@@ -17,13 +17,14 @@ export const HoverEffect = ({
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  const gridClasses = cn(
+    "grid gap-10",
+    layout === "grid-cols-1" ? "grid-cols-1" : "md:grid-cols-2",
+    layout === "grid-cols-3" ? "lg:grid-cols-3" : layout
+  );
+
   return (
-    <div
-      className={cn(
-        `grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:${layout}`,
-        className
-      )}
-    >
+    <div className={cn(gridClasses, className)}>
       {posts.map((post, index) => (
         <div
           key={post?.slug}
@@ -57,8 +58,10 @@ export const HoverEffect = ({
                 <Image
                   src={post.image}
                   alt={post.title}
-                  width={804}
-                  height={452}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "auto" }}
                   className="rounded-md border bg-muted transition-colors"
                   priority={index <= 1}
                 />
