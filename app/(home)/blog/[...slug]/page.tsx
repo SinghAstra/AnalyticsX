@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { Icons } from "@/components/Icons";
 import MdxSection from "@/components/MdxSection";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getAllAuthors, getAllPosts } from "@/lib/loadMDX";
@@ -160,6 +161,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
           See all posts
         </Link>
       </div>
+      <ScrollToTopButton />
     </article>
   );
 };

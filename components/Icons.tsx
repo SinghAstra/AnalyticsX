@@ -1,5 +1,6 @@
 import {
   ChevronLeft,
+  ChevronUp,
   Columns2,
   Columns3,
   LayoutDashboard,
@@ -15,6 +16,7 @@ export const Icons = {
   spinner: LoaderCircle,
   sparkle: Sparkle,
   backArrow: ChevronLeft,
+  upArrow: ChevronUp,
   delete: Trash2,
   layout: LayoutDashboard,
   singleColumn: Square,
