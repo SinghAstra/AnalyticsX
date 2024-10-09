@@ -4,14 +4,22 @@ import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { useState } from "react";
 import { Icons } from "./Icons";
+import { MobileNav } from "./mobile-nav";
 
-const MainNav = ({ items }: { items?: NavItem[] }) => {
+interface MainNavProps {
+  items?: NavItem[];
+  children?: React.ReactNode;
+}
+
+const MainNav = ({ items, children }: MainNavProps) => {
   const segment = useSelectedLayoutSegment();
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="flex items-center gap-2">
+      <Link href="/" className="md:flex items-center gap-2 hidden">
         <Icons.logo />
         <span className="hidden sm:inline-block md:text-2xl lg:text-2xl">
           {siteConfig.name}
@@ -36,6 +44,16 @@ const MainNav = ({ items }: { items?: NavItem[] }) => {
           ))}
         </nav>
       ) : null}
+      <button
+        className="flex items-center space-x-2 md:hidden"
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+      >
+        {showMobileMenu ? <Icons.menu /> : <Icons.logo />}
+        <span className="font-semibold">SinghAstra</span>
+      </button>
+      {showMobileMenu && items && (
+        <MobileNav items={items}>{children}</MobileNav>
+      )}
     </div>
   );
 };

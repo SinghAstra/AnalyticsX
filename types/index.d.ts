@@ -4,6 +4,22 @@ export type NavItem = {
   disabled?: boolean;
 };
 
+export type SidebarNavItem = {
+  title: string;
+  disabled?: boolean;
+  external?: boolean;
+  icon?: keyof typeof Icons;
+} & (
+  | {
+      href: string;
+      items?: never;
+    }
+  | {
+      href?: string;
+      items: NavItem[];
+    }
+);
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -17,6 +33,11 @@ export type SiteConfig = {
 
 export type HomeConfig = {
   mainNav: NavItem[];
+};
+
+export type DocsConfig = {
+  mainNav: NavItem[];
+  sidebarNav: SidebarNavItem[];
 };
 
 export type Post = {

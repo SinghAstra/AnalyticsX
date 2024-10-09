@@ -6,5 +6,9 @@ export const homeConfig: HomeConfig = {
       title: "Blog",
       href: "/blog",
     },
+    {
+      title: "Documentation",
+      href: "/docs",
+    },
   ],
 };
