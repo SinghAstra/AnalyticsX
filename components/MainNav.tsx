@@ -48,7 +48,7 @@ const MainNav = ({ items, children }: MainNavProps) => {
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
-        {showMobileMenu ? <Icons.menu /> : <Icons.logo />}
+        <Icons.menu />
         <span className="font-semibold">SinghAstra</span>
       </button>
       {showMobileMenu && items && (

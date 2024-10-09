@@ -37,7 +37,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
           </div>
         </div>
       </header>
-      <div className="container flex-1">{children}</div>
+      <div className="flex-1">{children}</div>
       <SiteFooter />
     </div>
   );
