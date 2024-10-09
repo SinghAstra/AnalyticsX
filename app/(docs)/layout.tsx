@@ -2,6 +2,7 @@ import { DocsSearch } from "@/components/DocsSearch";
 import { Icons } from "@/components/Icons";
 import MainNav from "@/components/MainNav";
 import { DocsSidebarNav } from "@/components/sidebar-nav";
+import { SiteFooter } from "@/components/site-footer";
 import { docsConfig } from "@/config/docs";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
@@ -37,6 +38,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
         </div>
       </header>
       <div className="container flex-1">{children}</div>
+      <SiteFooter />
     </div>
   );
 }
