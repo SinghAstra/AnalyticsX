@@ -6,6 +6,7 @@ const path = require("path");
 
 const POSTS_DIR = path.join(process.cwd(), "/content/blog");
 const AUTHORS_DIR = path.join(process.cwd(), "/content/authors");
+const DOCS_DIR = path.join(process.cwd(), "/content/docs");
 
 export const getAllPosts = () => {
   const filenames = fs.readdirSync(POSTS_DIR);
@@ -41,4 +42,47 @@ export const getAllAuthors = () => {
   });
 
   return authors;
+};
+
+const getAllDocs = () => {
+  const walkDir = (dir: string): string[] => {
+    const files = fs.readdirSync(dir);
+    let allFiles: string[] = [];
+
+    files.forEach((file: string) => {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
+
+      if (stat.isDirectory()) {
+        allFiles = [...allFiles, ...walkDir(filePath)]; // Recursively read subdirectories
+      } else if (file.endsWith(".mdx")) {
+        allFiles.push(filePath);
+      }
+    });
+
+    return allFiles;
+  };
+
+  const docFiles = walkDir(DOCS_DIR);
+
+  const docs = docFiles.map((filePath: string) => {
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(fileContents);
+
+    const slug = filePath
+      .replace(DOCS_DIR, "")
+      .replace(/\\/g, "/")
+      .replace(/\.mdx$/, "")
+      .replace(/\/index$/, "");
+
+    const slugAsParams = slug.split("/").filter(Boolean).join("/");
+
+    return {
+      ...data,
+      slug,
+      slugAsParams,
+    };
+  });
+
+  return docs;
 };

@@ -4,7 +4,7 @@ import MdxSection from "@/components/MdxSection";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { getAllAuthors, getAllPosts } from "@/lib/loadMDX";
+import { getAllAuthors, getAllPosts } from "@/lib/fetchMDX";
 import { absoluteUrl, cn, formatDate } from "@/lib/utils";
 import { Author, Post } from "@/types";
 import { serialize } from "next-mdx-remote/serialize";

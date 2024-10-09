@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/loadMDX";
+import { getAllPosts } from "@/lib/fetchMDX";
 import { Post } from "@/types";
 import BlogClient from "./BlogClient";
 

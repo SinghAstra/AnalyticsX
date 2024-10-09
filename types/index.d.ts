@@ -56,3 +56,12 @@ export type Author = {
   avatar: string;
   twitter: string;
 };
+
+export type Doc = {
+  title: string;
+  description?: string | undefined;
+  published: boolean;
+  body: MDX;
+  slug: string;
+  slugAsParams: string;
+};
