@@ -1,9 +1,12 @@
+import MdxSection from "@/components/MdxSection";
 import { siteConfig } from "@/config/site";
 import { getAllPosts } from "@/lib/loadMDX";
 import { absoluteUrl } from "@/lib/utils";
 import { Post } from "@/types";
+import { serialize } from "next-mdx-remote/serialize";
 import { notFound } from "next/navigation";
 import React from "react";
+import rehypeHighlight from "rehype-highlight";
 
 interface BlogPageProps {
   params: {
@@ -19,7 +22,13 @@ async function getPageFromParams(params: { slug: string[] }) {
     null;
   }
 
-  return page;
+  const mdxSource = await serialize(page.content, {
+    mdxOptions: {
+      rehypePlugins: [rehypeHighlight],
+    },
+  });
+
+  return { ...page, mdxSource };
 }
 
 export async function generateMetadata({ params }: BlogPageProps) {
@@ -87,7 +96,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
         )}
       </div>
       <hr className="my-4" />
-      {/* <Mdx code={page.body.code} /> */}
+      <MdxSection code={page.mdxSource} />
     </article>
   );
 };
