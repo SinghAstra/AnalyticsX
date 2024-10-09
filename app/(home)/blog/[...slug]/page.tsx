@@ -1,10 +1,11 @@
+import { auth } from "@/auth";
 import { Icons } from "@/components/Icons";
 import MdxSection from "@/components/MdxSection";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { getAllPosts } from "@/lib/loadMDX";
+import { getAllAuthors, getAllPosts } from "@/lib/loadMDX";
 import { absoluteUrl, cn, formatDate } from "@/lib/utils";
-import { Post } from "@/types";
+import { Author, Post } from "@/types";
 import { serialize } from "next-mdx-remote/serialize";
 import Image from "next/image";
 import Link from "next/link";
@@ -90,8 +91,10 @@ const BlogPage = async ({ params }: BlogPageProps) => {
     notFound();
   }
 
-  const authors = post.authors.map((author) =>
-    allAuthors.find(({ slug }) => slug === `/authors/${author}`)
+  const authors = post.authors.map((author: string) =>
+    getAllAuthors().find(({ title }: { title: string }) => {
+      return title === author;
+    })
   );
   return (
     <article className="container relative max-w-3xl py-6 lg:py-10">
@@ -122,10 +125,10 @@ const BlogPage = async ({ params }: BlogPageProps) => {
         )}
         {authors?.length ? (
           <div className="mt-4 flex space-x-4">
-            {authors.map((author) =>
+            {authors.map((author: Author) =>
               author ? (
                 <Link
-                  key={author._id}
+                  key={author.title}
                   href={`https://twitter.com/${author.twitter}`}
                   className="flex items-center space-x-2 text-sm"
                 >
@@ -150,6 +153,13 @@ const BlogPage = async ({ params }: BlogPageProps) => {
       </div>
       <hr className="my-4" />
       <MdxSection code={post.mdxSource} />
+      <hr className="mt-12" />
+      <div className="flex justify-center py-6 lg:py-10">
+        <Link href="/blog" className={cn(buttonVariants({ variant: "ghost" }))}>
+          <Icons.backArrow className="mr-2 h-4 w-4" />
+          See all posts
+        </Link>
+      </div>
     </article>
   );
 };

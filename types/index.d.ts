@@ -22,9 +22,16 @@ export type HomeConfig = {
 export type Post = {
   title: string;
   image: string;
+  authors: string[];
   description: string;
   date: string;
   content: string;
   slug: string;
   published?: boolean;
+};
+
+export type Author = {
+  title: string;
+  avatar: string;
+  twitter: string;
 };
