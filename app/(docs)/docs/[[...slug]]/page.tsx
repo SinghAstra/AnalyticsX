@@ -1,4 +1,8 @@
+import { DocsPageHeader } from "@/components/docs-page-header";
+import MdxSection from "@/components/MdxSection";
+import { DashboardTableOfContents } from "@/components/table-of-contents";
 import { getAllDocs } from "@/lib/fetchMDX";
+import { getTableOfContents } from "@/lib/toc";
 import { absoluteUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -78,7 +82,23 @@ const DocPage = async ({ params }: DocPageProps) => {
     notFound();
   }
 
-  return <div>DocPage</div>;
+  // const toc = await getTableOfContents(doc.content);
+
+  return (
+    // <main className="relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]">
+    //   <div className="mx-auto w-full min-w-0">
+    //     <DocsPageHeader heading={doc.title} text={doc.description} />
+    //     <MdxSection code={doc.content} />
+    //     <hr className="my-4 md:my-6" />
+    //     <DocsPager doc={doc} />
+    //   </div>
+    //   <div className="hidden text-sm xl:block">
+    //     <div className="sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10">
+    //       <DashboardTableOfContents toc={toc} />
+    //     </div>
+    //   </div>
+    // </main>
+  );
 };
 
 export default DocPage;

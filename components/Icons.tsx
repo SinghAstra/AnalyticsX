@@ -1,6 +1,7 @@
 import {
   AlignJustify,
   ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Columns2,
   Columns3,
@@ -19,6 +20,7 @@ export const Icons = {
   spinner: LoaderCircle,
   sparkle: Sparkle,
   backArrow: ChevronLeft,
+  nextArrow: ChevronRight,
   upArrow: ChevronUp,
   delete: Trash2,
   layout: LayoutDashboard,
