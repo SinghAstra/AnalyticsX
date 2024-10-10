@@ -8,9 +8,7 @@ interface DocsLayoutProps {
 export default function DocsLayout({ children }: DocsLayoutProps) {
   return (
     <div className="flex-1 md:grid md:grid-cols-[220px_1fr] md:gap-6 lg:grid-cols-[240px_1fr] lg:gap-10 ">
-      <aside className="fixed z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r py-2 px-2 md:sticky md:block lg:py-10 ">
-        <DocsSidebarNav items={docsConfig.sidebarNav} />
-      </aside>
+      <DocsSidebarNav items={docsConfig.sidebarNav} />
       {children}
     </div>
   );

@@ -14,7 +14,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
   const pathname = usePathname();
 
   return items.length ? (
-    <div className="w-full">
+    <div className="top-[4rem] bottom-0 left-0 md:[220px] lg:[240px]  sticky z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r py-2 px-2 md:sticky md:block lg:py-10">
       {items.map((item, index) => (
         <div key={index} className={cn("pb-8")}>
           <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-medium">
