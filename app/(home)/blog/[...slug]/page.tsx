@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: BlogPageProps) {
       title: page.title,
       description: page.description,
       type: "article",
-      url: absoluteUrl(page.slug),
+      url: absoluteUrl("/blog/" + page.slug),
       images: [
         {
           url: ogUrl.toString(),

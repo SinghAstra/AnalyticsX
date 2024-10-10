@@ -44,7 +44,7 @@ export const getAllAuthors = () => {
   return authors;
 };
 
-const getAllDocs = () => {
+export const getAllDocs = () => {
   const walkDir = (dir: string): string[] => {
     const files = fs.readdirSync(dir);
     let allFiles: string[] = [];
@@ -67,7 +67,7 @@ const getAllDocs = () => {
 
   const docs = docFiles.map((filePath: string) => {
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const { data, content } = matter(fileContents);
 
     const slug = filePath
       .replace(DOCS_DIR, "")
@@ -79,6 +79,7 @@ const getAllDocs = () => {
 
     return {
       ...data,
+      content,
       slug,
       slugAsParams,
     };
