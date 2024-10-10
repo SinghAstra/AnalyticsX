@@ -97,7 +97,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
         href="/blog"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "sticky left-[150px] top-14 hidden xl:inline-flex"
+          "sticky left-[150px] top-16 hidden xl:inline-flex"
         )}
       >
         <Icons.backArrow className="mr-2 h-4 w-4" />

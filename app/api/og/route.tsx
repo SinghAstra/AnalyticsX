@@ -10,7 +10,7 @@ const poppinsRegular = fetch(
 ).then((res) => res.arrayBuffer());
 
 const poppinsBold = fetch(
-  new URL("../../../assets/fonts/Poppins-Semibold.ttf", import.meta.url)
+  new URL("../../../assets/fonts/Poppins-SemiBold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
 export async function GET(req: Request) {
