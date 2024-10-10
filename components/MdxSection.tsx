@@ -144,7 +144,7 @@ const components = {
     <code
       className={cn(
         "relative rounded-md px-2 py-1 font-mono text-sm",
-        "whitespace-pre-wrap leading-relaxed inline-block",
+        "whitespace-pre-wrap leading-relaxed inline-block bg-background",
         className
       )}
       {...props}

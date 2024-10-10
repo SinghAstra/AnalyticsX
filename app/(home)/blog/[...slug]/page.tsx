@@ -1,18 +1,16 @@
-import { auth } from "@/auth";
 import { Icons } from "@/components/Icons";
 import MdxSection from "@/components/MdxSection";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getAllAuthors, getAllPosts } from "@/lib/fetchMDX";
+import { getMdxSource } from "@/lib/mdx";
 import { absoluteUrl, cn, formatDate } from "@/lib/utils";
 import { Author, Post } from "@/types";
-import { serialize } from "next-mdx-remote/serialize";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
-import rehypeHighlight from "rehype-highlight";
 
 interface BlogPageProps {
   params: {
@@ -28,11 +26,7 @@ async function getPageFromParams(params: { slug: string[] }) {
     null;
   }
 
-  const mdxSource = await serialize(post.content, {
-    mdxOptions: {
-      rehypePlugins: [rehypeHighlight],
-    },
-  });
+  const mdxSource = await getMdxSource(post.content);
 
   return { ...post, mdxSource };
 }
