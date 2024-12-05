@@ -1,0 +1,51 @@
+name: "🚀 Feature Request"
+description: "Propose a new feature for project with comprehensive details"
+title: "[Feature]: "
+labels:
+  - feature-request
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📋 Feature Request Guidelines
+        Please provide detailed information about the proposed feature.
+
+  - type: textarea
+    id: feature-summary
+    attributes:
+      label: "🌟 Feature Summary"
+      description: "Provide a clear, concise summary of the feature"
+      placeholder: "Brief description of the proposed feature"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-objectives
+    attributes:
+      label: "🎯 Feature Objectives"
+      description: "Describe the primary objectives and expected user benefits"
+      placeholder: |
+        - Objective 1
+        - Objective 2
+    validations:
+      required: true
+
+   - type: checkboxes
+    id: technology-stack
+    attributes:
+      label: "🔧 Predefined Technology Stack"
+      description: "Confirm the technology stack for this feature"
+      options:
+        - label: Frontend Framework - Next.js (React)
+        - label: Backend - Next.js API Routes / Serverless Functions
+        - label: Programming Language - TypeScript
+        - label: Styling - Tailwind CSS
+        - label: UI Component Library - Shadcn/UI
+        - label: Form Handling - React Hook Form
+        - label: Validation - Zod
+        - label: Authentication - NextAuth.js
+        - label: Database - Prisma with PostgreSQL
+        - label: Deployment - Vercel
+    validations:
+      required: true
