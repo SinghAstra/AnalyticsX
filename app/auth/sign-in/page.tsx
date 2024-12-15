@@ -3,10 +3,22 @@
 import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
-import { MessagesSquare } from "lucide-react";
+import { Label } from "@radix-ui/react-label";
+import { Lock, MessagesSquare, Unlock } from "lucide-react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
 
 const features = [
   {
@@ -23,6 +35,21 @@ const features = [
 ];
 
 export default function SignIn() {
+  const [showRepoAccessDialog, setShowRepoAccessDialog] = useState(false);
+  const [repoAccessType, setRepoAccessType] = useState("public");
+
+  const handleGitHubSignIn = async () => {
+    const scopes =
+      repoAccessType === "private"
+        ? "read:user user:email repo"
+        : "read:user user:email";
+
+    await signIn("github", {
+      callbackUrl: "/dashboard",
+      scope: scopes,
+    });
+  };
+
   return (
     <div className="flex min-h-screen">
       {/* Left Panel - Info Section */}
@@ -50,7 +77,7 @@ export default function SignIn() {
               {features.map((feature, i) => (
                 <div
                   key={i}
-                  className="flex items-start space-x-4 p-4 rounded-lg bg-secondary/50 backdrop-blur-sm shadow-sm shadow-primary"
+                  className="flex items-start space-x-4 p-4 rounded-lg bg-secondary/50 backdrop-blur-sm "
                 >
                   <div className="p-2 rounded-md bg-primary/10 text-primary">
                     {feature.icon}
@@ -90,11 +117,15 @@ export default function SignIn() {
 
             <div className="space-y-4">
               <Button
-                variant="outline"
-                className="w-full bg-[#24292F] text-white hover:bg-[#24292F]/90 hover:text-white"
+                onClick={() => setShowRepoAccessDialog(true)}
+                variant="default"
+                className="w-full bg-[#24292F] text-white hover:bg-[#24292F]/90 group"
               >
-                <Icons.gitLogo className="mr-2 h-4 w-4" />
-                Continue with GitHub
+                <Icons.gitLogo className="mr-2 h-5 w-5" />
+                <span className="text-center">Continue with GitHub</span>
+                <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full ml-2 animate-pulse">
+                  Recommended
+                </span>
               </Button>
 
               <div className="relative">
@@ -135,6 +166,82 @@ export default function SignIn() {
           </div>
         </Card>
       </div>
+      <Dialog
+        open={showRepoAccessDialog}
+        onOpenChange={setShowRepoAccessDialog}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center">
+              <Icons.gitBranch className="mr-2 h-6 w-6 text-primary" />
+              GitHub Repository Access
+            </DialogTitle>
+            <DialogDescription>
+              Choose the type of GitHub repositories you want to analyze
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <RadioGroup
+              value={repoAccessType}
+              onValueChange={setRepoAccessType}
+              className="grid grid-cols-2 gap-4"
+            >
+              <div>
+                <RadioGroupItem
+                  value="public"
+                  id="public-repos"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="public-repos"
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <Lock className="mb-3 h-6 w-6 text-muted-foreground" />
+                  Public Repositories
+                </Label>
+              </div>
+              <div>
+                <RadioGroupItem
+                  value="private"
+                  id="private-repos"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="private-repos"
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <Unlock className="mb-3 h-6 w-6 text-green-500" />
+                  Private Repositories
+                </Label>
+              </div>
+            </RadioGroup>
+
+            <div className="bg-secondary/50 p-4 rounded-lg">
+              <p className="text-muted-foreground text-sm">
+                {repoAccessType === "public"
+                  ? "We'll analyze public repositories you have access to."
+                  : "We request permissions to securely access and analyze your private repositories and public repositories you have access to."}
+              </p>
+            </div>
+
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowRepoAccessDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleGitHubSignIn}
+                className="bg-primary text-primary-foreground"
+              >
+                Continue
+              </Button>
+            </DialogFooter>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
