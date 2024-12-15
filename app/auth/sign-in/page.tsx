@@ -37,12 +37,14 @@ const features = [
 export default function SignIn() {
   const [showRepoAccessDialog, setShowRepoAccessDialog] = useState(false);
   const [repoAccessType, setRepoAccessType] = useState("public");
+  console.log("repoAccessType is ", repoAccessType);
 
   const handleGitHubSignIn = async () => {
     const scopes =
       repoAccessType === "private"
         ? "read:user user:email repo"
         : "read:user user:email";
+    console.log("scopes is ", scopes);
 
     await signIn("github", {
       callbackUrl: "/dashboard",

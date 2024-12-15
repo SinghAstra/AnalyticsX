@@ -5,6 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "./lib/prisma";
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXT_AUTH_SECRET,
+
   // Use Prisma as the adapter for storing user accounts
   adapter: PrismaAdapter(prisma),
 
@@ -13,13 +15,6 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-
-      // Dynamic scope handling based on user selection
-      authorization: {
-        params: {
-          scope: "read:user user:email repo", // Default to full access
-        },
-      },
 
       // Custom profile data mapping
       profile(profile) {
@@ -85,5 +80,4 @@ export const authOptions: NextAuthOptions = {
   },
 
   debug: process.env.NODE_ENV === "development",
-  secret: process.env.NEXT_AUTH_SECRET,
 };

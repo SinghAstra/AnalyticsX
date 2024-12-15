@@ -1,4 +1,4 @@
-import { SessionProvider } from "next-auth/react";
+import Providers from "@/components/providers/provider";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -14,7 +14,7 @@ export default function RootLayout({
       <body
         className={`min-h-screen bg-background antialiased relative ${inter.className}`}
       >
-        <SessionProvider>{children}</SessionProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
