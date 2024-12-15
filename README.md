@@ -1,41 +1,62 @@
-# RepoMindX
+# 🤖 RepoChat: AI-Powered GitHub Repository Analysis
 
-## Project Vision
+## Project Overview
 
-Create a lightweight web application that helps developers gain insights into their GitHub repositories through AI-powered analysis.
+RepoChat is an intelligent AI assistant that enables deep, contextual conversations about GitHub repositories by maintaining a sophisticated context management system.
 
-## MVP Goals
+## Context Maintenance Strategy
 
-1. Seamless GitHub Authentication
-2. Repository Discovery and Selection
-3. Incremental AI-Powered Code Analysis
-4. Issue Management and Tracking
+### 🧠 Intelligent Context Windowing
 
-## Core Features
+Our unique approach to maintaining conversation context involves:
 
-- GitHub OAuth integration
-- Repository listing and filtering
-- Selective code analysis
-- Incremental issue generation
-- Issue saving and management
+1. **Chunked Repository Parsing**
 
-## Technical Stack
+   - Break repository into semantic chunks
+   - Create weighted importance mapping
+   - Prioritize critical code files and structures
 
-- Framework: Next.js 14
-- Authentication: Next Auth
-- UI: Shadcn/ui, Tailwind CSS
-- Deployment: Vercel
+2. **Dynamic Context Management**
 
-## Future Roadmap
+   - Sliding window of conversation history
+   - Intelligently prune less relevant context
+   - Maintain core repository understanding
 
-- Expand analysis capabilities
-- Integrate direct GitHub issue creation
-- Add more granular analysis options
-- Implement user collaboration features
+3. **Multi-Level Context Tracking**
+   - Repository-level context
+   - File-level context
+   - Code block-level relevance
 
-## MVP Success Criteria
+### Context Preservation Techniques
 
-- Smooth authentication flow
-- Accurate repository retrieval
-- Meaningful AI-generated insights
-- User-friendly issue management
+- **Embedding-Based Relevance**
+
+  - Use vector embeddings to measure context similarity
+  - Dynamically adjust context window
+
+- **Metadata Tagging**
+  - Tag code segments with:
+    - Language type
+    - Functionality
+    - Complexity
+    - Potential impact
+
+## Key Features
+
+- 🔍 Deep GitHub repository analysis
+- 💬 Interactive AI conversation
+- 🔒 Secure user authentication
+- 📊 Conversation history tracking
+
+## Context Maintenance Workflow
+
+```
+Repository Input
+  → Content Preprocessing
+    → Semantic Chunking
+      → Embedding Generation
+        → Dynamic Context Window
+          → AI Interaction
+```
+
+Contributions and feedback are welcome! 🚀
