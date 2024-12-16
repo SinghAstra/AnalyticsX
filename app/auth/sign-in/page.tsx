@@ -35,21 +35,39 @@ const features = [
 ];
 
 export default function SignIn() {
-  const [showRepoAccessDialog, setShowRepoAccessDialog] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isGithubLoading, setIsGithubLoading] = useState(false);
+  // const [showRepoAccessDialog, setShowRepoAccessDialog] = useState(false);
   const [repoAccessType, setRepoAccessType] = useState("public");
-  console.log("repoAccessType is ", repoAccessType);
 
   const handleGitHubSignIn = async () => {
-    const scopes =
-      repoAccessType === "private"
-        ? "read:user user:email repo"
-        : "read:user user:email";
-    console.log("scopes is ", scopes);
+    try {
+      setIsGithubLoading(true);
+      const scopes =
+        repoAccessType === "private"
+          ? "read:user user:email repo"
+          : "read:user user:email";
 
-    await signIn("github", {
-      callbackUrl: "/dashboard",
-      scope: scopes,
-    });
+      await signIn("github", {
+        callbackUrl: "/dashboard",
+        scope: scopes,
+      });
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      setIsGithubLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsGoogleLoading(true);
+      await signIn("google", {
+        callbackUrl: "/dashboard",
+      });
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      setIsGoogleLoading(false);
+    }
   };
 
   return (
@@ -119,15 +137,25 @@ export default function SignIn() {
 
             <div className="space-y-4">
               <Button
-                onClick={() => setShowRepoAccessDialog(true)}
+                onClick={handleGitHubSignIn}
+                disabled={isGithubLoading}
                 variant="default"
                 className="w-full bg-[#24292F] text-white hover:bg-[#24292F]/90 group"
               >
-                <Icons.gitLogo className="mr-2 h-5 w-5" />
-                <span className="text-center">Continue with GitHub</span>
-                <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full ml-2 animate-pulse">
-                  Recommended
-                </span>
+                {isGithubLoading ? (
+                  <>
+                    <Icons.loader className="w-5 h-5 animate-spin" />
+                    Wait ...
+                  </>
+                ) : (
+                  <>
+                    <Icons.gitLogo className="mr-2 h-5 w-5" />
+                    <span className="text-center">Continue with GitHub</span>
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full ml-2 animate-pulse">
+                      Recommended
+                    </span>
+                  </>
+                )}
               </Button>
 
               <div className="relative">
@@ -141,15 +169,29 @@ export default function SignIn() {
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full text-primary ">
-                <Image
-                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                  alt="Google"
-                  width={18}
-                  height={18}
-                  className="mr-2"
-                />
-                Continue with Google
+              <Button
+                variant="outline"
+                className="w-full text-primary"
+                onClick={handleGoogleSignIn}
+                disabled={isGoogleLoading}
+              >
+                {isGoogleLoading ? (
+                  <>
+                    <Icons.loader className="w-5 h-5 animate-spin" />
+                    Wait ...
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                      alt="Google"
+                      width={18}
+                      height={18}
+                      className="mr-2"
+                    />
+                    Continue with Google
+                  </>
+                )}
               </Button>
             </div>
 
@@ -168,7 +210,7 @@ export default function SignIn() {
           </div>
         </Card>
       </div>
-      <Dialog
+      {/* <Dialog
         open={showRepoAccessDialog}
         onOpenChange={setShowRepoAccessDialog}
       >
@@ -243,7 +285,7 @@ export default function SignIn() {
             </DialogFooter>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
