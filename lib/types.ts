@@ -29,20 +29,3 @@ export enum QuestionType {
   FILE_ANALYSIS = "FILE_ANALYSIS",
   CODE_LOCATION = "CODE_LOCATION",
 }
-
-export interface ClassificationResult {
-  type: QuestionType;
-  confidence: number;
-  extractedEntity?: string; // For questions like "How is X implemented" or "What does X file do"
-}
-
-export interface ChatRequest {
-  repoUrl: string;
-  question: string;
-}
-
-export interface ChatResponse {
-  answer: string;
-  sources: string[];
-  questionType: QuestionType;
-}

@@ -1,16 +1,18 @@
 import type { FileContent, GitHubFile, Repository } from "./types";
 
 const GITHUB_API_BASE = "https://api.github.com";
+const githubToken = process.env.GITHUB_TOKEN;
+if (!githubToken) {
+  throw new Error("GITHUB_ACCESS_TOKEN is required");
+}
 
-async function makeRequest(url: string) {
+async function fetchGithubRepo(url: string) {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
     "User-Agent": "GitHub-Chat-App",
   };
 
-  if (this.token) {
-    headers["Authorization"] = `token ${this.token}`;
-  }
+  headers["Authorization"] = `token ${githubToken}`;
 
   const response = await fetch(url, { headers });
 
@@ -27,7 +29,7 @@ async function makeRequest(url: string) {
   return response.json();
 }
 
-function parseRepoUrl(repoUrl: string): { owner: string; name: string } {
+export function parseRepoUrl(repoUrl: string): { owner: string; name: string } {
   // Handle various GitHub URL formats
   const patterns = [
     /github\.com\/([^/]+)\/([^/]+?)(?:\.git)?(?:\/.*)?$/,
@@ -44,8 +46,11 @@ function parseRepoUrl(repoUrl: string): { owner: string; name: string } {
   throw new Error("Invalid GitHub repository URL");
 }
 
-async function getRepository(owner: string, name: string): Promise<Repository> {
-  const data = await this.makeRequest(
+export async function getRepository(
+  owner: string,
+  name: string
+): Promise<Repository> {
+  const data = await fetchGithubRepo(
     `${GITHUB_API_BASE}/repos/${owner}/${name}`
   );
 
@@ -60,13 +65,13 @@ async function getRepository(owner: string, name: string): Promise<Repository> {
   };
 }
 
-async function getFileTree(
+export async function getFileTree(
   owner: string,
   name: string,
   path = ""
 ): Promise<GitHubFile[]> {
   const url = `${GITHUB_API_BASE}/repos/${owner}/${name}/contents/${path}`;
-  const data = await this.makeRequest(url);
+  const data = await fetchGithubRepo(url);
 
   if (!Array.isArray(data)) {
     return [data];
@@ -82,13 +87,13 @@ async function getFileTree(
   }));
 }
 
-async function getFileContent(
+export async function getFileContent(
   owner: string,
   name: string,
   path: string
 ): Promise<FileContent> {
   const url = `${GITHUB_API_BASE}/repos/${owner}/${name}/contents/${path}`;
-  const data = await this.makeRequest(url);
+  const data = await fetchGithubRepo(url);
 
   if (data.type !== "file") {
     throw new Error("Path is not a file");
@@ -108,12 +113,15 @@ async function getFileContent(
   };
 }
 
-async function getReadme(owner: string, name: string): Promise<string | null> {
+export async function getReadme(
+  owner: string,
+  name: string
+): Promise<string | null> {
   const readmeFiles = ["README.md", "README.txt", "README.rst", "README"];
 
   for (const filename of readmeFiles) {
     try {
-      const fileContent = await this.getFileContent(owner, name, filename);
+      const fileContent = await getFileContent(owner, name, filename);
       return fileContent.content;
     } catch (error) {
       if (error instanceof Error) {
@@ -127,9 +135,9 @@ async function getReadme(owner: string, name: string): Promise<string | null> {
   return null;
 }
 
-async function getPackageJson(owner: string, name: string) {
+export async function getPackageJson(owner: string, name: string) {
   try {
-    const fileContent = await this.getFileContent(owner, name, "package.json");
+    const fileContent = await getFileContent(owner, name, "package.json");
     return JSON.parse(fileContent.content);
   } catch (error) {
     if (error instanceof Error) {

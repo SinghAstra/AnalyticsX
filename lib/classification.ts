@@ -1,13 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-import { QuestionType, type ClassificationResult } from "./types";
+import { QuestionType } from "./types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const modelName = "gemini-1.5-flash";
 
-export async function classifyQuestion(
-  question: string
-): Promise<ClassificationResult> {
+export async function classifyQuestion(question: string) {
   const prompt = `
 Classify the following question about a GitHub repository into one of these categories:
 
@@ -95,14 +93,17 @@ Examples:
       extractedEntity: parsed.extractedEntity,
     };
   } catch (error) {
-    console.error("Question classification error:", error);
+    if (error instanceof Error) {
+      console.log("error.stack is ", error.stack);
+      console.log("error.message is ", error.message);
+    }
 
     // Fallback classification based on keywords
     return fallbackClassification(question);
   }
 }
 
-function fallbackClassification(question: string): ClassificationResult {
+function fallbackClassification(question: string) {
   const lowerQuestion = question.toLowerCase();
 
   // Simple keyword-based fallback

@@ -1,7 +1,5 @@
-import { GitHubService } from "@/lib/github";
+import { getRepository, parseRepoUrl } from "@/lib/github";
 import { type NextRequest, NextResponse } from "next/server";
-
-const githubService = new GitHubService(process.env.GITHUB_TOKEN);
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,11 +18,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse repository URL
-    const { owner, name } = githubService.parseRepoUrl(repoUrl);
+    const { owner, name } = parseRepoUrl(repoUrl);
 
     // For now, we'll just validate the repository exists
     // In future days, we'll add caching and more sophisticated analysis
-    const repository = await githubService.getRepository(owner, name);
+    const repository = await getRepository(owner, name);
 
     console.log(
       `Successfully analyzed repository: ${repository.owner}/${repository.name}`
@@ -36,7 +34,7 @@ export async function POST(request: NextRequest) {
     // TODO: Add caching logic here in future iterations
     const cached = false;
 
-    const response: AnalyzeResponse = {
+    const response = {
       status: "success",
       cached,
       message: `Repository ${repository.owner}/${repository.name} analyzed successfully`,
@@ -44,17 +42,16 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("Repository analysis error:", error);
+    if (error instanceof Error) {
+      console.log("error.stack is ", error.stack);
+      console.log("error.message is ", error.message);
+    }
 
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error occurred";
-
-    const response: AnalyzeResponse = {
-      status: "error",
-      cached: false,
-      message: errorMessage,
-    };
-
-    return NextResponse.json(response, { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to analyze repo",
+      },
+      { status: 500 }
+    );
   }
 }
