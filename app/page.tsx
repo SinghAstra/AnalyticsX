@@ -1,12 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 
-export default function TestPage() {
+export default function HomePage() {
   const [repoUrl, setRepoUrl] = useState("https://github.com/vercel/next.js");
   const [question, setQuestion] = useState("What does this repo do?");
   const [analyzing, setAnalyzing] = useState(false);
@@ -54,98 +53,103 @@ export default function TestPage() {
   };
 
   return (
-    <div className="container mx-auto p-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8">
-        GitHub Repository Chat - Day 1 Test
-      </h1>
-
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Repository Analysis</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+    <div className=" flex flex-col items-center gap-4 ">
+      <div className="flex gap-2 w-full m-4">
+        <div className="space-y-2 w-[50%] bg-muted/10 px-3 py-2 border rounded h-fit">
+          <h1>Repository Analysis</h1>
+          <div className="flex gap-2">
             <Input
               placeholder="GitHub repository URL"
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
+              className="flex-1"
             />
-            <Button onClick={handleAnalyze} disabled={analyzing}>
+            <Button
+              variant={"outline"}
+              onClick={handleAnalyze}
+              disabled={analyzing}
+              className="rounded"
+            >
               {analyzing ? "Analyzing..." : "Analyze Repository"}
             </Button>
-            {analyzeResult && (
-              <div className="p-4  rounded">
-                <pre>{JSON.stringify(analyzeResult, null, 2)}</pre>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </div>
+          {analyzeResult && (
+            <div className="p-4 border rounded">
+              <pre>{JSON.stringify(analyzeResult, null, 2)}</pre>
+            </div>
+          )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Question Classification & Chat</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <div className="space-y-2 w-full flex flex-col border rounded px-3 bg-muted/10 py-2 max-w-2xl mx-auto">
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() => setQuestion("What does this repo do?")}
+            >
+              Overview Question
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() =>
+                setQuestion("What functionality is implemented in this repo?")
+              }
+            >
+              Functionality Question
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() => setQuestion("How is authentication implemented?")}
+            >
+              Implementation Question
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() => setQuestion("What does package.json do?")}
+            >
+              File Analysis Question
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() => setQuestion("Where is the API code located?")}
+            >
+              Code Location Question
+            </Button>
+          </div>
+        </div>
+
+        <div className="space-y-2 w-[50%] bg-muted/10 px-3 py-2 border rounded">
+          <h1>Question Classification & Chat</h1>
+          <div className="flex gap-2">
             <Textarea
               placeholder="Ask a question about the repository"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               rows={3}
+              className="resize-none"
             />
-            <Button onClick={handleChat} disabled={chatting}>
+            <Button
+              variant={"outline"}
+              onClick={handleChat}
+              disabled={chatting}
+              className="rounded"
+            >
               {chatting ? "Processing..." : "Ask Question"}
             </Button>
-            {chatResult && (
-              <div className="p-4  rounded">
-                <pre>{JSON.stringify(chatResult, null, 2)}</pre>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Test Questions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Button
-                variant="outline"
-                onClick={() => setQuestion("What does this repo do?")}
-              >
-                Overview Question
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() =>
-                  setQuestion("What functionality is implemented in this repo?")
-                }
-              >
-                Functionality Question
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() =>
-                  setQuestion("How is authentication implemented?")
-                }
-              >
-                Implementation Question
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setQuestion("What does package.json do?")}
-              >
-                File Analysis Question
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setQuestion("Where is the API code located?")}
-              >
-                Code Location Question
-              </Button>
+          {chatResult && (
+            <div className="p-4 border rounded">
+              <pre>
+                <div className="overflow-x-auto w-full">
+                  {JSON.stringify(chatResult, null, 2)}
+                </div>
+              </pre>
             </div>
-          </CardContent>
-        </Card>
+          )}
+        </div>
       </div>
     </div>
   );
