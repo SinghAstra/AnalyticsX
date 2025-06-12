@@ -1,5 +1,13 @@
+import { generateAnswer } from "@/lib/answer-generator";
 import { classifyQuestion } from "@/lib/classification";
-import { parseRepoUrl } from "@/lib/github";
+import { buildContext } from "@/lib/context-builder";
+import {
+  getTier1Data,
+  getTier2Data,
+  getTier3Data,
+  parseRepoUrl,
+  searchFiles,
+} from "@/lib/github";
 import { QuestionType } from "@/lib/types";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -24,51 +32,126 @@ export async function POST(request: NextRequest) {
     console.log(
       `Question classified as: ${classification.type} (confidence: ${classification.confidence})`
     );
-    if ("extractedEntity" in classification) {
+    if (classification.extractedEntity) {
       console.log(`Extracted entity: ${classification.extractedEntity}`);
     }
 
-    // Step 3: For Day 1, we'll provide basic responses based on classification
-    // In future days, we'll implement proper data fetching and analysis
+    // Step 3: Fetch appropriate data based on question type
     let answer = "";
-    const sources: string[] = [];
+    let sources: string[] = [];
 
     switch (classification.type) {
-      case QuestionType.OVERVIEW:
-        // TODO: Implement with README + repo metadata
-        answer = `This appears to be a question about what the repository ${owner}/${name} does. Full implementation coming in next iteration.`;
-        sources.push("README.md", "Repository metadata");
+      case QuestionType.OVERVIEW: {
+        console.log("Fetching Tier 1 data for overview question");
+        const data = await getTier1Data(owner, name);
+        const context = buildContext(classification.type, data);
+        sources = context.sources;
+        answer = await generateAnswer(
+          question,
+          classification.type,
+          context,
+          owner,
+          name
+        );
         break;
+      }
 
-      case QuestionType.FUNCTIONALITY:
-        // TODO: Implement with file structure + key files analysis
-        answer = `This question asks about the functionality implemented in ${owner}/${name}. Full implementation coming in next iteration.`;
-        sources.push("File structure", "Key components");
+      case QuestionType.FUNCTIONALITY: {
+        console.log("Fetching Tier 2 data for functionality question");
+        const data = await getTier2Data(owner, name);
+        const context = buildContext(classification.type, data);
+        sources = context.sources;
+        answer = await generateAnswer(
+          question,
+          classification.type,
+          context,
+          owner,
+          name
+        );
         break;
+      }
 
-      case QuestionType.IMPLEMENTATION:
-        // TODO: Implement with specific code search and analysis
+      case QuestionType.IMPLEMENTATION: {
+        console.log("Fetching Tier 3 data for implementation question");
         const entity =
-          "extractedEntity" in classification || "the requested functionality";
-        answer = `This question asks how ${entity} is implemented in ${owner}/${name}. Full implementation coming in next iteration.`;
-        sources.push("Source code", "Implementation files");
-        break;
+          classification.extractedEntity || "the requested functionality";
 
-      case QuestionType.FILE_ANALYSIS:
-        // TODO: Implement with specific file content analysis
-        const file =
-          "extractedEntity" in classification || "the specified file";
-        answer = `This question asks about what ${file} does in ${owner}/${name}. Full implementation coming in next iteration.`;
-        sources.push(file as string);
-        break;
+        // Search for files related to the entity
+        const searchResults = await searchFiles(owner, name, entity);
+        const specificPaths = searchResults.slice(0, 5).map((f) => f.path);
 
-      case QuestionType.CODE_LOCATION:
-        // TODO: Implement with file search and pattern matching
-        const feature =
-          "extractedEntity" in classification || "the requested code";
-        answer = `This question asks where ${feature} is located in ${owner}/${name}. Full implementation coming in next iteration.`;
-        sources.push("File tree", "Code search results");
+        const data = await getTier3Data(owner, name, specificPaths);
+        const context = buildContext(classification.type, data, entity);
+        sources = context.sources;
+        answer = await generateAnswer(
+          question,
+          classification.type,
+          context,
+          owner,
+          name
+        );
         break;
+      }
+
+      case QuestionType.FILE_ANALYSIS: {
+        console.log("Fetching specific file for analysis");
+        const fileName = classification.extractedEntity || "the specified file";
+
+        // Try to find the exact file or similar files
+        const data = await getTier1Data(owner, name);
+        const matchingFiles = data.fileTree.filter(
+          (f) =>
+            f.name.toLowerCase().includes(fileName.toLowerCase()) ||
+            f.path.toLowerCase().includes(fileName.toLowerCase())
+        );
+
+        if (matchingFiles.length > 0) {
+          const specificData = await getTier3Data(owner, name, [
+            matchingFiles[0].path,
+          ]);
+          const context = buildContext(
+            classification.type,
+            specificData,
+            fileName
+          );
+          sources = context.sources;
+          answer = await generateAnswer(
+            question,
+            classification.type,
+            context,
+            owner,
+            name
+          );
+        } else {
+          answer = `Could not find a file matching "${fileName}" in the repository.`;
+        }
+        break;
+      }
+
+      case QuestionType.CODE_LOCATION: {
+        console.log("Searching for code location");
+        const feature = classification.extractedEntity || "the requested code";
+
+        const searchResults = await searchFiles(owner, name, feature);
+        const specificPaths = searchResults.slice(0, 5).map((f) => f.path);
+
+        if (searchResults.length > 0) {
+          const data = await getTier3Data(owner, name, specificPaths);
+          const context = buildContext(classification.type, data, feature);
+          sources = context.sources;
+          answer = await generateAnswer(
+            question,
+            classification.type,
+            context,
+            owner,
+            name
+          );
+        } else {
+          answer = `Could not find code related to "${feature}" in the repository.`;
+          sources = ["Search results"];
+        }
+        break;
+      }
 
       default:
         answer =

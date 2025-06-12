@@ -1,11 +1,45 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getCacheEntry, setCacheEntry } from "./cache";
+import { QuestionType, type ClassificationResult } from "./types";
 
-import { QuestionType } from "./types";
+/**
+ * Classify a question about a GitHub repository
+ */
+export async function classifyQuestion(
+  question: string
+): Promise<ClassificationResult> {
+  // Check cache first
+  const cacheKey = `question:${question}`;
+  const cached = getCacheEntry<ClassificationResult>(cacheKey);
+  if (cached) {
+    console.log("Using cached classification for question");
+    return cached;
+  }
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-const modelName = "gemini-1.5-flash";
+  try {
+    const result = await classifyWithGemini(question);
 
-export async function classifyQuestion(question: string) {
+    // Cache the result
+    setCacheEntry(cacheKey, result, "CLASSIFICATION");
+
+    return result;
+  } catch (error) {
+    console.error("Question classification error:", error);
+
+    // Fallback to keyword-based classification
+    return fallbackClassification(question);
+  }
+}
+
+/**
+ * Classify a question using Gemini
+ */
+async function classifyWithGemini(
+  question: string
+): Promise<ClassificationResult> {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+
   const prompt = `
 Classify the following question about a GitHub repository into one of these categories:
 
@@ -38,72 +72,39 @@ Examples:
 - "Where is the payment processing code?" → {"type": "CODE_LOCATION", "confidence": 0.9, "extractedEntity": "payment processing"}
 `;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: modelName,
-      contents: prompt,
-      config: {
-        temperature: 0.1,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            type: {
-              type: Type.STRING,
-              enum: [
-                "OVERVIEW",
-                "FUNCTIONALITY",
-                "IMPLEMENTATION",
-                "FILE_ANALYSIS",
-                "CODE_LOCATION",
-              ],
-            },
-            confidence: {
-              type: Type.NUMBER,
-              minimum: 0,
-              maximum: 1,
-            },
-            extractedEntity: {
-              type: Type.STRING,
-              description: "Optional extracted entity from the question",
-            },
-          },
-          required: ["type", "confidence"],
-        },
-      },
-    });
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: "application/json",
+    },
+  });
 
-    const text = response.text;
+  const response = result.response;
+  const text = response.text();
 
-    if (!text) {
-      throw new Error("Empty response from Gemini");
-    }
-
-    const parsed = JSON.parse(text);
-    console.log("parsed is ", parsed);
-
-    // Validate the response
-    if (!Object.values(QuestionType).includes(parsed.type)) {
-      throw new Error("Invalid question type returned");
-    }
-
-    return {
-      type: parsed.type as QuestionType,
-      confidence: parsed.confidence || 0.5,
-      extractedEntity: parsed.extractedEntity,
-    };
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("error.stack is ", error.stack);
-      console.log("error.message is ", error.message);
-    }
-
-    // Fallback classification based on keywords
-    return fallbackClassification(question);
+  if (!text) {
+    throw new Error("Empty response from Gemini");
   }
+
+  const parsed = JSON.parse(text);
+
+  // Validate the response
+  if (!Object.values(QuestionType).includes(parsed.type)) {
+    throw new Error("Invalid question type returned");
+  }
+
+  return {
+    type: parsed.type as QuestionType,
+    confidence: parsed.confidence || 0.5,
+    extractedEntity: parsed.extractedEntity,
+  };
 }
 
-function fallbackClassification(question: string) {
+/**
+ * Fallback classification based on keywords
+ */
+function fallbackClassification(question: string): ClassificationResult {
   const lowerQuestion = question.toLowerCase();
 
   // Simple keyword-based fallback

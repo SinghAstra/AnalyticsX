@@ -1,4 +1,5 @@
-import { getRepository, parseRepoUrl } from "@/lib/github";
+import { hasCacheEntry } from "@/lib/cache";
+import { getTier1Data, parseRepoUrl } from "@/lib/github";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -20,24 +21,34 @@ export async function POST(request: NextRequest) {
     // Parse repository URL
     const { owner, name } = parseRepoUrl(repoUrl);
 
-    // For now, we'll just validate the repository exists
-    // In future days, we'll add caching and more sophisticated analysis
-    const repository = await getRepository(owner, name);
+    console.log(`Analyzing repository: ${owner}/${name}`);
+
+    // Fetch the repository data
+    const repositoryData = await getTier1Data(owner, name);
 
     console.log(
-      `Successfully analyzed repository: ${repository.owner}/${repository.name}`
+      `Successfully analyzed repository: ${repositoryData.repository.owner}/${repositoryData.repository.name}`
     );
-    console.log(`Description: ${repository.description}`);
-    console.log(`Language: ${repository.language}`);
-    console.log(`Stars: ${repository.stars}`);
-
-    // TODO: Add caching logic here in future iterations
-    const cached = false;
+    console.log(`Description: ${repositoryData.repository.description}`);
+    console.log(`Language: ${repositoryData.repository.language}`);
+    console.log(`Stars: ${repositoryData.repository.stars}`);
+    console.log(`Files in repository: ${repositoryData.fileTree.length}`);
+    console.log(
+      `Top-level structure: ${repositoryData.topLevelStructure.join(", ")}`
+    );
 
     const response = {
       status: "success",
       cached,
-      message: `Repository ${repository.owner}/${repository.name} analyzed successfully`,
+      message: `Repository ${repositoryData.repository.owner}/${repositoryData.repository.name} analyzed successfully`,
+      data: {
+        repository: repositoryData.repository,
+        fileCount: repositoryData.fileTree.length,
+        topLevelStructure: repositoryData.topLevelStructure,
+        hasReadme: !!repositoryData.readme,
+        hasPackageJson: !!repositoryData.packageJson,
+        language: repositoryData.repository.language,
+      },
     };
 
     return NextResponse.json(response);
