@@ -1,4 +1,3 @@
-import { hasCacheEntry } from "@/lib/cache";
 import { getTier1Data, parseRepoUrl } from "@/lib/github";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -39,7 +38,6 @@ export async function POST(request: NextRequest) {
 
     const response = {
       status: "success",
-      cached,
       message: `Repository ${repositoryData.repository.owner}/${repositoryData.repository.name} analyzed successfully`,
       data: {
         repository: repositoryData.repository,

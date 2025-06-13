@@ -65,8 +65,8 @@ export interface ChatResponse {
 // Data tier types
 export interface RepositoryTier1Data {
   repository: Repository;
-  readme: string | null;
-  packageJson: any | null;
+  readme: FileContent[] | null;
+  packageJson: FileContent[] | null;
   fileTree: GitHubFile[];
   topLevelStructure: string[];
 }

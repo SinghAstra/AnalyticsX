@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getKeyFilesByCategory, prioritizeFiles } from "./file-prioritizer";
 import type {
   FileContent,
   GitHubFile,
-  Repository,
   RepositoryTier1Data,
   RepositoryTier2Data,
   RepositoryTier3Data,
@@ -14,7 +12,7 @@ const GITHUB_API_BASE = "https://api.github.com";
 /**
  * Make a request to the GitHub API
  */
-export async function makeGitHubRequest(url: string): Promise<any> {
+export async function makeGitHubRequest(url: string) {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
     "User-Agent": "GitHub-Chat-App",
@@ -29,7 +27,7 @@ export async function makeGitHubRequest(url: string): Promise<any> {
 
   if (!response.ok) {
     if (response.status === 404) {
-      throw new Error("Repository not found or is private");
+      throw new Error("Not Found");
     }
     if (response.status === 403) {
       throw new Error("GitHub API rate limit exceeded");
@@ -63,10 +61,7 @@ export function parseRepoUrl(repoUrl: string): { owner: string; name: string } {
 /**
  * Get repository metadata
  */
-export async function getRepository(
-  owner: string,
-  name: string
-): Promise<Repository> {
+export async function getRepository(owner: string, name: string) {
   const data = await makeGitHubRequest(
     `${GITHUB_API_BASE}/repos/${owner}/${name}`
   );
@@ -83,7 +78,20 @@ export async function getRepository(
 }
 
 /**
- * Get file tree for a repository
+ * Get the default branch for a repository
+ */
+export async function getDefaultBranch(
+  owner: string,
+  name: string
+): Promise<string> {
+  const repoData = await makeGitHubRequest(
+    `${GITHUB_API_BASE}/repos/${owner}/${name}`
+  );
+  return repoData.default_branch || "main";
+}
+
+/**
+ * Get file tree for a repository (non-recursive)
  */
 export async function getFileTree(
   owner: string,
@@ -97,7 +105,7 @@ export async function getFileTree(
     return [data];
   }
 
-  return data.map((item: any) => ({
+  return data.map((item) => ({
     name: item.name,
     path: item.path,
     type: item.type,
@@ -107,43 +115,47 @@ export async function getFileTree(
 }
 
 /**
- * Get recursive file tree for a repository
+ * Get recursive file tree manually by traversing directories
  */
-export async function getRecursiveFileTree(
+async function getRecursiveFileTreeManual(
   owner: string,
-  name: string
+  name: string,
+  path = ""
 ): Promise<GitHubFile[]> {
   try {
-    // Try to use the Git Trees API for more efficient recursive listing
-    const mainBranch = await getDefaultBranch();
-    const url = `${GITHUB_API_BASE}/repos/${owner}/${name}/git/trees/${mainBranch}?recursive=1`;
-    const data = await makeGitHubRequest(url);
+    const files = await getFileTree(owner, name, path);
+    const allFiles: GitHubFile[] = [];
 
-    if (data.truncated) {
-      console.warn("File tree was truncated due to size");
-    }
+    // Add all files from current directory
+    const currentFiles = files.filter((file) => file.type === "file");
+    allFiles.push(...currentFiles);
 
-    return data.tree.map((item: any) => ({
-      name: item.path.split("/").pop(),
-      path: item.path,
-      type: item.type === "blob" ? "file" : "dir",
-      size: item.size,
-    }));
-  } catch (error) {
-    console.warn(
-      "Failed to get recursive tree, falling back to non-recursive",
-      error
+    // Recursively get files from subdirectories
+    const directories = files.filter((file) => file.type === "dir");
+
+    await Promise.all(
+      directories.map(async (dir) => {
+        try {
+          const files = await getRecursiveFileTreeManual(owner, name, dir.path);
+          allFiles.push(...files);
+        } catch (error) {
+          if (error instanceof Error) {
+            console.log("error.stack is ", error.stack);
+            console.log("error.message is ", error.message);
+          }
+          return [];
+        }
+      })
     );
-    return getFileTree(owner, name);
-  }
-}
 
-/**
- * Get the default branch for a repository
- */
-async function getDefaultBranch(): Promise<string> {
-  // const repo = await getRepository(owner, name);
-  return "main"; // Simplified for MVP - would normally get from repo API
+    return allFiles;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log("error.stack is ", error.stack);
+      console.log("error.message is ", error.message);
+    }
+    return [];
+  }
 }
 
 /**
@@ -176,52 +188,139 @@ export async function getFileContent(
 }
 
 /**
- * Get README content
+ * Find all README files in the repository (including subdirectories)
  */
-export async function getReadme(
+export async function getAllReadmeFiles(
   owner: string,
   name: string
-): Promise<string | null> {
-  const readmeFiles = ["README.md", "README.txt", "README.rst", "README"];
+): Promise<FileContent[]> {
+  try {
+    // Get all files in the repository
+    const allFiles = await getRecursiveFileTreeManual(owner, name);
 
-  for (const filename of readmeFiles) {
-    try {
-      const fileContent = await getFileContent(owner, name, filename);
-      return fileContent.content;
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log("error.stack is ", error.stack);
-        console.log("error.message is ", error.message);
+    // Find all README files
+    const readmeFiles = allFiles.filter((file) => {
+      const fileName = file.name.toLowerCase();
+      return (
+        fileName === "readme.md" ||
+        fileName === "readme.txt" ||
+        fileName === "readme.rst" ||
+        fileName === "readme" ||
+        fileName === "readme.adoc"
+      );
+    });
+
+    // Sort by priority (root first, then by depth)
+    readmeFiles.sort((a, b) => {
+      const aDepth = a.path.split("/").length;
+      const bDepth = b.path.split("/").length;
+
+      // Root README has highest priority
+      if (aDepth === 1 && bDepth > 1) return -1;
+      if (bDepth === 1 && aDepth > 1) return 1;
+
+      // Then sort by depth (shallower first)
+      return aDepth - bDepth;
+    });
+
+    // Fetch content for the most important README files (limit to 3)
+    const readmeContents: FileContent[] = [];
+    const filesToFetch = readmeFiles.slice(0, 3);
+
+    for (const file of filesToFetch) {
+      try {
+        const content = await getFileContent(owner, name, file.path);
+        readmeContents.push(content);
+      } catch (error) {
+        console.warn(`Failed to fetch README file ${file.path}:`, error);
       }
-      // Continue to next README file
-      continue;
     }
-  }
 
-  return null;
+    return readmeContents;
+  } catch (error) {
+    console.warn("Failed to get all README files:", error);
+    return [];
+  }
 }
 
 /**
- * Get package.json content
+ * Find all package.json files in the repository
  */
-export async function getPackageJson(
+export async function getAllPackageJsonFiles(
   owner: string,
   name: string
-): Promise<any | null> {
+): Promise<FileContent[]> {
   try {
-    const fileContent = await getFileContent(owner, name, "package.json");
-    return JSON.parse(fileContent.content);
+    // Get all files in the repository
+    const allFiles = await getRecursiveFileTreeManual(owner, name);
+
+    // Find all package.json files
+    const packageJsonFiles = allFiles.filter(
+      (file) => file.name === "package.json"
+    );
+
+    // Sort by priority (root first, then by depth)
+    packageJsonFiles.sort((a, b) => {
+      const aDepth = a.path.split("/").length;
+      const bDepth = b.path.split("/").length;
+
+      // Root package.json has highest priority
+      if (aDepth === 1 && bDepth > 1) return -1;
+      if (bDepth === 1 && aDepth > 1) return 1;
+
+      // Then sort by depth (shallower first)
+      return aDepth - bDepth;
+    });
+
+    // Fetch content for package.json files (limit to 5)
+    const packageJsonContents: FileContent[] = [];
+    const filesToFetch = packageJsonFiles.slice(0, 5);
+
+    for (const file of filesToFetch) {
+      try {
+        const content = await getFileContent(owner, name, file.path);
+        packageJsonContents.push(content);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log("error.stack is ", error.stack);
+          console.log("error.message is ", error.message);
+        }
+      }
+    }
+
+    return packageJsonContents;
   } catch (error) {
     if (error instanceof Error) {
       console.log("error.stack is ", error.stack);
       console.log("error.message is ", error.message);
     }
-    return null;
+    return [];
   }
 }
 
 /**
- * Get Tier 1 data (repository overview)
+ * Get enhanced repository metadata including multiple READMEs and package.json files
+ */
+export async function getEnhancedRepositoryData(owner: string, name: string) {
+  const [repository, allReadmes, allPackageJsons] = await Promise.all([
+    getRepository(owner, name),
+    getAllReadmeFiles(owner, name),
+    getAllPackageJsonFiles(owner, name),
+  ]);
+
+  return {
+    repository,
+    readmeFiles: allReadmes,
+    packageJsonFiles: allPackageJsons,
+    primaryReadme: allReadmes[0]?.content || null,
+    primaryPackageJson: allPackageJsons[0]
+      ? JSON.parse(allPackageJsons[0].content)
+      : null,
+  };
+}
+
+/**
+ * Get Tier 1 data (repository overview) with enhanced file discovery
  */
 export async function getTier1Data(
   owner: string,
@@ -232,9 +331,9 @@ export async function getTier1Data(
   // Fetch all Tier 1 data in parallel
   const [repository, readme, packageJson, fileTree] = await Promise.all([
     getRepository(owner, name),
-    getReadme(owner, name),
-    getPackageJson(owner, name),
-    getFileTree(owner, name),
+    getAllReadmeFiles(owner, name),
+    getAllPackageJsonFiles(owner, name),
+    getFileTree(owner, name), // Start with non-recursive for faster initial load
   ]);
 
   // Extract top-level structure
@@ -254,7 +353,7 @@ export async function getTier1Data(
 }
 
 /**
- * Get Tier 2 data (key files)
+ * Get Tier 2 data (key files) with enhanced file discovery
  */
 export async function getTier2Data(
   owner: string,
@@ -268,12 +367,14 @@ export async function getTier2Data(
   // Get recursive file tree for better analysis
   let allFiles = tier1Data.fileTree;
   try {
-    allFiles = await getRecursiveFileTree(owner, name);
+    console.log("Fetching recursive file tree...");
+    allFiles = await getRecursiveFileTreeManual(owner, name);
+    console.log(`Found ${allFiles.length} files in recursive tree`);
   } catch (error) {
-    console.warn(
-      "Failed to get recursive file tree, using non-recursive",
-      error
-    );
+    if (error instanceof Error) {
+      console.log("error.stack is ", error.stack);
+      console.log("error.message is ", error.message);
+    }
   }
 
   // Prioritize files
@@ -283,10 +384,10 @@ export async function getTier2Data(
   // Get key files content (limit to prevent API overload)
   const keyFilesToFetch = [
     ...keyFilesByCategory.entry,
-    ...keyFilesByCategory.api.slice(0, 5),
-    ...keyFilesByCategory.components.slice(0, 8),
-    ...keyFilesByCategory.config.slice(0, 5),
-  ].slice(0, 25); // Max 25 files for Tier 2
+    ...keyFilesByCategory.api,
+    ...keyFilesByCategory.components,
+    ...keyFilesByCategory.config,
+  ].slice(0, 25);
 
   const keyFiles = await fetchMultipleFiles(
     owner,
@@ -387,22 +488,36 @@ export async function findRelatedFiles(
   const relatedPaths: Set<string> = new Set();
 
   for (const file of files) {
-    // Simple regex to find import statements (works for JS/TS)
-    const importRegex = /(?:import|require)\s*$$['"`]([^'"`]+)['"`]$$/g;
-    let match;
+    // Enhanced regex to find import statements (works for JS/TS/JSX/TSX)
+    const importRegexes = [
+      /(?:import|require)\s*$$['"`]([^'"`]+)['"`]$$/g, // import/require statements
+      /from\s+['"`]([^'"`]+)['"`]/g, // from statements
+      /import\s*$$\s*['"`]([^'"`]+)['"`]\s*$$/g, // dynamic imports
+    ];
 
-    while ((match = importRegex.exec(file.content)) !== null) {
-      const importPath = match[1];
+    for (const regex of importRegexes) {
+      let match;
+      while ((match = regex.exec(file.content)) !== null) {
+        const importPath = match[1];
 
-      // Convert relative imports to actual file paths
-      if (importPath.startsWith("./") || importPath.startsWith("../")) {
-        const basePath = file.path.split("/").slice(0, -1).join("/");
-        const resolvedPath = resolveRelativePath(basePath, importPath);
+        // Convert relative imports to actual file paths
+        if (importPath.startsWith("./") || importPath.startsWith("../")) {
+          const basePath = file.path.split("/").slice(0, -1).join("/");
+          const resolvedPath = resolveRelativePath(basePath, importPath);
 
-        // Add common extensions if not present
-        const extensions = [".js", ".ts", ".jsx", ".tsx", ".json"];
-        for (const ext of extensions) {
-          relatedPaths.add(resolvedPath + ext);
+          // Add common extensions if not present
+          const extensions = [
+            ".js",
+            ".ts",
+            ".jsx",
+            ".tsx",
+            ".json",
+            ".vue",
+            ".svelte",
+          ];
+          for (const ext of extensions) {
+            relatedPaths.add(resolvedPath + ext);
+          }
         }
       }
     }
@@ -450,6 +565,7 @@ export async function searchFiles(
   try {
     const data = await makeGitHubRequest(searchUrl);
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data.items?.map((item: any) => ({
         name: item.name,
         path: item.path,
@@ -462,7 +578,7 @@ export async function searchFiles(
     console.warn("Search failed, falling back to file tree search:", error);
 
     // Fallback: search in file tree
-    const fileTree = await getRecursiveFileTree(owner, name);
+    const fileTree = await getRecursiveFileTreeManual(owner, name);
     return fileTree.filter(
       (file) =>
         file.name.toLowerCase().includes(query.toLowerCase()) ||
