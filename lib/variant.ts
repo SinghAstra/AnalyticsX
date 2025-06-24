@@ -27,3 +27,15 @@ export const fadeInVariant = {
     transition: { duration: 0.2 },
   },
 };
+
+export const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
