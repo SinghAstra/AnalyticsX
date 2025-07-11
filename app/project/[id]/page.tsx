@@ -1,6 +1,5 @@
 import { TrackingCodeDialog } from "@/components/tracking-code-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,9 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { siteConfig } from "@/config/site";
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
-import { ArrowLeft, BarChart3, Code, Copy, Globe } from "lucide-react";
+import { BarChart3, Copy, Globe } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -57,29 +57,27 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-muted/10">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Link href="/dashboard">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2">{project.name}</h1>
-            <p className="text-gray-400">{project.domain}</p>
+        <div className="flex items-center mb-8">
+          <div className="flex-1 flex items-center gap-1">
+            <Link href="/dashboard" className="text-2xl tracking-wide">
+              {siteConfig.name}
+            </Link>
+            <p className="text-muted-foreground">-</p>
+            <h1 className="text-2xl tracking-wide transition-all duration-200">
+              <a
+                href={`https://${project.domain}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.name}
+              </a>
+            </h1>
           </div>
-          <TrackingCodeDialog project={project}>
-            <Button className="bg-white text-black hover:bg-gray-200">
-              <Code className="w-4 h-4 mr-2" />
-              Get Tracking Code
-            </Button>
-          </TrackingCodeDialog>
+
+          <TrackingCodeDialog project={project} />
         </div>
 
         {/* Stats */}
@@ -152,12 +150,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <p className="text-gray-500 mb-4">
                   Install the tracking code to start collecting analytics
                 </p>
-                <TrackingCodeDialog project={project}>
-                  <Button className="bg-white text-black hover:bg-gray-200">
-                    <Code className="w-4 h-4 mr-2" />
-                    Get Tracking Code
-                  </Button>
-                </TrackingCodeDialog>
+                <TrackingCodeDialog project={project} />
               </div>
             ) : (
               <div className="space-y-4">

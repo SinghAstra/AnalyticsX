@@ -13,6 +13,7 @@ import {
   blurInVariant,
   containerVariant,
   scaleInVariant,
+  slideUpVariant,
 } from "@/lib/variants";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "lucide-react";
@@ -123,20 +124,34 @@ const LandingPage = () => {
               app—all with a single, easy-to-integrate script.
             </motion.p>
             <ul className="list-disc ml-6 text-base text-muted-foreground">
-              <li>Track page views, time on page, and session duration</li>
-              <li>See where users come from (search, social, referral)</li>
-              <li>Visualize clicks and attention with heatmaps</li>
-              <li>Replay user sessions & interactions</li>
-              <li>Segment by device, location, and demographics</li>
-              <li>Minimalist, dark UI—built for focus and clarity</li>
-              <li>Easy setup: add a single script to your site</li>
+              <motion.li variants={slideUpVariant}>
+                Track page views, time on page, and session duration
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                See where users come from (search, social, referral)
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                Visualize clicks and attention with heatmaps
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                Replay user sessions & interactions
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                Segment by device, location, and demographics
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                Minimalist, dark UI—built for focus and clarity
+              </motion.li>
+              <motion.li variants={slideUpVariant}>
+                Easy setup: add a single script to your site
+              </motion.li>
             </ul>
             <motion.div
               variants={scaleInVariant}
               className="relative border px-6 py-2 text-xl rounded flex items-center group cursor-pointer w-fit"
               onClick={toggleAuthDialog}
             >
-              <MovingGlow />
+              {/* <MovingGlow /> */}
               <GradientInsetBackground />
               Get started
               <ArrowRightIcon

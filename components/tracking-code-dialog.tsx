@@ -3,32 +3,20 @@
 import type React from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Check, Copy } from "lucide-react";
+import { Project } from "@prisma/client";
+import { Check, Code, Copy } from "lucide-react";
 import { useState } from "react";
+import Dialog from "./componentX/dialog";
 import { useToastContext } from "./providers/toast";
 
 interface TrackingCodeDialogProps {
-  children: React.ReactNode;
-  project: {
-    trackingId: string;
-    name: string;
-    domain: string;
-  };
+  project: Project;
 }
 
-export function TrackingCodeDialog({
-  children,
-  project,
-}: TrackingCodeDialogProps) {
+export function TrackingCodeDialog({ project }: TrackingCodeDialogProps) {
   const [copied, setCopied] = useState(false);
+  const [isTrackingCodeDialogOpen, setIsTrackingCodeDialogOpen] =
+    useState(false);
   const { setToastMessage } = useToastContext();
 
   const trackingCode = `<!-- Analytics Tracking Code for ${project.name} -->
@@ -51,65 +39,74 @@ export function TrackingCodeDialog({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Tracking Code</DialogTitle>
-          <DialogDescription className="text-gray-400">
+    <>
+      <Button
+        variant="outline"
+        className="rounded bg-muted/50 hover:bg-muted/60"
+        onClick={() => setIsTrackingCodeDialogOpen(true)}
+      >
+        <Code className="w-4 h-4 mr-1" />
+        Get Tracking Code
+      </Button>
+      <Dialog
+        isDialogVisible={isTrackingCodeDialogOpen}
+        setIsDialogVisible={setIsTrackingCodeDialogOpen}
+      >
+        <div className="px-3 py-2 bg-muted/20">
+          <h2 className="text-xl">Tracking Code</h2>
+          <p className="text-sm text-muted-foreground">
             Add this code to your website&apos;s HTML to start tracking
             analytics.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-300">
-                HTML Code
-              </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={copyCode}
-                className="text-gray-400 hover:text-white"
-              >
-                {copied ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
-              </Button>
+          </p>
+          <div className="space-y-4 mt-4">
+            <div className="bg-muted/40 p-2 rounded border">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-muted-foreground">
+                  HTML Code
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={copyCode}
+                  className="text-muted-foreground/60 hover:text-muted-foreground/80"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              <pre className="text-sm text-foreground overflow-x-auto">
+                <code>{trackingCode}</code>
+              </pre>
             </div>
-            <pre className="text-sm text-gray-300 overflow-x-auto">
-              <code>{trackingCode}</code>
-            </pre>
-          </div>
 
-          <div className="space-y-2">
-            <h4 className="font-medium text-white">
-              Installation Instructions:
-            </h4>
-            <ol className="list-decimal list-inside space-y-1 text-sm text-gray-400">
-              <li>Copy the tracking code above</li>
-              <li>
-                Paste it in your website&apos;s HTML, just before the closing{" "}
-                {"</body>"} tag
-              </li>
-              <li>Deploy your website</li>
-              <li>Analytics will start appearing within a few minutes</li>
-            </ol>
-          </div>
+            <div className="space-y-2">
+              <h4 className="font-medium text-foreground">
+                Installation Instructions:
+              </h4>
+              <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+                <li>Copy the tracking code above</li>
+                <li>
+                  Paste it in your website&apos;s HTML, just before the closing{" "}
+                  {"</body>"} tag
+                </li>
+                <li>Deploy your website</li>
+                <li>Analytics will start appearing within a few minutes</li>
+              </ol>
+            </div>
 
-          <div className="bg-yellow-900/20 border border-yellow-800 p-3 rounded-lg">
-            <p className="text-sm text-yellow-200">
-              <strong>Note:</strong> Make sure to add this code to every page
-              you want to track. For single-page applications, the tracking will
-              automatically handle route changes.
-            </p>
+            <div className="bg-yellow-900/20 border border-yellow-800 px-3 py-2 rounded">
+              <p className="text-sm text-yellow-200">
+                <strong>Note:</strong> Make sure to add this code to every page
+                you want to track. For single-page applications, the tracking
+                will automatically handle route changes.
+              </p>
+            </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </Dialog>
+    </>
   );
 }
