@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
@@ -16,14 +16,14 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     const { name, domain } = await request.json();
 
     if (!name || !domain) {
       return NextResponse.json(
-        { error: "Name and domain are required" },
+        { message: "Name and domain are required" },
         { status: 400 }
       );
     }
@@ -42,11 +42,16 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log("project is ", project);
+
     return NextResponse.json(project);
   } catch (error) {
-    console.error("Error creating project:", error);
+    if (error instanceof Error) {
+      console.log("error.stack is ", error.stack);
+      console.log("error.message is ", error.message);
+    }
     return NextResponse.json(
-      { error: "Internal server error" },
+      { message: "Internal server error" },
       { status: 500 }
     );
   }

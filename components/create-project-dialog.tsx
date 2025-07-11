@@ -31,14 +31,11 @@ export function CreateProjectDialog() {
         },
         body: JSON.stringify(formData),
       });
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error("Failed to create project");
+        throw new Error(data.message);
       }
-
-      const project = await response.json();
-
-      console.log("project created is ", project);
 
       setToastMessage(`${formData.name} has been created successfully.`);
 
@@ -49,7 +46,11 @@ export function CreateProjectDialog() {
         console.log("error.stack is ", error.stack);
         console.log("error.message is ", error.message);
       }
-      setToastMessage("Failed to create project. Please try again.");
+      setToastMessage(
+        error instanceof Error
+          ? error.message
+          : "Failed to create project. Please try again."
+      );
     } finally {
       setIsSubmittingData(false);
     }
@@ -57,81 +58,81 @@ export function CreateProjectDialog() {
 
   return (
     <>
-      <div onClick={() => setCreateProjectDialogOpen(true)}>
-        <Button
-          variant="outline"
-          className="rounded bg-muted/50 hover:bg-muted/60"
-        >
-          <Plus className="w-4 h-4 mr-1" />
-          New Project
-        </Button>
-      </div>
+      <Button
+        variant="outline"
+        className="rounded bg-muted/50 hover:bg-muted/60"
+        onClick={() => setCreateProjectDialogOpen(true)}
+      >
+        <Plus className="w-4 h-4 mr-1" />
+        New Project
+      </Button>
       <Dialog
         isDialogVisible={createProjectDialogOpen}
         setIsDialogVisible={setCreateProjectDialogOpen}
-        className="px-3 py-2"
       >
-        <div>
-          <h1 className="text-lg">Create New Project</h1>
-          <p className="text-muted-foreground text-sm">
-            Add a new website to track analytics for.
-          </p>
+        <div className="bg-muted/20 px-3 py-2">
+          <div>
+            <h1 className="text-lg">Create New Project</h1>
+            <p className="text-muted-foreground text-sm">
+              Add a new website to track analytics for.
+            </p>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-4 py-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="name" className="font-normal">
+                  Project Name
+                </Label>
+                <Input
+                  id="name"
+                  placeholder="My Awesome Website"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="rounded"
+                  autoComplete="off"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="domain">Domain</Label>
+                <Input
+                  id="domain"
+                  placeholder="example.com"
+                  value={formData.domain}
+                  onChange={(e) =>
+                    setFormData({ ...formData, domain: e.target.value })
+                  }
+                  className="rounded"
+                  autoComplete="off"
+                />
+                <p className="text-xs text-muted-foreground/40">
+                  Enter your domain without https:// or www.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setCreateProjectDialogOpen(false)}
+                className="rounded flex-1 bg-muted/20 hover:bg-muted/40"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={isSubmittingData}
+                className="rounded flex-1"
+              >
+                {isSubmittingData && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Create Project
+              </Button>
+            </div>
+          </form>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4 py-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="name" className="font-normal">
-                Project Name
-              </Label>
-              <Input
-                id="name"
-                placeholder="My Awesome Website"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                className="rounded"
-                autoComplete="off"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="domain">Domain</Label>
-              <Input
-                id="domain"
-                placeholder="example.com"
-                value={formData.domain}
-                onChange={(e) =>
-                  setFormData({ ...formData, domain: e.target.value })
-                }
-                className="rounded"
-                autoComplete="off"
-              />
-              <p className="text-xs text-muted-foreground/40">
-                Enter your domain without https:// or www.
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setCreateProjectDialogOpen(false)}
-              className="rounded flex-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={isSubmittingData}
-              className="rounded flex-1"
-            >
-              {isSubmittingData && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Create Project
-            </Button>
-          </div>
-        </form>
       </Dialog>
     </>
   );
