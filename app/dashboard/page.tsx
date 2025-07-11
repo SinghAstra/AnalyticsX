@@ -1,5 +1,6 @@
 import { CreateProjectDialog } from "@/components/create-project-dialog";
 import { ProjectCard } from "@/components/project-card";
+import { siteConfig } from "@/config/site";
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
 import { BarChart3, Globe, Users } from "lucide-react";
@@ -42,7 +43,9 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-2 tracking-wide">
+              {siteConfig.name}
+            </h1>
             <p className="text-muted-foreground">
               Welcome back, {user.name || user.email}
             </p>
@@ -52,38 +55,37 @@ export default async function DashboardPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="">
+          <div className="flex flex-col rounded border px-3 py-2 bg-muted/20 hover:bg-muted/40 transition-all duration-200">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h2 className="text-sm font-medium text-gray-400">
+              <h2 className="text-sm font-medium text-muted-foreground">
                 Total Projects
               </h2>
-              <Globe className="h-4 w-4 text-gray-400" />
+              <Globe className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-foreground">
               {user.projects.length}
             </div>
           </div>
-
-          <div className="bg-gray-900 border-gray-800">
+          <div className="flex flex-col rounded border px-3 py-2 bg-muted/20 hover:bg-muted/40 transition-all duration-200">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="text-sm font-medium text-gray-400">
+              <h2 className="text-sm font-medium text-muted-foreground">
                 Total Page Views
-              </div>
-              <BarChart3 className="h-4 w-4 text-gray-400" />
+              </h2>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-foreground">
               {totalPageViews.toLocaleString()}
             </div>
           </div>
 
-          <div className="bg-gray-900 border-gray-800">
+          <div className="flex flex-col rounded border px-3 py-2 bg-muted/20 hover:bg-muted/40 transition-all duration-200">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="text-sm font-medium text-gray-400">
+              <h2 className="text-sm font-medium text-muted-foreground">
                 Active Projects
-              </div>
-              <Users className="h-4 w-4 text-gray-400" />
+              </h2>
+              <Users className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-foreground">
               {user.projects.filter((p) => p._count.pageViews > 0).length}
             </div>
           </div>
