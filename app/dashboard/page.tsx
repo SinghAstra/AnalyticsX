@@ -92,21 +92,21 @@ export default async function DashboardPage() {
         </div>
 
         {/* Projects Section */}
-        {/* <div className="mb-8">
+        <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Your Projects</h2>
           {user.projects.length === 0 ? (
-            <Card className="bg-gray-900 border-gray-800 border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <Globe className="h-12 w-12 text-gray-600 mb-4" />
-                <h3 className="text-lg font-medium text-gray-300 mb-2">
+            <div className="border border-dashed bg-muted/20">
+              <div className="flex flex-col items-center justify-center py-12">
+                <Globe className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium text-foreground mb-2">
                   No projects yet
                 </h3>
-                <p className="text-gray-500 text-center mb-4">
+                <p className="text-muted-foreground text-center mb-4">
                   Create your first project to start tracking analytics
                 </p>
                 <CreateProjectDialog />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {user.projects.map((project) => (
@@ -114,7 +114,7 @@ export default async function DashboardPage() {
               ))}
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );
