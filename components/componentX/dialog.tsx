@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { scaleInVariant } from "@/lib/variants";
 import { motion } from "framer-motion";
