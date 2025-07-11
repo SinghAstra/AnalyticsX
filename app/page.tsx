@@ -57,17 +57,19 @@ const LandingPage = () => {
             variants={blurInVariant}
             className="text-foreground text-center py-6 text-6xl md:text-7xl lg:text-8xl font-medium "
           >
-            Summarize <br />
+            InDepth Analytics, <br />
             <span className="text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-clip-text">
-              Repository
+              Simple Integration
             </span>
           </motion.h1>
           <motion.p
             variants={blurInVariant}
             className="mb-8 text-lg md:text-xl tracking-tight text-muted-foreground "
           >
-            Give me public github repository url &
-            <br />I will help you understand the codebase.
+            {siteConfig.name} helps you understand your users like never before.
+            <br />
+            Track page views, user journeys, interactions, heatmaps, and
+            more—all in a sleek, privacy-first dashboard.
           </motion.p>
           <div className="flex items-center justify-center gap-4">
             <motion.div
@@ -109,9 +111,26 @@ const LandingPage = () => {
               variants={blurInVariant}
               className="text-5xl text-balance leading-[1.3]"
             >
-              Understand any Public Github Repository by Generating Context
-              Aware Summary for all Files in Prompt Friendly Manner.
+              Powerful, Privacy-First Web Analytics for Modern Teams
             </motion.h1>
+            <motion.p
+              variants={blurInVariant}
+              className="text-lg text-muted-foreground"
+            >
+              <strong>AnalyticsX</strong> gives you real-time insights into user
+              behavior, session recordings, referral sources, demographics, and
+              more. Visualize heatmaps, track engagement, and optimize your web
+              app—all with a single, easy-to-integrate script.
+            </motion.p>
+            <ul className="list-disc ml-6 text-base text-muted-foreground">
+              <li>Track page views, time on page, and session duration</li>
+              <li>See where users come from (search, social, referral)</li>
+              <li>Visualize clicks and attention with heatmaps</li>
+              <li>Replay user sessions & interactions</li>
+              <li>Segment by device, location, and demographics</li>
+              <li>Minimalist, dark UI—built for focus and clarity</li>
+              <li>Easy setup: add a single script to your site</li>
+            </ul>
             <motion.div
               variants={scaleInVariant}
               className="relative border px-6 py-2 text-xl rounded flex items-center group cursor-pointer w-fit"
