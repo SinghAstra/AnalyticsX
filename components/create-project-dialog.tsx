@@ -6,24 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Dialog from "./componentX/dialog";
 import { useToastContext } from "./providers/toast";
 
 export function CreateProjectDialog() {
-  const [createProjectDialogOpen, setCreateProjectDialogOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [createProjectDialogOpen, setCreateProjectDialogOpen] = useState(false);
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     domain: "",
   });
-  const router = useRouter();
   const { setToastMessage } = useToastContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsSubmittingData(true);
 
     try {
       const response = await fetch("/api/projects", {
@@ -46,7 +44,6 @@ export function CreateProjectDialog() {
 
       setCreateProjectDialogOpen(false);
       setFormData({ name: "", domain: "" });
-      router.refresh();
     } catch (error) {
       if (error instanceof Error) {
         console.log("error.stack is ", error.stack);
@@ -54,7 +51,7 @@ export function CreateProjectDialog() {
       }
       setToastMessage("Failed to create project. Please try again.");
     } finally {
-      setLoading(false);
+      setIsSubmittingData(false);
     }
   };
 
@@ -63,7 +60,7 @@ export function CreateProjectDialog() {
       <div onClick={() => setCreateProjectDialogOpen(true)}>
         <Button
           variant="outline"
-          className="rounded bg-muted/10 hover:bg-muted/30"
+          className="rounded bg-muted/50 hover:bg-muted/60"
         >
           <Plus className="w-4 h-4 mr-1" />
           New Project
@@ -75,15 +72,17 @@ export function CreateProjectDialog() {
         className="px-3 py-2"
       >
         <div>
-          <h1>Create New Project</h1>
-          <p className="text-gray-400">
+          <h1 className="text-lg">Create New Project</h1>
+          <p className="text-muted-foreground text-sm">
             Add a new website to track analytics for.
           </p>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Project Name</Label>
+          <div className="flex flex-col gap-4 py-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="name" className="font-normal">
+                Project Name
+              </Label>
               <Input
                 id="name"
                 placeholder="My Awesome Website"
@@ -91,11 +90,11 @@ export function CreateProjectDialog() {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                className="bg-gray-800 border-gray-700 text-white"
-                required
+                className="rounded"
+                autoComplete="off"
               />
             </div>
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="domain">Domain</Label>
               <Input
                 id="domain"
@@ -104,29 +103,31 @@ export function CreateProjectDialog() {
                 onChange={(e) =>
                   setFormData({ ...formData, domain: e.target.value })
                 }
-                className="bg-gray-800 border-gray-700 text-white"
-                required
+                className="rounded"
+                autoComplete="off"
               />
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground/40">
                 Enter your domain without https:// or www.
               </p>
             </div>
           </div>
-          <div>
+          <div className="flex gap-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => setCreateProjectDialogOpen(false)}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="rounded flex-1"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              disabled={loading}
-              className="bg-white text-black hover:bg-gray-200"
+              disabled={isSubmittingData}
+              className="rounded flex-1"
             >
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmittingData && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Create Project
             </Button>
           </div>

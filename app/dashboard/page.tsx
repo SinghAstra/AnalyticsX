@@ -1,6 +1,5 @@
 import { CreateProjectDialog } from "@/components/create-project-dialog";
 import { ProjectCard } from "@/components/project-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
 import { BarChart3, Globe, Users } from "lucide-react";
@@ -38,7 +37,7 @@ export default async function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-muted/10">
       <div className="p-4 sm:p-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -52,49 +51,43 @@ export default async function DashboardPage() {
         </div>
 
         {/* Stats Overview */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-gray-900 border-gray-800">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-400">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="">
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <h2 className="text-sm font-medium text-gray-400">
                 Total Projects
-              </CardTitle>
+              </h2>
               <Globe className="h-4 w-4 text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {user.projects.length}
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="text-2xl font-bold text-white">
+              {user.projects.length}
+            </div>
+          </div>
 
-          <Card className="bg-gray-900 border-gray-800">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-400">
+          <div className="bg-gray-900 border-gray-800">
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="text-sm font-medium text-gray-400">
                 Total Page Views
-              </CardTitle>
+              </div>
               <BarChart3 className="h-4 w-4 text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {totalPageViews.toLocaleString()}
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="text-2xl font-bold text-white">
+              {totalPageViews.toLocaleString()}
+            </div>
+          </div>
 
-          <Card className="bg-gray-900 border-gray-800">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-400">
+          <div className="bg-gray-900 border-gray-800">
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="text-sm font-medium text-gray-400">
                 Active Projects
-              </CardTitle>
-              <Users className="h-4 w-4 text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {user.projects.filter((p) => p._count.pageViews > 0).length}
               </div>
-            </CardContent>
-          </Card>
-        </div> */}
+              <Users className="h-4 w-4 text-gray-400" />
+            </div>
+            <div className="text-2xl font-bold text-white">
+              {user.projects.filter((p) => p._count.pageViews > 0).length}
+            </div>
+          </div>
+        </div>
 
         {/* Projects Section */}
         {/* <div className="mb-8">
