@@ -118,7 +118,7 @@ const LandingPage = () => {
               variants={blurInVariant}
               className="text-lg text-muted-foreground"
             >
-              <strong>AnalyticsX</strong> gives you real-time insights into user
+              <strong>{siteConfig.name}</strong> gives you real-time insights into user
               behavior, session recordings, referral sources, demographics, and
               more. Visualize heatmaps, track engagement, and optimize your web
               app—all with a single, easy-to-integrate script.

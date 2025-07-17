@@ -19,17 +19,9 @@ export function TrackingCodeDialog({ project }: TrackingCodeDialogProps) {
     useState(false);
   const { setToastMessage } = useToastContext();
 
-  const trackingCode = `<!-- Analytics Tracking Code for ${project.name} -->
-<script>
-  (function() {
-    var script = document.createElement('script');
-    script.src = '${
-      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    }/api/track.js?id=${project.trackingId}';
-    script.async = true;
-    document.head.appendChild(script);
-  })();
-</script>`;
+  const trackingCode = ` <script async src="${
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  }/track.js" data-tracking-id="${project.trackingId}"></script>`;
 
   const copyCode = () => {
     navigator.clipboard.writeText(trackingCode);
